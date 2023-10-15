@@ -1,0 +1,31 @@
+<html>
+<head>
+    <title>Presentation of a solution</title>
+    {{ partial "favicon" }}
+</head>
+<body>
+Presentation of a solution - per solution page - placeholder - French.
+{{/* Extract solution name e.g. : fr:1/solutions:2/>ecklo:3< */}}
+{{ $urlParts := split .RelPermalink "/" }}
+{{ $solutionName := index $urlParts 3 }}
+
+{{/* French page is under fr/solutions/X/X/index.html,
+     Images are under solutions/X/images or under solutions/X/images/fr */}}
+{{/* Update links in .Content one-by-one */}}
+{{ $newContent := .Content }}
+
+{{ range findRESubmatch `src="images/([a-zA-Z0-9\-_./]+)"` .Content }}
+  {{ $capturedValue := index . 1 }}
+  {{ $imagePath := printf "/solutions/%s/images/fr/%s" $solutionName $capturedValue }}
+  {{ if fileExists $imagePath }}
+    {{/* Try first in "images/fr" subfolder */}}
+    {{ $newContent = $newContent | replaceRE (printf "src=\"images/%s\"" $capturedValue) (printf "src=\"%s\"" $imagePath) }}
+  {{ else }}
+    {{/* Try second in "images" */}}
+    {{ $imagePath := printf "/solutions/%s/images/%s" $solutionName $capturedValue }}
+    {{ $newContent = $newContent | replaceRE (printf "src=\"images/%s\"" $capturedValue) (printf "src=\"%s\"" $imagePath) }}
+  {{ end }}
+{{ end }}
+{{ $newContent | safeHTML }}
+<p>{{ partial "i18nlist" }}</p>
+</body>

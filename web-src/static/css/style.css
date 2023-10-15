@@ -1,0 +1,114 @@
+/* Page general style */
+body {
+  background-color: #f8f9fa;
+  font-family: Arial, sans-serif;
+}
+
+/* Main container style */
+.container {
+  max-width: 100%;
+}
+
+/* Logo style */
+.logo img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Bootstrap card style */
+.card {
+  margin: 0 auto; /* Centrer la carte */
+  max-width: 500px; /* Largeur maximale */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+/* Width of input area */
+.form-control button {
+  width: 100px;
+}
+
+/* Narrow screen style */
+@media (max-width: 768px) {
+  .card {
+    max-width: 100%;
+  }
+}
+
+/* Card header style */
+.card-header {
+  background-color: #007bff;
+  color: white;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+/* Card body style */
+.card-body {
+  padding: 20px;
+}
+
+/* Button style */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: {{ .buttonTextColor }};
+}
+
+/* Button style when hovering (becomes darker) */
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+/* Style of SVG icon in button */
+.btn-primary svg {
+  margin-right: 0px; /* Espace à droite de l'icône */
+}
+
+/* Settings page elements */
+button.settings {
+  float: right;
+  width: 100px;
+}
+
+.form-group {
+  margin-bottom: 0;
+}
+
+h4.settings, label.settings {
+  font-weight: 800 !important;
+}
+
+input.settings {
+  width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+select#settings.form-control {
+    width: auto;
+}
+
+select#profiles.form-control {
+    width: auto;
+}
+
+button#security1.form-control.settings,
+button#security2.form-control.settings {
+    width: auto;
+    float: right;
+}
+
+button#security1.form-control.settings {
+    min-width: 100px;
+}
+
+button#security2.form-control.settings {
+    min-width: 210px;
+}
+
+#security1.btn-spacing {
+    margin-right: 10px;  /* Ajoutez la marge souhaitée ici */
+}

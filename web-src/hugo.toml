@@ -1,3 +1,81 @@
-baseURL = 'https://example.org/'
-languageCode = 'en-us'
-title = 'My New Hugo Site'
+## -----------------------------------------------
+## Basic Configuration
+## -----------------------------------------------
+title = 'Natixar'
+copyright = "2023-{year}"
+titleCaseStyle = "Chicago"
+timeZone = "Europe/Paris"
+# Does not use a theme.
+
+## -----------------------------------------------
+## Publish
+## -----------------------------------------------
+relativeURLs = "true"
+baseURL = 'https://app.natixar.com/'
+tags = ['portfolio', 'responsive']   # Theme tags, not useful here.
+
+## -----------------------------------------------
+## Hugo Built-in Features
+## -----------------------------------------------
+enableGitInfo = "true"
+disableKinds = ["taxonomy"]
+# googleAnalytics = "G-XXXXXXX"   # only in production
+
+## -----------------------------------------------
+## Site Parameters
+## -----------------------------------------------
+
+# Icon set
+#[params.asset]
+#  fontawesome_js = ["https://kit.fontawesome.com/74fa1d8c3d.js"]
+
+# The following parameters are overridden per language below
+# Urls to related resources on social networks
+[params.social]
+# Alternate text for the links to social networks resources
+[params.aria]
+
+## -----------------------------------------------
+## Language parameters
+## -----------------------------------------------
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = "false"
+# disableLanguages = ['pl','it','es']
+
+[languages]
+  [languages.fr]
+    languageName = "Français"
+    languageCode = "fr"
+    languageDirection = "ltr"
+    weight = 1
+  # Localized variables: fr
+  [languages.fr.params]
+    # Urls to related resources on social networks
+    #[languages.fr.params.social]
+    # Alternate text for the links to social networks resources
+    #[languages.fr.params.aria]
+
+  [languages.en]
+    languageName = "English"
+    languageCode = "en"
+    languageDirection = "ltr"
+    weight = 2
+  # Localized variables: en
+  [languages.en.params]
+
+## Configure sitemap.xml
+## Default changefreq and priority should be overridden in front matter file (in content).
+[sitemap]
+  filename = 'sitemap.xml'
+  changefreq = 'daily'
+  priority = 0.5
+
+# ------------------------------------------------
+# Modules: weblogin, ...
+# ------------------------------------------------
+[module]
+noProxy = 'none'
+noVendor = ''
+private = '*.*'
+proxy = 'direct'
+replacements = 'github.com/CriticalOptimisation/weblogin -> /home/jm/CalCool Studios/Logiciel/weblogin'
