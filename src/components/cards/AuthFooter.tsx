@@ -1,28 +1,46 @@
 // material-ui
-import { Theme } from '@mui/material/styles';
-import { useMediaQuery, Container, Link, Typography, Stack } from '@mui/material';
+import { Theme } from "@mui/material/styles"
+import {
+  useMediaQuery,
+  Container,
+  Link,
+  Typography,
+  Stack,
+} from "@mui/material"
 
 // ==============================|| FOOTER - AUTHENTICATION ||============================== //
 
 const AuthFooter = () => {
-  const matchDownSM = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+  const matchDownSM = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("sm"),
+  )
 
   return (
     <Container maxWidth="xl">
       <Stack
-        direction={matchDownSM ? 'column' : 'row'}
-        justifyContent={matchDownSM ? 'center' : 'space-between'}
+        direction={matchDownSM ? "column" : "row"}
+        justifyContent={matchDownSM ? "center" : "space-between"}
         spacing={2}
-        textAlign={matchDownSM ? 'center' : 'inherit'}
+        textAlign={matchDownSM ? "center" : "inherit"}
       >
         <Typography variant="subtitle2" color="secondary" component="span">
-          This site is protected by{' '}
-          <Typography component={Link} variant="subtitle2" href="#mantis-privacy" target="_blank" underline="hover">
+          This site is protected by{" "}
+          <Typography
+            component={Link}
+            variant="subtitle2"
+            href="#mantis-privacy"
+            target="_blank"
+            underline="hover"
+          >
             Privacy Policy
           </Typography>
         </Typography>
 
-        <Stack direction={matchDownSM ? 'column' : 'row'} spacing={matchDownSM ? 1 : 3} textAlign={matchDownSM ? 'center' : 'inherit'}>
+        <Stack
+          direction={matchDownSM ? "column" : "row"}
+          spacing={matchDownSM ? 1 : 3}
+          textAlign={matchDownSM ? "center" : "inherit"}
+        >
           <Typography
             variant="subtitle2"
             color="secondary"
@@ -56,7 +74,7 @@ const AuthFooter = () => {
         </Stack>
       </Stack>
     </Container>
-  );
-};
+  )
+}
 
-export default AuthFooter;
+export default AuthFooter

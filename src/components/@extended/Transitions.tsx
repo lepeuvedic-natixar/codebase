@@ -1,101 +1,125 @@
-import { forwardRef, CSSProperties, ExoticComponent, ReactElement, Ref } from 'react';
+import {
+  forwardRef,
+  CSSProperties,
+  ExoticComponent,
+  ReactElement,
+  Ref,
+} from "react"
 
 // material-ui
-import { Collapse, Fade, Box, Grow, Slide, Zoom, ZoomProps } from '@mui/material';
+import {
+  Collapse,
+  Fade,
+  Box,
+  Grow,
+  Slide,
+  Zoom,
+  ZoomProps,
+} from "@mui/material"
 
 // ==============================|| TRANSITIONS ||============================== //
 
 interface Props {
-  children?: ReactElement;
-  position?: string;
-  sx?: CSSProperties;
-  in?: boolean;
-  type?: string;
-  direction?: 'up' | 'right' | 'left' | 'down';
-  [others: string]: any;
+  children?: ReactElement
+  position?: string
+  sx?: CSSProperties
+  in?: boolean
+  type?: string
+  direction?: "up" | "right" | "left" | "down"
+  [others: string]: any
 }
 
 const Transitions = forwardRef(
-  ({ children, position = 'top-left', sx, type = 'grow', direction = 'up', ...others }: Props, ref: Ref<ExoticComponent>) => {
+  (
+    {
+      children,
+      position = "top-left",
+      sx,
+      type = "grow",
+      direction = "up",
+      ...others
+    }: Props,
+    ref: Ref<ExoticComponent>,
+  ) => {
     let positionSX = {
-      transformOrigin: '0 0 0'
-    };
+      transformOrigin: "0 0 0",
+    }
 
     switch (position) {
-      case 'top-right':
+      case "top-right":
         positionSX = {
-          transformOrigin: 'top right'
-        };
-        break;
-      case 'top':
+          transformOrigin: "top right",
+        }
+        break
+      case "top":
         positionSX = {
-          transformOrigin: 'top'
-        };
-        break;
-      case 'bottom-left':
+          transformOrigin: "top",
+        }
+        break
+      case "bottom-left":
         positionSX = {
-          transformOrigin: 'bottom left'
-        };
-        break;
-      case 'bottom-right':
+          transformOrigin: "bottom left",
+        }
+        break
+      case "bottom-right":
         positionSX = {
-          transformOrigin: 'bottom right'
-        };
-        break;
-      case 'bottom':
+          transformOrigin: "bottom right",
+        }
+        break
+      case "bottom":
         positionSX = {
-          transformOrigin: 'bottom'
-        };
-        break;
-      case 'top-left':
+          transformOrigin: "bottom",
+        }
+        break
+      case "top-left":
       default:
         positionSX = {
-          transformOrigin: '0 0 0'
-        };
-        break;
+          transformOrigin: "0 0 0",
+        }
+        break
     }
 
     return (
       <Box ref={ref}>
-        {type === 'grow' && (
+        {type === "grow" && (
           <Grow
             {...others}
             timeout={{
               appear: 0,
               enter: 150,
-              exit: 150
+              exit: 150,
             }}
           >
             <Box sx={positionSX}>{children}</Box>
           </Grow>
         )}
 
-        {type === 'collapse' && (
+        {type === "collapse" && (
           <Collapse {...others} sx={positionSX}>
             {children}
           </Collapse>
         )}
 
-        {type === 'fade' && (
+        {type === "fade" && (
           <Fade
             {...others}
             timeout={{
               appear: 0,
               enter: 300,
-              exit: 150
+              exit: 150,
             }}
           >
             <Box sx={positionSX}>{children}</Box>
           </Fade>
         )}
 
-        {type === 'slide' && (
+        {type === "slide" && (
           <Slide
             {...others}
             timeout={{
               appear: 0,
               enter: 150,
-              exit: 150
+              exit: 150,
             }}
             direction={direction}
           >
@@ -103,18 +127,20 @@ const Transitions = forwardRef(
           </Slide>
         )}
 
-        {type === 'zoom' && (
+        {type === "zoom" && (
           <Zoom {...others}>
             <Box sx={positionSX}>{children}</Box>
           </Zoom>
         )}
       </Box>
-    );
-  }
-);
+    )
+  },
+)
 
-export default Transitions;
+export default Transitions
 
-export const PopupTransition = forwardRef(function Transition(props: ZoomProps, ref: Ref<unknown>) {
-  return <Zoom ref={ref} timeout={200} {...props} />;
-});
+export const PopupTransition = forwardRef(
+  (props: ZoomProps, ref: Ref<unknown>) => (
+    <Zoom ref={ref} timeout={200} {...props} />
+  ),
+)

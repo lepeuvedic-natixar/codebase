@@ -1,6 +1,6 @@
 // material-ui
-import { alpha, styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { alpha, styled } from "@mui/material/styles"
+import { Box } from "@mui/material"
 
 // ==============================|| MAP BOX - CONTROL STYLED ||============================== //
 
@@ -10,11 +10,11 @@ const ControlPanelStyled = styled(Box)(({ theme }) => ({
   backgroundColor: alpha(theme.palette.background.paper, 0.85),
   zIndex: 9,
   minWidth: 200,
-  position: 'absolute',
+  position: "absolute",
   top: 8,
   right: 8,
   padding: 20,
-  borderRadius: 4
-}));
+  borderRadius: 4,
+}))
 
-export default ControlPanelStyled;
+export default ControlPanelStyled

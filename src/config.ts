@@ -1,28 +1,33 @@
 // types
-import { DefaultConfigProps, MenuOrientation, ThemeDirection, ThemeMode } from 'types/config';
+import {
+  DefaultConfigProps,
+  MenuOrientation,
+  ThemeDirection,
+  ThemeMode,
+} from "types/config"
 
 // ==============================|| THEME CONSTANT ||============================== //
 
-export const twitterColor = '#1DA1F2';
-export const facebookColor = '#3b5998';
-export const linkedInColor = '#0e76a8';
+export const twitterColor = "#1DA1F2"
+export const facebookColor = "#3b5998"
+export const linkedInColor = "#0e76a8"
 
-export const APP_DEFAULT_PATH = '/sample-page';
-export const HORIZONTAL_MAX_ITEM = 7;
-export const DRAWER_WIDTH = 260;
-export const MINI_DRAWER_WIDTH = 60;
+export const APP_DEFAULT_PATH = "/dashboard/analytics"
+export const HORIZONTAL_MAX_ITEM = 7
+export const DRAWER_WIDTH = 260
+export const MINI_DRAWER_WIDTH = 60
 
 // ==============================|| THEME CONFIG ||============================== //
 
-const config: DefaultConfigProps = {
+const configNatixar: DefaultConfigProps = {
   fontFamily: `'Public Sans', sans-serif`,
-  i18n: 'en',
+  i18n: "en",
   menuOrientation: MenuOrientation.VERTICAL,
   miniDrawer: false,
   container: true,
   mode: ThemeMode.LIGHT,
-  presetColor: 'default',
-  themeDirection: ThemeDirection.LTR
-};
+  presetColor: "default",
+  themeDirection: ThemeDirection.LTR,
+}
 
-export default config;
+export default configNatixar

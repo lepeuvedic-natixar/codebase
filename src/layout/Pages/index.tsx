@@ -1,9 +1,7 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet } from "react-router-dom"
 
 // ==============================|| LAYOUT - BLANK PAGES ||============================== //
 
-const PagesLayout = () => {
-  return <Outlet />;
-};
+const PagesLayout = () => <Outlet />
 
-export default PagesLayout;
+export default PagesLayout

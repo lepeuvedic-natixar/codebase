@@ -1,90 +1,102 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react"
 
 // third-party
-import { motion, useCycle } from 'framer-motion';
+import { motion, useCycle } from "framer-motion"
 
 // ==============================|| ANIMATION BUTTON ||============================== //
 
 export type ScaleProps = {
-  hover: number | string | undefined;
-  tap: number | string | undefined;
-};
+  hover: number | string | undefined
+  tap: number | string | undefined
+}
 
 export interface Props {
-  children?: ReactNode;
-  type?: 'slide' | 'scale' | 'rotate';
-  direction?: 'up' | 'down' | 'left' | 'right';
-  offset?: number;
-  scale?: ScaleProps;
+  children?: ReactNode
+  type?: "slide" | "scale" | "rotate"
+  direction?: "up" | "down" | "left" | "right"
+  offset?: number
+  scale?: ScaleProps
 }
 
 export default function AnimateButton({
   children,
-  type = 'scale',
-  direction = 'right',
+  type = "scale",
+  direction = "right",
   offset = 10,
-  scale = { hover: 1.05, tap: 0.954 }
+  scale = { hover: 1.05, tap: 0.954 },
 }: Props) {
-  let offset1;
-  let offset2;
+  let offset1
+  let offset2
   switch (direction) {
-    case 'up':
-    case 'left':
-      offset1 = offset;
-      offset2 = 0;
-      break;
-    case 'right':
-    case 'down':
+    case "up":
+    case "left":
+      offset1 = offset
+      offset2 = 0
+      break
+    case "right":
+    case "down":
     default:
-      offset1 = 0;
-      offset2 = offset;
-      break;
+      offset1 = 0
+      offset2 = offset
+      break
   }
 
-  const [x, cycleX] = useCycle(offset1, offset2);
-  const [y, cycleY] = useCycle(offset1, offset2);
+  const [x, cycleX] = useCycle(offset1, offset2)
+  const [y, cycleY] = useCycle(offset1, offset2)
 
   switch (type) {
-    case 'rotate':
+    case "rotate":
       return (
         <motion.div
           animate={{ rotate: 360 }}
           transition={{
             repeat: Infinity,
-            repeatType: 'loop',
+            repeatType: "loop",
             duration: 2,
-            repeatDelay: 0
+            repeatDelay: 0,
           }}
         >
           {children}
         </motion.div>
-      );
-    case 'slide':
-      if (direction === 'up' || direction === 'down') {
+      )
+    case "slide":
+      if (direction === "up" || direction === "down") {
         return (
-          <motion.div animate={{ y: y !== undefined ? y : '' }} onHoverEnd={() => cycleY()} onHoverStart={() => cycleY()}>
+          <motion.div
+            animate={{ y: y !== undefined ? y : "" }}
+            onHoverEnd={() => cycleY()}
+            onHoverStart={() => cycleY()}
+          >
             {children}
           </motion.div>
-        );
+        )
       }
       return (
-        <motion.div animate={{ x: x !== undefined ? x : '' }} onHoverEnd={() => cycleX()} onHoverStart={() => cycleX()}>
+        <motion.div
+          animate={{ x: x !== undefined ? x : "" }}
+          onHoverEnd={() => cycleX()}
+          onHoverStart={() => cycleX()}
+        >
           {children}
         </motion.div>
-      );
+      )
 
-    case 'scale':
+    case "scale":
     default:
-      if (typeof scale === 'number') {
+      if (typeof scale === "number") {
+        // eslint-disable-next-line no-param-reassign
         scale = {
           hover: scale,
-          tap: scale
-        };
+          tap: scale,
+        }
       }
       return (
-        <motion.div whileHover={{ scale: scale?.hover }} whileTap={{ scale: scale?.tap }}>
+        <motion.div
+          whileHover={{ scale: scale?.hover }}
+          whileTap={{ scale: scale?.tap }}
+        >
           {children}
         </motion.div>
-      );
+      )
   }
 }

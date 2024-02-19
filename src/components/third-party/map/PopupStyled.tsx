@@ -1,57 +1,60 @@
 // third-party
-import { Popup } from 'react-map-gl';
+import { Popup } from "react-map-gl"
 
 // material-ui
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles"
 
 // types
-import { ThemeMode } from 'types/config';
+import { ThemeMode } from "types/config"
 
 // ==============================|| MAP BOX - POPUP STYLED ||============================== //
 
 const PopupStyled = styled(Popup)(({ theme }) => {
-  const isRTL = theme.direction === 'rtl';
+  const isRTL = theme.direction === "rtl"
 
   return {
-    '& .mapboxgl-popup-content': {
+    "& .mapboxgl-popup-content": {
       maxWidth: 180,
       padding: 12,
       boxShadow: theme.customShadows.z1,
       borderRadius: 4,
-      backgroundColor: theme.palette.mode === ThemeMode.DARK ? theme.palette.background.default : theme.palette.background.paper
+      backgroundColor:
+        theme.palette.mode === ThemeMode.DARK
+          ? theme.palette.background.default
+          : theme.palette.background.paper,
     },
-    '& .mapboxgl-popup-close-button': {
+    "& .mapboxgl-popup-close-button": {
       width: 24,
       height: 24,
       fontSize: 16,
       opacity: 0.48,
       color: theme.palette.common.white,
-      right: isRTL && '0',
-      left: isRTL && 'auto',
-      '&:hover': {
-        opacity: 1
+      right: isRTL && "0",
+      left: isRTL && "auto",
+      "&:hover": {
+        opacity: 1,
       },
-      '&:focus': {
-        outline: 'none'
-      }
+      "&:focus": {
+        outline: "none",
+      },
     },
-    '&.mapboxgl-popup-anchor-top .mapboxgl-popup-tip': {
+    "&.mapboxgl-popup-anchor-top .mapboxgl-popup-tip": {
       marginBottom: -1,
-      borderBottomColor: theme.palette.divider
+      borderBottomColor: theme.palette.divider,
     },
-    '&.mapboxgl-popup-anchor-right .mapboxgl-popup-tip': {
+    "&.mapboxgl-popup-anchor-right .mapboxgl-popup-tip": {
       marginLeft: -1,
-      borderLeftColor: theme.palette.divider
+      borderLeftColor: theme.palette.divider,
     },
-    '&.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip': {
+    "&.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip": {
       marginTop: -1,
-      borderTopColor: theme.palette.divider
+      borderTopColor: theme.palette.divider,
     },
-    '&.mapboxgl-popup-anchor-left .mapboxgl-popup-tip': {
+    "&.mapboxgl-popup-anchor-left .mapboxgl-popup-tip": {
       marginRight: -1,
-      borderRightColor: theme.palette.divider
-    }
-  };
-});
+      borderRightColor: theme.palette.divider,
+    },
+  }
+})
 
-export default PopupStyled;
+export default PopupStyled

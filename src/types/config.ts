@@ -1,33 +1,37 @@
-export type FontFamily = `'Inter', sans-serif` | `'Poppins', sans-serif` | `'Roboto', sans-serif` | `'Public Sans', sans-serif`;
-export type PresetColor = 'default' | 'theme1' | 'theme2' | 'theme3' | 'theme4' | 'theme5' | 'theme6' | 'theme7' | 'theme8';
-export type I18n = 'en' | 'fr' | 'ro' | 'zh'; // 'en' - English, 'fr' - French, 'ro' - Romanian, 'zh' - Chinese
+export type FontFamily =
+  | `'Inter', sans-serif`
+  | `'Poppins', sans-serif`
+  | `'Roboto', sans-serif`
+  | `'Public Sans', sans-serif`
+export type PresetColor = "default"
+export type I18n = "en" | "fr" | "ro" | "zh" // 'en' - English, 'fr' - French, 'ro' - Romanian, 'zh' - Chinese
 
 export enum SimpleLayoutType {
-  SIMPLE = 'simple',
-  LANDING = 'landing'
+  SIMPLE = "simple",
+  LANDING = "landing",
 }
 
 export enum ThemeMode {
-  LIGHT = 'light',
-  DARK = 'dark'
+  LIGHT = "light",
+  DARK = "dark",
 }
 
 export enum MenuOrientation {
-  VERTICAL = 'vertical',
-  HORIZONTAL = 'horizontal'
+  VERTICAL = "vertical",
+  HORIZONTAL = "horizontal",
 }
 
 export enum ThemeDirection {
-  LTR = 'ltr',
-  RTL = 'rtl'
+  LTR = "ltr",
+  RTL = "rtl",
 }
 
 // ==============================|| CONFIG TYPES ||============================== //
 
 export type CustomizationActionProps = {
-  type: string;
-  payload?: CustomizationProps;
-};
+  type: string
+  payload?: CustomizationProps
+}
 
 export type DefaultConfigProps = {
   /**
@@ -38,7 +42,7 @@ export type DefaultConfigProps = {
    * `'Roboto', sans-serif`
    * `'Public Sans', sans-serif` (default)
    */
-  fontFamily: FontFamily;
+  fontFamily: FontFamily
 
   /**
    * The props used for display menu-items with multi-language.
@@ -48,7 +52,7 @@ export type DefaultConfigProps = {
    * 'ro'
    * 'zh'
    */
-  i18n: I18n;
+  i18n: I18n
 
   /**
    * the props used for menu orientation (diffrent theme layout).
@@ -56,14 +60,14 @@ export type DefaultConfigProps = {
    * 'vertical' (default) - MenuOrientation.VERTICAL
    * 'horizontal' - MenuOrientation.HORIZONTAL
    */
-  menuOrientation: MenuOrientation;
+  menuOrientation: MenuOrientation
 
   /**
    * the props used for show mini variant drawer
    * the mini variant is recommended for apps sections that need quick selection access alongside content.
    * default - false
    */
-  miniDrawer: boolean;
+  miniDrawer: boolean
 
   /**
    * the props used for theme container.
@@ -71,7 +75,7 @@ export type DefaultConfigProps = {
    * default - true which show container
    * false - will show fluid
    */
-  container: boolean;
+  container: boolean
 
   /**
    * the props used for default theme palette mode
@@ -80,7 +84,7 @@ export type DefaultConfigProps = {
    * 'light' (default) - ThemeMode.LIGHT
    * 'dark' - ThemeMode.DARK
    */
-  mode: ThemeMode;
+  mode: ThemeMode
 
   /**
    * the props used for theme primary color variants
@@ -95,7 +99,7 @@ export type DefaultConfigProps = {
    * 'theme7'
    * 'theme8'
    */
-  presetColor: PresetColor;
+  presetColor: PresetColor
 
   /**
    * the props used for default theme direction
@@ -104,24 +108,24 @@ export type DefaultConfigProps = {
    * 'ltr' (default) - ThemeDirection.LTR
    * 'rtl' - ThemeDirection.RTL
    */
-  themeDirection: ThemeDirection;
-};
+  themeDirection: ThemeDirection
+}
 
 export type CustomizationProps = {
-  fontFamily: FontFamily;
-  i18n: I18n;
-  miniDrawer: boolean;
-  container: boolean;
-  menuOrientation: MenuOrientation;
-  mode: ThemeMode;
-  presetColor: PresetColor;
-  themeDirection: ThemeDirection;
-  onChangeContainer: VoidFunction;
-  onChangeLocalization: (lang: I18n) => void;
-  onChangeMode: (mode: ThemeMode) => void;
-  onChangePresetColor: (theme: PresetColor) => void;
-  onChangeDirection: (direction: ThemeDirection) => void;
-  onChangeMiniDrawer: (miniDrawer: boolean) => void;
-  onChangeMenuOrientation: (menuOrientation: MenuOrientation) => void;
-  onChangeFontFamily: (fontFamily: FontFamily) => void;
-};
+  fontFamily: FontFamily
+  i18n: I18n
+  miniDrawer: boolean
+  container: boolean
+  menuOrientation: MenuOrientation
+  mode: ThemeMode
+  presetColor: PresetColor
+  themeDirection: ThemeDirection
+  onChangeContainer: VoidFunction
+  onChangeLocalization: (lang: I18n) => void
+  onChangeMode: (mode: ThemeMode) => void
+  onChangePresetColor: (theme: PresetColor) => void
+  onChangeDirection: (direction: ThemeDirection) => void
+  onChangeMiniDrawer: (miniDrawer: boolean) => void
+  onChangeMenuOrientation: (menuOrientation: MenuOrientation) => void
+  onChangeFontFamily: (fontFamily: FontFamily) => void
+}

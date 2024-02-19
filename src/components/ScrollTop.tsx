@@ -1,4 +1,4 @@
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, useEffect } from "react"
 
 // ==============================|| NAVIGATION - SCROLL TO TOP ||============================== //
 
@@ -7,11 +7,11 @@ const ScrollTop = ({ children }: { children: ReactElement | null }) => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth'
-    });
-  }, []);
+      behavior: "smooth",
+    })
+  }, [])
 
-  return children || null;
-};
+  return children || null
+}
 
-export default ScrollTop;
+export default ScrollTop

@@ -1,24 +1,22 @@
 // third-party
-import { PopupProps } from 'react-map-gl';
+import { PopupProps } from "react-map-gl"
 
 // material-ui
-import { Theme, SxProps } from '@mui/material/styles';
+import { Theme, SxProps } from "@mui/material/styles"
 
 // project-import
-import PopupStyled from './PopupStyled';
+import PopupStyled from "./PopupStyled"
 
 interface Props extends PopupProps {
-  sx?: SxProps<Theme>;
+  sx?: SxProps<Theme>
 }
 
 // ==============================|| MAP BOX - MODAL ||============================== //
 
-const MapPopup = ({ sx, children, ...other }: Props) => {
-  return (
-    <PopupStyled anchor="bottom" sx={sx} {...other}>
-      {children}
-    </PopupStyled>
-  );
-};
+const MapPopup = ({ sx, children, ...other }: Props) => (
+  <PopupStyled anchor="bottom" sx={sx} {...other}>
+    {children}
+  </PopupStyled>
+)
 
-export default MapPopup;
+export default MapPopup

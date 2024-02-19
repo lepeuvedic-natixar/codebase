@@ -1,32 +1,35 @@
-import { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 
 // project import
-import { APP_DEFAULT_PATH } from 'config';
-import useAuth from 'hooks/useAuth';
+import { APP_DEFAULT_PATH } from "config"
+import useAuth from "hooks/useAuth"
 
 // types
-import { GuardProps } from 'types/auth';
+import { GuardProps } from "types/auth"
 
 // ==============================|| GUEST GUARD ||============================== //
 
 const GuestGuard = ({ children }: GuardProps) => {
-  const { isLoggedIn } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { isLoggedIn } = useAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate(location?.state?.from ? location?.state?.from : APP_DEFAULT_PATH, {
-        state: {
-          from: ''
+      navigate(
+        location?.state?.from ? location?.state?.from : APP_DEFAULT_PATH,
+        {
+          state: {
+            from: "",
+          },
+          replace: true,
         },
-        replace: true
-      });
+      )
     }
-  }, [isLoggedIn, navigate, location]);
+  }, [isLoggedIn, navigate, location])
 
-  return children;
-};
+  return children
+}
 
-export default GuestGuard;
+export default GuestGuard

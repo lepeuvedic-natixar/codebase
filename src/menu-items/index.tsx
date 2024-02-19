@@ -1,17 +1,19 @@
-// project import
-import climateChange from './climate-change';
-import categoryAnalysis from './category-analysis';
-import contributor from './contributor';
-import dataAnalysis from './data-analysis';
-import generalSettings from './general-settings';
+// import widget from './widget';
+import { NavItemType } from "types/menu"
+import natixarNav from "./natixarNav"
+// import chartsMap from './charts-map';
+// import other from './other';
 
 // types
-import { NavItemType } from 'types/menu';
 
 // ==============================|| MENU ITEMS ||============================== //
 
-const menuItems: { items: NavItemType[] } = {
-  items: [climateChange, categoryAnalysis, contributor, dataAnalysis, generalSettings]
-};
+// const menuItems: { items: NavItemType[] } = {
+//   items: [widget, chartsMap, other]
+// };
 
-export default menuItems;
+const menuItems: { items: NavItemType[] } = {
+  items: natixarNav,
+}
+
+export default menuItems

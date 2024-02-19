@@ -1,38 +1,38 @@
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent } from "react"
 
 // material-ui
-import { Alert, Button, Fade, Grow, Slide, SlideProps } from '@mui/material';
-import MuiSnackbar from '@mui/material/Snackbar';
+import { Alert, Button, Fade, Grow, Slide, SlideProps } from "@mui/material"
+import MuiSnackbar from "@mui/material/Snackbar"
 
 // project import
-import IconButton from './IconButton';
-import { closeSnackbar, useGetSnackbar } from 'api/snackbar';
+import { closeSnackbar, useGetSnackbar } from "api/snackbar"
 
 // assets
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined } from "@ant-design/icons"
 
 // types
-import { KeyedObject } from 'types/root';
+import { KeyedObject } from "types/root"
+import IconButton from "./IconButton"
 
 // animation function
 function TransitionSlideLeft(props: SlideProps) {
-  return <Slide {...props} direction="left" />;
+  return <Slide {...props} direction="left" />
 }
 
 function TransitionSlideUp(props: SlideProps) {
-  return <Slide {...props} direction="up" />;
+  return <Slide {...props} direction="up" />
 }
 
 function TransitionSlideRight(props: SlideProps) {
-  return <Slide {...props} direction="right" />;
+  return <Slide {...props} direction="right" />
 }
 
 function TransitionSlideDown(props: SlideProps) {
-  return <Slide {...props} direction="down" />;
+  return <Slide {...props} direction="down" />
 }
 
 function GrowTransition(props: SlideProps) {
-  return <Grow {...props} />;
+  return <Grow {...props} />
 }
 
 // animation options
@@ -42,25 +42,25 @@ const animation: KeyedObject = {
   SlideRight: TransitionSlideRight,
   SlideDown: TransitionSlideDown,
   Grow: GrowTransition,
-  Fade
-};
+  Fade,
+}
 
 // ==============================|| SNACKBAR ||============================== //
 
 const Snackbar = () => {
-  const { snackbar } = useGetSnackbar();
+  const { snackbar } = useGetSnackbar()
 
   const handleClose = (event: SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
+    if (reason === "clickaway") {
+      return
     }
-    closeSnackbar();
-  };
+    closeSnackbar()
+  }
 
   return (
     <>
       {/* default snackbar */}
-      {snackbar.variant === 'default' && (
+      {snackbar.variant === "default" && (
         <MuiSnackbar
           anchorOrigin={snackbar.anchorOrigin}
           open={snackbar.open}
@@ -73,7 +73,13 @@ const Snackbar = () => {
               <Button color="secondary" size="small" onClick={handleClose}>
                 UNDO
               </Button>
-              <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose} sx={{ mt: 0.25 }}>
+              <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+                sx={{ mt: 0.25 }}
+              >
                 <CloseOutlined />
               </IconButton>
             </>
@@ -81,7 +87,7 @@ const Snackbar = () => {
         />
       )}
       {/* alert snackbar */}
-      {snackbar.variant === 'alert' && (
+      {snackbar.variant === "alert" && (
         <MuiSnackbar
           TransitionComponent={animation[snackbar.transition]}
           anchorOrigin={snackbar.anchorOrigin}
@@ -95,7 +101,11 @@ const Snackbar = () => {
             action={
               <>
                 {snackbar.actionButton !== false && (
-                  <Button color={snackbar.alert.color} size="small" onClick={handleClose}>
+                  <Button
+                    color={snackbar.alert.color}
+                    size="small"
+                    onClick={handleClose}
+                  >
                     UNDO
                   </Button>
                 )}
@@ -114,9 +124,9 @@ const Snackbar = () => {
               </>
             }
             sx={{
-              ...(snackbar.alert.variant === 'outlined' && {
-                bgcolor: 'grey.0'
-              })
+              ...(snackbar.alert.variant === "outlined" && {
+                bgcolor: "grey.0",
+              }),
             }}
           >
             {snackbar.message}
@@ -124,7 +134,7 @@ const Snackbar = () => {
         </MuiSnackbar>
       )}
     </>
-  );
-};
+  )
+}
 
-export default Snackbar;
+export default Snackbar

@@ -1,41 +1,45 @@
-import { ComponentClass, FunctionComponent } from 'react';
+import { ComponentClass, FunctionComponent } from "react"
 
 // material-ui
-import { SvgIconTypeMap } from '@mui/material';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
+import { SvgIconTypeMap } from "@mui/material"
+import { OverridableComponent } from "@mui/material/OverridableComponent"
 
 // types
-import { AuthProps } from './auth';
-import { MenuProps } from './menu';
-import { SnackbarProps } from './snackbar';
+import { AuthProps } from "./auth"
+import { MenuProps } from "./menu"
+import { SnackbarProps } from "./snackbar"
+import { KanbanStateProps } from "./kanban"
+import { InvoiceProps } from "./invoice"
 
 // ==============================|| ROOT TYPES ||============================== //
 
 export type RootStateProps = {
-  auth: AuthProps;
-  menu: MenuProps;
-  snackbar: SnackbarProps;
-};
+  auth: AuthProps
+  menu: MenuProps
+  snackbar: SnackbarProps
+  kanban: KanbanStateProps
+  invoice: InvoiceProps
+}
 
 export type KeyedObject = {
-  [key: string]: string | number | KeyedObject | any;
-};
+  [key: string]: string | number | KeyedObject | any
+}
 
 export type OverrideIcon =
-  | (OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
-      muiName: string;
+  | (OverridableComponent<SvgIconTypeMap<{}, "svg">> & {
+      muiName: string
     })
   | ComponentClass<any>
-  | FunctionComponent<any>;
+  | FunctionComponent<any>
 
 export interface GenericCardProps {
-  title?: string;
-  primary?: string | number | undefined;
-  secondary?: string;
-  content?: string;
-  image?: string;
-  dateTime?: string;
-  iconPrimary?: OverrideIcon;
-  color?: string;
-  size?: string;
+  title?: string
+  primary?: string | number | undefined
+  secondary?: string
+  content?: string
+  image?: string
+  dateTime?: string
+  iconPrimary?: OverrideIcon
+  color?: string
+  size?: string
 }
