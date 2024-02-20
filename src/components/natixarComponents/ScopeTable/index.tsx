@@ -51,7 +51,7 @@ export const ScopeTable = ({ data }: ScopeTableProps) => (
       </TableHead>
       <TableBody>
         {data.map((row, index) => (
-          <TableRow hover key={index}>
+          <TableRow hover key={index} sx={{ height: "70px" }}>
             <TableCell align="left">{index + 1}</TableCell>
             <TableCell>
               <Grid container alignItems="center">
@@ -73,7 +73,12 @@ export const ScopeTable = ({ data }: ScopeTableProps) => (
               </Grid>
             </TableCell>
             <TableCell
-              sx={{ display: "flex", alignItems: "center", columnGap: "45px" }}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                columnGap: "30px",
+                height: "70px",
+              }}
             >
               <Box
                 sx={{
@@ -91,7 +96,20 @@ export const ScopeTable = ({ data }: ScopeTableProps) => (
                 />
                 <Typography>{row.value / 1000}K</Typography>
               </Box>
-              <Button variant="contained" size="small" sx={{ color: "#FFF" }}>
+              <Button
+                variant="contained"
+                size="small"
+                sx={{
+                  maxWidth: "25px",
+                  height: "25px",
+                  color: "#FFF",
+                  backgroundColor: "#1890FF",
+                  padding: "0px 0px 0px 0px",
+                  marginRight: "40px",
+                  fontSize: "12px",
+                  boxSizing: "border-box",
+                }}
+              >
                 Detail
               </Button>
             </TableCell>
