@@ -2,7 +2,20 @@ import { Box, Button, Grid, Typography } from "@mui/material"
 import MainCard from "components/MainCard"
 import { ArrowLeftOutlined, RightOutlined } from "@ant-design/icons"
 
+import { ScopeTable } from "../../../components/natixarComponents/ScopeTable"
 import Breadcrumb from "../../../components/@extended/Breadcrumbs"
+
+// table data
+const createData = (title: string, value: number) => ({ title, value })
+
+const rows = [
+  createData("Processing of Sold Production", 7000),
+  createData("Investment", 3000),
+  createData("Transportation and destribution", 11000),
+  createData("Processing of Sold Production", 2000),
+  createData("Investment", 9000),
+  createData("Processing of Sold Production", 8000),
+]
 
 const ScopePage = () => (
   <MainCard>
@@ -37,9 +50,10 @@ const ScopePage = () => (
         <Typography variant="h5">Scope Emissions bar</Typography>
       </Grid>
       <Grid item xs={12} md={12} xl={12}>
-        {/* table */}
+        <ScopeTable data={rows} />
       </Grid>
     </Grid>
   </MainCard>
 )
+
 export default ScopePage
