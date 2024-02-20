@@ -13,16 +13,19 @@ const data = [
     value: 44,
     color: "#52C41A",
     title: "Scope 1",
+    navLink: "3",
   },
   {
     value: 55,
     color: "#EF8100",
     title: "Scope 2",
+    navLink: "2",
   },
   {
     value: 13,
     color: "#0084FF",
     title: "Scope 3",
+    navLink: "1",
   },
 ]
 
@@ -33,8 +36,8 @@ const CO2DonutSection = () => (
     </Box>
 
     <Box sx={LegendsContainerStyles}>
-      {data.map((legendItem) => (
-        <LabelBox legend={legendItem} />
+      {data.map((legendItem, i) => (
+        <LabelBox legend={legendItem} key={i} />
       ))}
     </Box>
   </Box>

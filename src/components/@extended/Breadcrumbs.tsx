@@ -267,7 +267,7 @@ const Breadcrumbs = ({
                 {...(link.to && { component: Link, to: link.to })}
                 variant={!link.to ? "subtitle1" : "h6"}
                 sx={{ textDecoration: "none" }}
-                color={!link.to ? "text.primary" : "text.secondary"}
+                color={!link.to ? "text.primary" : "#1890FF"}
               >
                 {link.icon && <CollapseIcon style={iconSX} />}
                 {link.title}
