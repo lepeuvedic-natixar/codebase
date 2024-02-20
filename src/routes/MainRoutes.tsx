@@ -2,7 +2,6 @@ import { lazy } from "react"
 
 // project import
 import Loadable from "components/Loadable"
-import DashboardLayout from "layout/Dashboard"
 import PagesLayout from "layout/Pages"
 import SimpleLayout from "layout/Simple"
 
@@ -20,6 +19,7 @@ const WidgetStatistics = Loadable(lazy(() => import("pages/widget/statistics")))
 const WidgetData = Loadable(lazy(() => import("pages/widget/data")))
 const WidgetChart = Loadable(lazy(() => import("pages/widget/chart")))
 const NatixarChart = Loadable(lazy(() => import("pages/natixar/charts")))
+const ScopePage = Loadable(lazy(() => import("pages/natixar/ScopePage")))
 
 // render - charts & map
 const ChartApexchart = Loadable(lazy(() => import("pages/charts/apexchart")))
@@ -46,7 +46,6 @@ const MainRoutes = {
   children: [
     {
       path: "/",
-      element: <DashboardLayout />,
       children: [
         {
           path: "dashboard",
@@ -67,6 +66,10 @@ const MainRoutes = {
             {
               path: "dashboard",
               element: <NatixarChart />,
+            },
+            {
+              path: "scope/:id",
+              element: <ScopePage />,
             },
             {
               path: "map",
