@@ -3,12 +3,13 @@ import { Grid, Typography } from "@mui/material"
 
 // assets
 import MainCard from "components/MainCard"
+import { ScopeTable } from "../../../components/natixarComponents/ScopeTable"
 
 // ==============================|| WIDGET - CHARTS ||============================== //
 
 const ScopePage = () => (
   <Grid container rowSpacing={4.5} columnSpacing={3}>
-    <MainCard>
+    <MainCard sx={{ width: "100%" }}>
       <Grid item xs={12} md={12} xl={12}>
         {/* head */}
       </Grid>
@@ -18,7 +19,7 @@ const ScopePage = () => (
         </Typography>
       </Grid>
       <Grid item xs={12} md={12} xl={12}>
-        {/* table */}
+        <ScopeTable />
       </Grid>
     </MainCard>
   </Grid>
