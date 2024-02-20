@@ -13,7 +13,7 @@ import {
 const LabelBox = ({ legend }: LabelBoxProps) => {
   const navigate = useNavigate()
   const handleClick = () => {
-    navigate(`/contributor/scope/{legend.color}`)
+    navigate(`/contributor/scope/${legend.title}`)
   }
 
   return (
