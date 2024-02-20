@@ -15,40 +15,48 @@ import {
 } from "@mui/material"
 import { LinkOutlined } from "@ant-design/icons"
 
-// table data
-const createData = (title: string, value: number) => ({ title, value })
-
-const rows = [
-  createData("Processing of Sold Production", 7000),
-  createData("Investment", 3000),
-  createData("Transportation and destribution", 11000),
-  createData("Processing of Sold Production", 2000),
-  createData("Investment", 9000),
-  createData("Processing of Sold Production", 8000),
-]
-
 // ===========================|| DATA WIDGET - PROJECT TABLE CARD ||=========================== //
+type ScopeTableItemProps = {
+  title: string
+  value: number
+}
 
-export const ScopeTable = () => (
-  <TableContainer>
+type ScopeTableProps = {
+  data: ScopeTableItemProps[]
+}
+
+export const ScopeTable = ({ data }: ScopeTableProps) => (
+  <TableContainer
+    sx={{ border: "1px solid", borderColor: "#e6ebf1", borderRadius: "4px" }}
+  >
     <Table>
-      <TableHead>
-        <TableRow>
+      <TableHead
+        sx={{
+          border: "none",
+          borderBottom: "1px solid",
+          borderColor: "#e6ebf1",
+        }}
+      >
+        <TableRow sx={{ height: "70px" }}>
           <TableCell sx={{ width: "70px" }} align="left">
-            #
+            <Typography>#</Typography>
           </TableCell>
-          <TableCell sx={{ width: "500px" }}>Title</TableCell>
-          <TableCell>Value</TableCell>
+          <TableCell sx={{ width: "500px" }}>
+            <Typography>Title</Typography>
+          </TableCell>
+          <TableCell>
+            <Typography>Value</Typography>
+          </TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
-        {rows.map((row, index) => (
+        {data.map((row, index) => (
           <TableRow hover key={index}>
             <TableCell align="left">{index + 1}</TableCell>
             <TableCell>
               <Grid container alignItems="center">
                 <Grid item>
-                  <Typography align="left" variant="subtitle1">
+                  <Typography align="left">
                     <Link
                       sx={{
                         display: "flex",
