@@ -20,6 +20,7 @@ const WidgetData = Loadable(lazy(() => import("pages/widget/data")))
 const WidgetChart = Loadable(lazy(() => import("pages/widget/chart")))
 const NatixarChart = Loadable(lazy(() => import("pages/natixar/charts")))
 const ScopePage = Loadable(lazy(() => import("pages/natixar/ScopePage")))
+const DataPage = Loadable(lazy(() => import("pages/natixar/DataPage")))
 
 // render - charts & map
 const ChartApexchart = Loadable(lazy(() => import("pages/charts/apexchart")))
@@ -80,8 +81,12 @@ const MainRoutes = {
               element: <WidgetStatistics />,
             },
             {
-              path: "data",
+              path: "data1",
               element: <WidgetData />,
+            },
+            {
+              path: "data",
+              element: <DataPage />,
             },
             {
               path: "chart",
