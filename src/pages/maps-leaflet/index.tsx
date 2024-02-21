@@ -3,10 +3,10 @@ import MainCard from "components/MainCard"
 import LeafletMap from "sections/maps-leaflet/clusters-map"
 import MapContainerStyled from "components/third-party/map/MapContainerStyled"
 
-import EmissionByCompany from "sections/charts/emissions/EmissionByCompany"
 import { useSelector } from "react-redux"
 import { RootState } from "data/store"
 import { ByCompanyDataPoint } from "data/store/types/Types"
+import EmissionByCompany from "sections/charts/emissions/EmissionByCompany"
 import EmissionByCountry from "sections/charts/emissions/EmissionByCountry"
 
 const mapConfiguration = {
