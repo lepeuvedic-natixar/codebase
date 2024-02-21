@@ -11,6 +11,7 @@ import ReactApexChart, { Props as ChartProps } from "react-apexcharts"
 
 // types
 import { ThemeMode } from "types/config"
+import { Box } from "@mui/material"
 
 // ==============================|| ACQUISITION-CHANNELS CHART ||============================== //
 
@@ -34,6 +35,11 @@ const AcquisitionChart = ({ slot }: Props) => {
       stacked: true,
       toolbar: {
         show: false,
+      },
+    },
+    plotOptions: {
+      bar: {
+        columnWidth: "30%",
       },
     },
     xaxis: {
@@ -61,7 +67,6 @@ const AcquisitionChart = ({ slot }: Props) => {
         show: true,
       },
       labels: {
-        show: true,
         style: {
           colors: [
             secondary,
@@ -81,6 +86,17 @@ const AcquisitionChart = ({ slot }: Props) => {
       },
     },
     yaxis: {
+      title: {
+        text: "t CO2e",
+        rotate: -90,
+        offsetX: 0,
+        offsetY: 0,
+        style: {
+          color: "#8C8C8C",
+          fontSize: "10px",
+          fontWeight: 700,
+        },
+      },
       axisBorder: {
         show: false,
       },
@@ -119,10 +135,11 @@ const AcquisitionChart = ({ slot }: Props) => {
       show: true,
       position: "bottom",
       horizontalAlign: "center",
-      offsetX: 10,
+      itemMargin: {
+        vertical: 20,
+        horizontal: 20,
+      },
       markers: {
-        width: 8,
-        height: 8,
         radius: "50%",
       },
     },
@@ -199,11 +216,6 @@ const AcquisitionChart = ({ slot }: Props) => {
         },
       },
       colors: ["#EF8100", "#00BA34", "#0084FF"],
-      legend: {
-        labels: {
-          colors: "grey.500",
-        },
-      },
       theme: {
         mode: mode === ThemeMode.DARK ? "dark" : "light",
       },
@@ -211,7 +223,14 @@ const AcquisitionChart = ({ slot }: Props) => {
   }, [mode, primary, secondary, line, theme])
 
   return (
-    <ReactApexChart options={options} series={series} type="bar" height={250} />
+    <Box sx={{ height: "285px" }}>
+      <ReactApexChart
+        options={options}
+        series={series}
+        type="bar"
+        height="300px"
+      />
+    </Box>
   )
 }
 

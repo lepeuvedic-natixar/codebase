@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 
 // material-ui
 import { useTheme } from "@mui/material/styles"
@@ -8,6 +8,7 @@ import ReactApexChart, { Props as ChartProps } from "react-apexcharts"
 
 // project import
 import useConfig from "hooks/useConfig"
+import { Box } from "@mui/material"
 
 // chart options
 const areaChartOptions = {
@@ -55,6 +56,21 @@ const IncomeAreaChart = ({ slot }: Props) => {
         type: "solid",
       },
       xaxis: {
+        tooltip: {
+          enabled: "false",
+        },
+        crosshairs: {
+          show: true,
+          width: 1,
+          position: "back",
+          opacity: 1,
+          stroke: {
+            color: "#1890FF",
+            width: 1.5,
+            dashArray: 5,
+          },
+        },
+
         categories:
           slot === "month"
             ? [
@@ -97,6 +113,17 @@ const IncomeAreaChart = ({ slot }: Props) => {
         tickAmount: slot === "month" ? 11 : 7,
       },
       yaxis: {
+        title: {
+          text: "t CO2e",
+          rotate: -90,
+          offsetX: 0,
+          offsetY: 0,
+          style: {
+            color: "#8C8C8C",
+            fontSize: "10px",
+            fontWeight: 700,
+          },
+        },
         labels: {
           style: {
             colors: [secondary],
@@ -104,7 +131,25 @@ const IncomeAreaChart = ({ slot }: Props) => {
         },
       },
       grid: {
-        borderColor: line,
+        show: true,
+        strokeDashArray: 5,
+        position: "back",
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      legend: {
+        itemMargin: {
+          vertical: 20,
+          horizontal: 20,
+        },
       },
     }))
   }, [mode, primary, secondary, line, theme, slot])
@@ -151,12 +196,14 @@ const IncomeAreaChart = ({ slot }: Props) => {
   }, [slot])
 
   return (
-    <ReactApexChart
-      options={options}
-      series={series}
-      type="area"
-      height={450}
-    />
+    <Box sx={{ height: "285px" }}>
+      <ReactApexChart
+        options={options}
+        series={series}
+        type="area"
+        height="300px"
+      />
+    </Box>
   )
 }
 
