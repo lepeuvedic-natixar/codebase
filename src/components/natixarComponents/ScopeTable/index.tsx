@@ -39,13 +39,13 @@ export const ScopeTable = ({ data }: ScopeTableProps) => (
       >
         <TableRow sx={{ height: "70px" }}>
           <TableCell sx={{ width: "70px" }} align="left">
-            <Typography>#</Typography>
+            <Typography variant="subtitle2">#</Typography>
           </TableCell>
           <TableCell sx={{ width: "500px" }}>
-            <Typography>Title</Typography>
+            <Typography variant="subtitle2">Title</Typography>
           </TableCell>
           <TableCell>
-            <Typography>Value</Typography>
+            <Typography variant="subtitle2">Value</Typography>
           </TableCell>
         </TableRow>
       </TableHead>
@@ -89,7 +89,7 @@ export const ScopeTable = ({ data }: ScopeTableProps) => (
                 }}
               >
                 <LinearProgress
-                  sx={{ width: "100%" }}
+                  sx={{ width: "100%", backgroundColor: "#F5F5F5" }}
                   variant="determinate"
                   value={row.value / 1000}
                   color="primary"
