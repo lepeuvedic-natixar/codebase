@@ -1,8 +1,11 @@
-import L from 'leaflet';
-import { useSelector } from "react-redux";
-import MarkerClusterGroup from 'react-leaflet-cluster';
-import { Marker } from "react-leaflet";
-import _ from "lodash";
+import { useEffect, useRef } from "react"
+import { useSelector } from "react-redux"
+
+import L from 'leaflet'
+import { Marker } from "react-leaflet"
+import MarkerClusterGroup from 'react-leaflet-cluster'
+
+import _ from "lodash"
 import MapMarker from "components/third-party/map/MapMarker"
 
 import 'leaflet/dist/leaflet.css'
@@ -19,7 +22,7 @@ const MIN_EMISSION = 2;
 const MAX_EMISSION = 200;
 const MIN_ICON_SIZE = 30;
 const MAX_ICON_SIZE = 120;
-const CLUSTER_RADIUS = MAX_ICON_SIZE * 2.2;
+const CLUSTER_RADIUS = MAX_ICON_SIZE * 1.75
 
 const sizeByValue = (value) => {
     const ratio = (_.clamp(value, MIN_EMISSION, MAX_EMISSION) - MIN_EMISSION) / (MAX_EMISSION - MIN_EMISSION)
@@ -28,22 +31,27 @@ const sizeByValue = (value) => {
 }
 
 const clusterRadiusByZoom = (zoom) => {
-    return MAX_ICON_SIZE * 1.1
+    return CLUSTER_RADIUS
 }
 
 const createClusterCustomIcon = (cluster) => {
     // https://github.com/Leaflet/Leaflet.markercluster/blob/master/src/MarkerClusterGroup.js#L821
     const childCount = cluster.getChildCount()
-    const dataPoints = cluster.getAllChildMarkers()
-        .map(marker => marker.options.dataPoint)
+    const childMarkers = cluster.getAllChildMarkers()
 
-    const totalAmount = childCount
-    let amountLabel = totalAmount >= 1000 ? ((totalAmount / 1000).toFixed(1) + "k") : totalAmount
+    let category = "cluster"
+    if (childCount > 0) {
+        category = childMarkers[0].options.dataPoint.category
+        const thereIsOtherCategory = childMarkers.some(marker => category !== marker.options.dataPoint.category)
+        if (thereIsOtherCategory) {
+            category = "cluster"
+        }
+    }
+    category = category.toLowerCase()
 
-    const categories = _.uniq(dataPoints.map(dataPoint => dataPoint.category.toLowerCase()))
-    const category = categories.length === 1 ? categories[0] : "cluster"
+    let amountLabel = childCount >= 1000 ? ((childCount / 1000).toFixed(1) + "k") : childCount
 
-    const size = sizeByValue(totalAmount)
+    const size = sizeByValue(childCount)
     const iconClass = "marker-cluster-category-" + category
 
     return L.divIcon({
@@ -54,28 +62,48 @@ const createClusterCustomIcon = (cluster) => {
 }
 
 const ClusterByCategoryLayer = () => {
+    const clusterGroupRef = useRef()
     const dataPoints = useSelector(selectVisibleData)
+    
+    useEffect(() => {
+        let acceptTransformation = true
 
-    const markers = dataPoints.map(dataPoint => {
-        const address = dataPoint.location
-        const marker = <Marker
-            key={dataPoint.id}
-            position={[address.lat, address.lon]}
-            title={dataPoint.country}
-            icon={customIcon}
-            dataPoint={dataPoint}
-        />
-        return marker
-    })
+        const retrieveMarkers = async () => {
+            const markers = dataPoints.map(dataPoint => {
+                const address = dataPoint.location
+                const marker = L.marker(
+                    new L.LatLng(address.lat, address.lon),
+                    {
+                        key: dataPoint.id,
+                        title: dataPoint.country,
+                        icon: customIcon,
+                        dataPoint: dataPoint
+                    }
+                )
+                return marker
+            })
+
+            if (acceptTransformation) {
+                const clusterGr = clusterGroupRef.current
+                clusterGr.clearLayers()
+                clusterGr.addLayers(markers)
+            }
+        }
+
+        retrieveMarkers()
+
+        return () => {
+            acceptTransformation = false
+        }
+    }, [dataPoints])
 
     return (<MarkerClusterGroup
         chunkedLoading
-        iconCreateFunction={createClusterCustomIcon}
         singleMarkerMode={true}
+        iconCreateFunction={createClusterCustomIcon}
         maxClusterRadius={CLUSTER_RADIUS}
-    >
-        {markers}
-    </MarkerClusterGroup>)
+        ref={clusterGroupRef}
+    />)
 }
 
 export default ClusterByCategoryLayer
