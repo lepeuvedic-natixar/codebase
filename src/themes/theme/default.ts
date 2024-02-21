@@ -35,7 +35,7 @@ const Default = (colors: PalettesProps): PaletteThemeProps => {
       200: blue[2],
       light: blue[3],
       400: blue[4],
-      main: blue[5],
+      main: "#1890FF",
       dark: blue[6],
       700: blue[7],
       darker: blue[8],
