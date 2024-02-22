@@ -6,6 +6,7 @@ import { ByCompanyDataPoint } from "data/store/types/Types";
 import { useSelector } from "react-redux";
 import { RootState } from "data/store";
 import MainCard from "components/MainCard";
+import HeaderWithCategoriesLegend from "components/charts/HeaderWithCategoriesLegend";
 
 const selectByCompany = (state: RootState) => state.coordinates.visibleFrame.byCountry
 
@@ -14,7 +15,7 @@ const ByCountrySection: FunctionComponent = () => {
 
     return (
         (visibleFrame == null || visibleFrame.length <= 0) ? null :
-            <MainCard title="Performance by Country">
+            <MainCard title={<HeaderWithCategoriesLegend titleText="Performance by Country" />}>
                 <EmissionByCountry emissionData={visibleFrame} />
             </MainCard>
     )
