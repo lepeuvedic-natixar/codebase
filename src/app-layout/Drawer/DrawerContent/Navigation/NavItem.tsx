@@ -40,7 +40,7 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
 
   const downLG = useMediaQuery(theme.breakpoints.down("lg"))
 
-  const { menuOrientation } = useConfig()
+  const { menuOrientation, onChangeRoute } = useConfig()
   let itemTarget: LinkTarget = "_self"
   if (item.target) {
     itemTarget = "_blank"
@@ -72,6 +72,10 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
       ? "text.primary"
       : "primary.main"
 
+  const handleItemClick = () => {
+    onChangeRoute("")
+  }
+
   return (
     <div>
       {menuOrientation === MenuOrientation.VERTICAL || downLG ? (
@@ -79,6 +83,7 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
           <ListItemButton
             component={Link}
             to={item.url!}
+            onClick={handleItemClick}
             target={itemTarget}
             disabled={item.disabled}
             selected={isSelected}
