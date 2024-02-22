@@ -32,6 +32,10 @@ interface DataLayout {
     [key: string]: Array<DataPoint>
 }
 
+interface SelectedCluster {
+    dataPoints: Array<DataPoint>
+}
+
 interface DataSet {
     min_time: number,
     max_time: number,
@@ -53,6 +57,7 @@ export type { ByCompanyDataPoint }
 
 export type { Location }
 export type { PerceivedData }
+export type { SelectedCluster }
 export type { DataSet }
 export type { EmissionStorage }
 

@@ -1,8 +1,7 @@
-import { useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import { useSelector } from "react-redux"
 
 import L from 'leaflet'
-import { Marker } from "react-leaflet"
 import MarkerClusterGroup from 'react-leaflet-cluster'
 
 import _ from "lodash"
@@ -10,6 +9,9 @@ import MapMarker from "components/third-party/map/MapMarker"
 
 import 'leaflet/dist/leaflet.css'
 import './map-style.css'
+
+import {useAppDispatch} from "data/store"
+import {selectClusterPoints} from "data/store/features/coordinates/ClusterSlice"
 
 const selectVisibleData = (state) => state.coordinates.visibleFrame.allPoints
 
@@ -63,8 +65,15 @@ const createClusterCustomIcon = (cluster) => {
 
 const ClusterByCategoryLayer = () => {
     const clusterGroupRef = useRef()
+    const dispatch = useAppDispatch()
     const dataPoints = useSelector(selectVisibleData)
-    
+
+    const onClusterClick = useCallback((e) => {
+        const childMarkers = e.layer.getAllChildMarkers()
+        const dataPoints = childMarkers.map(cluster => cluster.options.dataPoint)
+        dispatch(selectClusterPoints(dataPoints))
+    }, [dispatch, dataPoints])
+
     useEffect(() => {
         let acceptTransformation = true
 
@@ -102,6 +111,8 @@ const ClusterByCategoryLayer = () => {
         singleMarkerMode={true}
         iconCreateFunction={createClusterCustomIcon}
         maxClusterRadius={CLUSTER_RADIUS}
+        zoomToBoundsOnClick={false}
+        onClick={onClusterClick}
         ref={clusterGroupRef}
     />)
 }

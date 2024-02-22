@@ -5,9 +5,9 @@ import './navbar.css'
 import { useLazyGetRandomCoordinatesQuery } from "data/store/features/coordinates/CoordinateClient";
 
 import { debounce } from 'lodash'
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { changeVisibileDates } from "data/store/features/coordinates/CoordinateSlice";
-import { RootState } from "data/store/index";
+import { RootState, useAppDispatch } from "data/store";
 
 const RANGES_TO_USE = 12
 
@@ -16,7 +16,7 @@ const NavigationBar: FunctionComponent = () => {
     const minSliderValue = useSelector((state: RootState) => state.coordinates.wholeDataSet.min_time);
     const maxSliderValue = useSelector((state: RootState) => state.coordinates.wholeDataSet.max_time);
     const [pullAllData] = useLazyGetRandomCoordinatesQuery()
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const delta = (maxSliderValue - minSliderValue) / RANGES_TO_USE
 

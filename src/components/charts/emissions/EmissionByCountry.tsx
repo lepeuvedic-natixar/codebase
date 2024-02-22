@@ -15,7 +15,7 @@ interface EmissionByCountryProps {
     emissionData: any[]
 }
 
-const valueFormatter = (value: number) => `${value}mm`;
+const valueFormatter = (value: number) => `${value} kton`;
 
 const EmissionByCountry: FunctionComponent<EmissionByCountryProps> = ({ emissionData }) => {
     return (emissionData.length <= 0 ? null : <BarChart

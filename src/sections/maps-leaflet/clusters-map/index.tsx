@@ -17,7 +17,7 @@ const zoom: number = 8;
 
 const SimpleMap: FunctionComponent<SimpleMapProps> = () => {
   return (
-      <MapContainer id="mapId" center={defaultLatLng} zoom={zoom} style={{ width: '100%', height: '100%' }}>
+      <MapContainer center={defaultLatLng} zoom={zoom} style={{ width: '100%', height: '100%' }}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="© <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors" />
         <ClusterByCategoryLayer />
       </MapContainer>
