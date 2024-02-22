@@ -3,11 +3,9 @@ import MainCard from "components/MainCard"
 import LeafletMap from "sections/maps-leaflet/clusters-map"
 import MapContainerStyled from "components/third-party/map/MapContainerStyled"
 
-import { useSelector } from "react-redux"
-import { RootState } from "data/store"
-import { ByCompanyDataPoint } from "data/store/types/Types"
-import EmissionByCompany from "sections/charts/emissions/EmissionByCompany"
-import EmissionByCountry from "sections/charts/emissions/EmissionByCountry"
+import ByCompanySection from "sections/charts/emissions/ByCompanySection"
+import ByCountrySection from "sections/charts/emissions/ByCountrySection"
+import { Stack, Typography } from "@mui/material"
 
 const mapConfiguration = {
   mapboxAccessToken: import.meta.env.VITE_APP_MAPBOX_ACCESS_TOKEN,
@@ -23,22 +21,20 @@ const MAPBOX_THEMES = {
   satelliteStreets: "mapbox://styles/mapbox/satellite-streets-v11",
 }
 
-const selectByCompany = (state: RootState) => state.coordinates.visibleFrame.byCompany
-const selectByCountry = (state: RootState) => state.coordinates.visibleFrame.byCountry
-
 const ContributorDashboardPage = () => {
   const theme = useTheme()
-  const byCompany: ByCompanyDataPoint[] = useSelector(selectByCompany)
-  const byCountry: ByCompanyDataPoint[] = useSelector(selectByCountry)
 
   return (
-    <MainCard title="Clusters">
+    <Stack spacing={4}>
+      <Typography variant="h4" gutterBottom>
+        Map
+      </Typography>
       <MapContainerStyled>
         <LeafletMap allPoints={[]} />
       </MapContainerStyled>
-      <MapContainerStyled><EmissionByCompany emissionData={byCompany} /></MapContainerStyled>
-      <MapContainerStyled><EmissionByCountry emissionData={byCountry} /> </MapContainerStyled>
-    </MainCard>
+      <ByCompanySection />
+      <ByCountrySection />
+    </Stack>
   )
 }
 

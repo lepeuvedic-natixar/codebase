@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, memo } from "react";
 import { BarChart } from '@mui/x-charts/BarChart';
 
 import { COLOR_OPERATION, COLOR_UPSTREAM, COLOR_DOWNSTREAM } from "utils/CategoryColors";
@@ -11,18 +11,17 @@ interface CompanyData {
     company: string
 }
 
-interface EmissionByCountryProps {
+interface EmissionByCompanyProps {
     emissionData: any[]
 }
 
 const valueFormatter = (value: number) => `${value}mm`;
 
-const EmissionByCountry: FunctionComponent<EmissionByCountryProps> = ({ emissionData }) => {
+const EmissionByCompany: FunctionComponent<EmissionByCompanyProps> = ({ emissionData }) => {
     return (emissionData.length <= 0 ? null : <BarChart
         height={500}
         dataset={emissionData}
-        yAxis={[{ scaleType: 'band', dataKey: 'country' }]}
-        layout="horizontal"
+        xAxis={[{ scaleType: 'band', dataKey: 'company' }]}
         series={[
             { dataKey: 'operation', label: 'Operation', valueFormatter, color: COLOR_OPERATION },
             { dataKey: 'upstream', label: 'Upstream', valueFormatter, color: COLOR_UPSTREAM },
@@ -31,4 +30,4 @@ const EmissionByCountry: FunctionComponent<EmissionByCountryProps> = ({ emission
     />)
 }
 
-export default EmissionByCountry
+export default memo(EmissionByCompany)
