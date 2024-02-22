@@ -109,6 +109,7 @@ export type DefaultConfigProps = {
    * 'rtl' - ThemeDirection.RTL
    */
   themeDirection: ThemeDirection
+  lastRoute: string
 }
 
 export type CustomizationProps = {
@@ -120,6 +121,7 @@ export type CustomizationProps = {
   mode: ThemeMode
   presetColor: PresetColor
   themeDirection: ThemeDirection
+  lastRoute: string
   onChangeContainer: VoidFunction
   onChangeLocalization: (lang: I18n) => void
   onChangeMode: (mode: ThemeMode) => void
@@ -128,4 +130,5 @@ export type CustomizationProps = {
   onChangeMiniDrawer: (miniDrawer: boolean) => void
   onChangeMenuOrientation: (menuOrientation: MenuOrientation) => void
   onChangeFontFamily: (fontFamily: FontFamily) => void
+  onChangeRoute: (route: string) => void
 }
