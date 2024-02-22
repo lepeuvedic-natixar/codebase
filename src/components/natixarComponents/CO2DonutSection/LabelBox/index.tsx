@@ -13,11 +13,11 @@ import {
 const LabelBox = ({ legend }: LabelBoxProps) => {
   const navigate = useNavigate()
   const handleClick = () => {
-    navigate(`/contributor/scope/${legend.navLink}`)
+    navigate(`/contributor/scope/${legend.navLink}?scopeID=${legend.navLink}`)
   }
 
   return (
-    <Box sx={ContainerStyles(legend.color)}>
+    <Box sx={ContainerStyles(legend.color)} onClick={handleClick}>
       <Box sx={LabelValueStyles}>
         <Box sx={DotStyles(legend.color)} />
         <Typography variant="h6">{legend.title}</Typography>
@@ -29,10 +29,7 @@ const LabelBox = ({ legend }: LabelBoxProps) => {
         <Typography variant="h6">tCO2e</Typography>
       </Box>
       <Box sx={ButtonContainerStyles}>
-        <IconButton
-          sx={{ borderRadius: "100%", background: "#E6F7FF" }}
-          onClick={handleClick}
-        >
+        <IconButton sx={{ borderRadius: "100%", background: "#E6F7FF" }}>
           <ArrowRightOutlined />
         </IconButton>
       </Box>

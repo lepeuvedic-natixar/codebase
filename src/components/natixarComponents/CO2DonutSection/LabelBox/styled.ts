@@ -9,6 +9,7 @@ export const ContainerStyles = (color: string) => ({
   padding: "20px",
   gap: "20px",
   justifyContent: "flex-start",
+  cursor: "pointer",
 })
 
 export const DotStyles = (color: string) => ({

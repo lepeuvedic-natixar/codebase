@@ -13,7 +13,7 @@ const data = [
     value: 44,
     color: "#52C41A",
     title: "Scope 1",
-    navLink: "3",
+    navLink: "1",
   },
   {
     value: 55,
@@ -25,7 +25,7 @@ const data = [
     value: 13,
     color: "#0084FF",
     title: "Scope 3",
-    navLink: "1",
+    navLink: "3",
   },
 ]
 

@@ -73,6 +73,10 @@ const MainRoutes = {
               element: <ScopePage />,
             },
             {
+              path: "scope-details/:id",
+              element: <DataPage />,
+            },
+            {
               path: "map",
               element: <ClustersMap />,
             },
@@ -81,12 +85,8 @@ const MainRoutes = {
               element: <WidgetStatistics />,
             },
             {
-              path: "data1",
-              element: <WidgetData />,
-            },
-            {
               path: "data",
-              element: <DataPage />,
+              element: <WidgetData />,
             },
             {
               path: "chart",
