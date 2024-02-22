@@ -13,6 +13,11 @@ import useConfig from "hooks/useConfig"
 // types
 import { ThemeMode } from "types/config"
 
+type EmissionChartProps = {
+  color: string
+  xLabels: Array<string>
+}
+
 // chart options
 const barChartOptions = {
   chart: {
@@ -57,12 +62,11 @@ const barChartOptions = {
 
 // ==============================|| MONTHLY BAR CHART ||============================== //
 
-const EmissionsByYear = () => {
+const EmissionsChart = ({ color, xLabels }: EmissionChartProps) => {
   const theme = useTheme()
   const { mode } = useConfig()
 
   const { primary, secondary } = theme.palette.text
-  const chartColor = theme.palette.primary.main
   const [series] = useState([
     {
       data: [5800, 2200, 3500, 2100, 4100, 3000, 3300],
@@ -74,8 +78,9 @@ const EmissionsByYear = () => {
   useEffect(() => {
     setOptions((prevState) => ({
       ...prevState,
-      colors: [chartColor],
+      colors: [color],
       xaxis: {
+        categories: xLabels,
         labels: {
           style: {
             colors: [
@@ -88,6 +93,15 @@ const EmissionsByYear = () => {
               secondary,
             ],
           },
+          categories: [
+            "01.2020",
+            "01.2021",
+            "01.2022",
+            "01.2023",
+            "01.2024",
+            "01.2025",
+            "01.2026",
+          ],
         },
       },
       yaxis: {
@@ -104,7 +118,7 @@ const EmissionsByYear = () => {
         mode: mode === ThemeMode.DARK ? "dark" : "light",
       },
     }))
-  }, [mode, primary, chartColor, secondary])
+  }, [mode, primary, color, secondary])
 
   return (
     <Box id="chart" sx={{ bgcolor: "transparent" }}>
@@ -118,4 +132,4 @@ const EmissionsByYear = () => {
   )
 }
 
-export default EmissionsByYear
+export default EmissionsChart
