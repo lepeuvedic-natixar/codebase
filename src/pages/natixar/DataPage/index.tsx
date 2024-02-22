@@ -89,7 +89,6 @@ const DataPage = () => {
           <Button
             variant="contained"
             sx={{ color: "#FFF", marginBottom: "15px" }}
-            startIcon={<ArrowLeftOutlined color="#FFF" />}
             onClick={() => navigate("/contributor/dashboard")}
           >
             Go to Top contributors page

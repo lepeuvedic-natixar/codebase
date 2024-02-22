@@ -37,11 +37,13 @@ export const FactoryTable = ({ data }: ScopeTableProps) => (
         }}
       >
         <TableRow sx={{ height: "70px" }}>
-          <TableCell sx={{ width: "280px" }}>
-            <Typography variant="subtitle2">Title</Typography>
+          <TableCell sx={{ width: "280px", textTransform: "none" }}>
+            <Typography variant="subtitle2">Source</Typography>
           </TableCell>
           <TableCell>
-            <Typography variant="subtitle2">Value</Typography>
+            <Typography variant="subtitle2" sx={{ textTransform: "none" }}>
+              Total Emissions CO2e (t)
+            </Typography>
           </TableCell>
         </TableRow>
       </TableHead>
@@ -83,22 +85,44 @@ export const FactoryTable = ({ data }: ScopeTableProps) => (
                   columnGap: "10px",
                 }}
               >
-                <LinearProgress
+                {/* <LinearProgress */}
+                {/*  sx={{ */}
+                {/*    width: "100%", */}
+                {/*    backgroundColor: "transparent", */}
+                {/*    height: "24px", */}
+                {/*    borderRadius: "4px", */}
+
+                {/*    ".MuiLinearProgress-bar.MuiLinearProgress-bar1Determinate": */}
+                {/*      { */}
+                {/*        backgroundColor: "#52C41A", */}
+                {/*        borderRadius: "4px", */}
+                {/*      }, */}
+                {/*  }} */}
+                {/*  variant="determinate" */}
+                {/*  value={row.value / 1000} */}
+                {/* /> */}
+                <Box
                   sx={{
                     width: "100%",
-                    backgroundColor: "transparent",
                     height: "24px",
-                    borderRadius: "4px",
-
-                    ".MuiLinearProgress-bar.MuiLinearProgress-bar1Determinate":
-                      {
-                        backgroundColor: "#52C41A",
-                        borderRadius: "4px",
-                      },
                   }}
-                  variant="determinate"
-                  value={row.value / 1000}
-                />
+                >
+                  <Box
+                    sx={{
+                      width: `${row.value / 1000}%`,
+                      height: "100%",
+                      backgroundColor: "#52C41A",
+                      borderRadius: "4px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography variant="subtitle2" sx={{ color: "#FFFFFF" }}>
+                      {row.value / 1000}K
+                    </Typography>
+                  </Box>
+                </Box>
               </Box>
             </TableCell>
           </TableRow>
