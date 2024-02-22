@@ -1,15 +1,23 @@
-import { FunctionComponent, memo } from "react"
-import L from "leaflet"
-import { Typography } from "@mui/material"
+import { FunctionComponent, memo, useMemo } from "react"
+import { Box, Stack, Typography } from "@mui/material"
+import EmissionsByClusterTable from "./EmissionsTable"
 
-interface EmissionsByClusterProps {
-    cluster: L.MarkerClusterGroup
-}
+import { EmissionsByClusterProps } from "./types"
 
-const EmissionsByClusterTable: FunctionComponent<EmissionsByClusterProps> = ({ cluster }) => {
+const EmissionsByClusterSection: FunctionComponent<EmissionsByClusterProps> = ({ cluster }) => {
+    const totalEmission = useMemo(() =>
+        cluster.dataPoints.reduce((accumulator, currentValue) => accumulator + currentValue.emission_amount, 0)
+        , [cluster])
+
     return (
-        <Typography variant="h2">Hello, I am cluster and my size is {cluster.getChildCount()}</Typography>
+        <Stack direction="column">
+            <Typography variant="h2">TOTAL: {totalEmission}</Typography>
+            <Box style={{ height: 400, width: '100%' }}>
+                <EmissionsByClusterTable cluster={cluster} />
+            </Box>
+        </Stack>
+
     )
 }
 
-export default memo(EmissionsByClusterTable)
+export default memo(EmissionsByClusterSection)

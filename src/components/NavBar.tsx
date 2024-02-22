@@ -1,20 +1,25 @@
 import { FunctionComponent, useMemo, useState } from "react";
 import { Box, Button, Slider } from "@mui/material"
+import { useSelector } from "react-redux";
 
-import './navbar.css'
+import { RootState, useAppDispatch } from "data/store";
 import { useLazyGetRandomCoordinatesQuery } from "data/store/features/coordinates/CoordinateClient";
+import { changeVisibileDates } from "data/store/features/coordinates/CoordinateSlice";
 
 import { debounce } from 'lodash'
-import { useSelector } from "react-redux";
-import { changeVisibileDates } from "data/store/features/coordinates/CoordinateSlice";
-import { RootState, useAppDispatch } from "data/store";
+
+import './navbar.css'
+
 
 const RANGES_TO_USE = 12
 
+const selectMinTime = (state: RootState) => state.coordinates.wholeDataSet.min_time
+const selectMaxTime = (state: RootState) => state.coordinates.wholeDataSet.max_time
+
 const NavigationBar: FunctionComponent = () => {
     const [range, setRange] = useState([0, RANGES_TO_USE - 1])
-    const minSliderValue = useSelector((state: RootState) => state.coordinates.wholeDataSet.min_time);
-    const maxSliderValue = useSelector((state: RootState) => state.coordinates.wholeDataSet.max_time);
+    const minSliderValue = useSelector(selectMinTime);
+    const maxSliderValue = useSelector(selectMaxTime);
     const [pullAllData] = useLazyGetRandomCoordinatesQuery()
     const dispatch = useAppDispatch()
 
