@@ -28,6 +28,7 @@ const configNatixar: DefaultConfigProps = {
   mode: ThemeMode.LIGHT,
   presetColor: "default",
   themeDirection: ThemeDirection.LTR,
+  lastRoute: '',
 }
 
 export default configNatixar

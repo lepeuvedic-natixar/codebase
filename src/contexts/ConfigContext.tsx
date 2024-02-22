@@ -24,6 +24,7 @@ const initialState: CustomizationProps = {
   onChangeMiniDrawer: () => {},
   onChangeMenuOrientation: () => {},
   onChangeFontFamily: () => {},
+  onChangeRoute: () => {},
 }
 
 // ==============================|| CONFIG CONTEXT & PROVIDER ||============================== //
@@ -82,6 +83,13 @@ function ConfigProvider({ children }: ConfigProviderProps) {
     })
   }
 
+  const onChangeRoute = (route: string) => {
+    setConfig({
+      ...config,
+      lastRoute: route,
+    })
+  }
+
   return (
     <ConfigContext.Provider
       value={{
@@ -92,6 +100,7 @@ function ConfigProvider({ children }: ConfigProviderProps) {
         onChangeMiniDrawer,
         onChangeMenuOrientation,
         onChangeFontFamily,
+        onChangeRoute,
       }}
     >
       {children}

@@ -26,7 +26,7 @@ const AppLayout = () => {
   const matchDownXL = useMediaQuery(theme.breakpoints.down("xl"))
   const downLG = useMediaQuery(theme.breakpoints.down("lg"))
 
-  const { container, miniDrawer, menuOrientation } = useConfig()
+  const { container, miniDrawer, menuOrientation, lastRoute } = useConfig()
 
   const isHorizontal = menuOrientation === MenuOrientation.HORIZONTAL && !downLG
 
@@ -58,7 +58,7 @@ const AppLayout = () => {
               minHeight: "calc(100vh - 110px)",
               display: "flex",
               flexDirection: "column",
-              paddingTop: 10,
+              paddingTop: lastRoute !== "" ? 17 : 10,
             }}
           >
             <Outlet />
