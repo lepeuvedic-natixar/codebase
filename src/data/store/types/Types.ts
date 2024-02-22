@@ -39,6 +39,9 @@ interface SelectedCluster {
 interface DataSet {
     min_time: number,
     max_time: number,
+    categories: string[],
+    companies: string[],
+    countries: string[],
     data: DataLayout
 }
 

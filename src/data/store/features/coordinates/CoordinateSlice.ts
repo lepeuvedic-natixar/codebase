@@ -7,6 +7,9 @@ let initialState: EmissionStorage = {
     wholeDataSet: {
         min_time: Date.now() - (60 * 60 * 1000),
         max_time: Date.now(),
+        categories: [],
+        companies: [],
+        countries: [],
         data: {}
     },
     visibleFrame: {
@@ -54,6 +57,28 @@ const produceVisibleIndexedData = (dataPoints: Array<DataPoint>): PerceivedData 
     }
 }
 
+const extractFilterValues = (
+    state: EmissionStorage
+) => {
+    const categories = new Set<string>()
+    const companies = new Set<string>()
+    const countries = new Set<string>()
+
+    Object.values(state.wholeDataSet.data).forEach(dataPoints => {
+        dataPoints.forEach(dataPoint => {
+            const { company, category } = dataPoint
+            const country = dataPoint.location.country
+            companies.add(company)
+            categories.add(category)
+            countries.add(country)
+        })
+    })
+
+    state.wholeDataSet.categories = Array.from(categories).map(category => category.toLowerCase())
+    state.wholeDataSet.companies = Array.from(companies)
+    state.wholeDataSet.countries = Array.from(countries)
+}
+
 const extractVisibleDataPoints = (
     state: EmissionStorage,
     dateFilter: DateFilter
@@ -92,6 +117,7 @@ export const coordinateSlice = createSlice({
                 from: state.wholeDataSet.min_time,
                 to: state.wholeDataSet.max_time
             }
+            extractFilterValues(state)
             extractVisibleDataPoints(state, dateFilter)
         })
     }
