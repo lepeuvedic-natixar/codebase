@@ -14,6 +14,9 @@ const DashboardAnalytics = Loadable(
   lazy(() => import("pages/dashboard/analytics")),
 )
 
+// render - contributor
+const ContributorAnalysis = Loadable(lazy(() => import("pages/contributor/analysis")))
+
 // render - widget
 const WidgetStatistics = Loadable(lazy(() => import("pages/widget/statistics")))
 const WidgetData = Loadable(lazy(() => import("pages/widget/data")))
@@ -75,6 +78,10 @@ const MainRoutes = {
             {
               path: "map",
               element: <ClustersMap />,
+            },
+            {
+              path: "analysis",
+              element: <ContributorAnalysis />,
             },
             {
               path: "statistics",
