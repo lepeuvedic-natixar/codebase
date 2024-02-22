@@ -21,13 +21,14 @@ const EmissionByCompany: FunctionComponent<EmissionByCompanyProps> = ({ emission
     return (emissionData.length <= 0 ? null : <BarChart
         height={500}
         dataset={emissionData}
+        slotProps={{ legend: { hidden: true } }}
         xAxis={[{ scaleType: 'band', dataKey: 'company' }]}
         series={[
             { dataKey: 'operation', label: 'Operation', valueFormatter, color: COLOR_OPERATION },
             { dataKey: 'upstream', label: 'Upstream', valueFormatter, color: COLOR_UPSTREAM },
             { dataKey: 'downstream', label: 'Downstream', valueFormatter, color: COLOR_DOWNSTREAM },
         ]}
-    />)
+    ></BarChart>)
 }
 
 export default memo(EmissionByCompany)

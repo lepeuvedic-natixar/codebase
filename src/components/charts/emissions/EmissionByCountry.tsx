@@ -21,6 +21,7 @@ const EmissionByCountry: FunctionComponent<EmissionByCountryProps> = ({ emission
     return (emissionData.length <= 0 ? null : <BarChart
         height={500}
         dataset={emissionData}
+        slotProps={{ legend: { hidden: true } }}
         yAxis={[{ scaleType: 'band', dataKey: 'country' }]}
         layout="horizontal"
         series={[
