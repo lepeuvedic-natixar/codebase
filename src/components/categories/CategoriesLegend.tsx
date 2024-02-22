@@ -4,11 +4,12 @@ import { Box, Typography } from "@mui/material";
 import { getColorByCategory } from "utils/CategoryColors";
 
 interface CategoryLabelProps {
-    name: string,
-    color: string
+    name: string
 }
 
-const CategoryLabel: FunctionComponent<CategoryLabelProps> = ({ name, color }) => {
+const _CategoryLabel: FunctionComponent<CategoryLabelProps> = ({ name }) => {
+    const color = getColorByCategory(name)
+
     return (
         <Stack
             direction="row"
@@ -31,7 +32,7 @@ const CategoryLabel: FunctionComponent<CategoryLabelProps> = ({ name, color }) =
 
 const CategoriesLegend: FunctionComponent = () => {
     const categoryLabels = ["Operation", "Upstream", "Downstream"].map(category =>
-        <CategoryLabel name={category} color={getColorByCategory(category)} />
+        <_CategoryLabel name={category} />
     )
 
     return <Stack
@@ -42,4 +43,5 @@ const CategoriesLegend: FunctionComponent = () => {
     </Stack>
 }
 
+export const CategoryLabel = memo(_CategoryLabel)
 export default memo(CategoriesLegend)

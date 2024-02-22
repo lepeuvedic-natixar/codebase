@@ -3,9 +3,10 @@ import { FunctionComponent, memo } from 'react';
 import { TableVirtuoso, TableComponents } from 'react-virtuoso';
 import { EmissionsByClusterProps } from './types';
 import { DataPoint } from 'data/store/types/Types';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React from 'react';
 import { formatAmount } from 'utils/formatAmounts';
+import { CategoryLabel } from 'components/categories/CategoriesLegend';
 
 const tableLayout = {
     "CONTRIBUTOR": "company",
@@ -35,14 +36,18 @@ const fixedHeaderContent = () => (
     </TableRow>
 )
 
+function capitalize(s: string): string {
+    return s[0].toUpperCase() + s.slice(1).toLowerCase();
+}
+
 function rowContent(_index: number, row: DataPoint) {
     const columns = Object.values(tableLayout)
     return (
         <>
-            <TableCell key="company">{row.company}</TableCell>
+            <TableCell key="company"><Link href="#">{row.company}</Link></TableCell>
             <TableCell key="data-source">ERP</TableCell>
             <TableCell key="emission-amount">{formatAmount(row.emission_amount)}</TableCell>
-            <TableCell key="category">{row.category}</TableCell>
+            <TableCell key="category"><CategoryLabel name={capitalize(row.category)} /></TableCell>
         </>
     );
 }
