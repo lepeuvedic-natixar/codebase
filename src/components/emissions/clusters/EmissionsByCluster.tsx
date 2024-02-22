@@ -3,11 +3,13 @@ import { Box, Stack, Typography } from "@mui/material"
 import EmissionsByClusterTable from "./EmissionsTable"
 
 import { EmissionsByClusterProps } from "./types"
+import { formatAmount } from "utils/formatAmounts"
 
 const EmissionsByClusterSection: FunctionComponent<EmissionsByClusterProps> = ({ cluster }) => {
-    const totalEmission = useMemo(() =>
-        cluster.dataPoints.reduce((accumulator, currentValue) => accumulator + currentValue.emission_amount, 0)
-        , [cluster])
+    const totalEmission = useMemo(() => {
+        const totalAmount = cluster.dataPoints.reduce((accumulator, currentValue) => accumulator + currentValue.emission_amount, 0)
+        return formatAmount(totalAmount)
+    }, [cluster])
 
     return (
         <Stack direction="column">

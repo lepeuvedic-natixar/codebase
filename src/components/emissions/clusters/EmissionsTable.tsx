@@ -1,16 +1,16 @@
 import { FunctionComponent, memo } from 'react';
 
 import { TableVirtuoso, TableComponents } from 'react-virtuoso';
-import { DataPointKey, EmissionsByClusterProps } from './types';
+import { EmissionsByClusterProps } from './types';
 import { DataPoint } from 'data/store/types/Types';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React from 'react';
-
+import { formatAmount } from 'utils/formatAmounts';
 
 const tableLayout = {
     "CONTRIBUTOR": "company",
     "DATA SOURCE": "company",
-    "EMISSIONS (t of CO2)": "emission_amount",
+    "EMISSIONS (t of CO2)": (amount: number) => formatAmount(amount),
     "TYPE OF EMISSIONS": "category"
 }
 
@@ -39,14 +39,10 @@ function rowContent(_index: number, row: DataPoint) {
     const columns = Object.values(tableLayout)
     return (
         <>
-            {columns.map((columnKey) => (
-                <TableCell
-                    key={row.id}
-                // align={column.numeric || false ? 'right' : 'left'}
-                >
-                    {row[columnKey as DataPointKey].toString()}
-                </TableCell>
-            ))}
+            <TableCell key="company">{row.company}</TableCell>
+            <TableCell key="data-source">ERP</TableCell>
+            <TableCell key="emission-amount">{formatAmount(row.emission_amount)}</TableCell>
+            <TableCell key="category">{row.category}</TableCell>
         </>
     );
 }

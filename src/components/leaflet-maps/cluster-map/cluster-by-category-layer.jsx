@@ -12,6 +12,7 @@ import './map-style.css'
 
 import {useAppDispatch} from "data/store"
 import {selectClusterPoints} from "data/store/features/coordinates/ClusterSlice"
+import { formatAmount } from "utils/formatAmounts"
 
 const selectVisibleData = (state) => state.coordinates.visibleFrame.allPoints
 
@@ -51,7 +52,7 @@ const createClusterCustomIcon = (cluster) => {
     }
     category = category.toLowerCase()
 
-    let amountLabel = childCount >= 1000 ? ((childCount / 1000).toFixed(1) + "k") : childCount
+    let amountLabel = formatAmount(childCount)
 
     const size = sizeByValue(childCount)
     const iconClass = "marker-cluster-category-" + category
