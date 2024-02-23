@@ -23,8 +23,8 @@ const customIcon = new L.Icon({
 
 const MIN_EMISSION = 2;
 const MAX_EMISSION = 200;
-const MIN_ICON_SIZE = 30;
-const MAX_ICON_SIZE = 120;
+const MIN_ICON_SIZE = 40;
+const MAX_ICON_SIZE = 130;
 const CLUSTER_RADIUS = MAX_ICON_SIZE * 1.75
 
 const sizeByValue = (value) => {
