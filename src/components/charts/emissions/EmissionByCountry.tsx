@@ -1,25 +1,15 @@
 import { FunctionComponent, memo } from "react";
 import ReactApexChart, { Props as ChartProps } from "react-apexcharts"
 
-import { COLOR_OPERATION, COLOR_UPSTREAM, COLOR_DOWNSTREAM } from "utils/CategoryColors";
+import { COLOR_OPERATION, COLOR_UPSTREAM, COLOR_DOWNSTREAM, getColorByCategory } from "utils/CategoryColors";
 import { formatAmount } from "utils/formatAmounts";
 import { ByCountryDataPoint } from "data/store/types/Types";
-import countries from "data/countries";
 import { capitalize } from "@mui/material";
 
-interface CountryData {
-    operation: number,
-    upstream: number,
-    downstream: number,
-    cluster: number,
-    company: string
-}
 
 interface EmissionByCountryProps {
     emissionData: Array<ByCountryDataPoint>
 }
-
-const valueFormatter = (value: number) => `${value} kton`;
 
 const chartOptions = (counties: string[]): ApexCharts.ApexOptions => {
     return {
@@ -66,6 +56,7 @@ const chartOptions = (counties: string[]): ApexCharts.ApexOptions => {
             opacity: 1
         },
         tooltip: {
+            followCursor: true,
             y: {
                 formatter(val) {
                     return `${formatAmount(val)} kton`;
@@ -109,22 +100,23 @@ const chartOptions = (counties: string[]): ApexCharts.ApexOptions => {
 const EmissionByCountry: FunctionComponent<EmissionByCountryProps> = ({ emissionData }) => {
     const countries = new Set<string>()
     const seriesByCategories: { [id: string]: (number | null)[] } = {
-        "operation": [],
-        "upstream": [],
-        "downstream": []
+        "Operation": [],
+        "Upstream": [],
+        "Downstream": []
     }
     emissionData.forEach(emissionPoint => {
         countries.add(emissionPoint.country)
-        seriesByCategories["operation"].push(emissionPoint.operation)
-        seriesByCategories["upstream"].push(emissionPoint.upstream)
-        seriesByCategories["downstream"].push(emissionPoint.downstream)
+        seriesByCategories["Operation"].push(emissionPoint.operation)
+        seriesByCategories["Upstream"].push(emissionPoint.upstream)
+        seriesByCategories["Downstream"].push(emissionPoint.downstream)
     })
 
     const series = Object.keys(seriesByCategories)
         .map(category => {
             return {
                 name: category,
-                data: seriesByCategories[category]
+                data: seriesByCategories[category],
+                color: getColorByCategory(category)
             }
         })
 
