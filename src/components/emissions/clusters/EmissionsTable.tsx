@@ -52,13 +52,16 @@ function rowContent(_index: number, row: DataPoint) {
     );
 }
 
-const EmissionsByClusterTable: FunctionComponent<EmissionsByClusterProps> = ({ cluster }) => (
-    <TableVirtuoso
-        data={cluster.dataPoints}
+const EmissionsByClusterTable: FunctionComponent<EmissionsByClusterProps> = ({ cluster }) => {
+    const data = [...cluster.dataPoints]
+    const sortedEmissions = data.sort((a, b) => b.emission_amount - a.emission_amount)
+
+    return (<TableVirtuoso
+        data={sortedEmissions}
         components={VirtuosoTableComponents}
         fixedHeaderContent={fixedHeaderContent}
         itemContent={rowContent}
-    />
-)
+    />)
+}
 
 export default memo(EmissionsByClusterTable)
