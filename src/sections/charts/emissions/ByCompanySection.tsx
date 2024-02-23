@@ -1,5 +1,4 @@
 import { FunctionComponent } from "react"
-import Paper from "@mui/material/Paper"
 import EmissionByCompany from "components/charts/emissions/EmissionByCompany";
 
 import { ByCompanyDataPoint } from "data/store/types/Types";
@@ -14,8 +13,8 @@ const ByCompanySection: FunctionComponent = () => {
     const visibleFrame: ByCompanyDataPoint[] = useSelector(selectByCompany)
 
     return (
-        (visibleFrame == null || visibleFrame.length <= 0) ? null :
-            <MainCard title={<HeaderWithCategoriesLegend titleText="Emissions by contributor" />}>
+        (visibleFrame.length <= 0) ? null :
+            <MainCard contentSX={{ height: 500 }} title={<HeaderWithCategoriesLegend titleText="Emissions by contributor" />}>
                 <EmissionByCompany emissionData={visibleFrame} />
             </MainCard>
     )

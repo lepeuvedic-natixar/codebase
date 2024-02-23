@@ -1,7 +1,7 @@
 import { FunctionComponent, memo } from "react";
-import ReactApexChart, { Props as ChartProps } from "react-apexcharts"
+import ReactApexChart from "react-apexcharts"
 
-import { COLOR_OPERATION, COLOR_UPSTREAM, COLOR_DOWNSTREAM, getColorByCategory } from "utils/CategoryColors";
+import { getColorByCategory } from "utils/CategoryColors";
 import { formatAmount } from "utils/formatAmounts";
 import { ByCountryDataPoint } from "data/store/types/Types";
 import { capitalize } from "@mui/material";
@@ -11,7 +11,7 @@ interface EmissionByCountryProps {
     emissionData: Array<ByCountryDataPoint>
 }
 
-const chartOptions = (counties: string[]): ApexCharts.ApexOptions => {
+const chartOptions = (countries: string[]): ApexCharts.ApexOptions => {
     return {
         chart: {
             type: 'bar',
@@ -40,7 +40,7 @@ const chartOptions = (counties: string[]): ApexCharts.ApexOptions => {
             colors: ['transparent']
         },
         xaxis: {
-            categories: [...counties.map(category => capitalize(category))]
+            categories: [...countries.map(country => capitalize(country))]
         },
         yaxis: {
             title: {
@@ -55,33 +55,15 @@ const chartOptions = (counties: string[]): ApexCharts.ApexOptions => {
         fill: {
             opacity: 1
         },
+        legend: {
+            show: false
+        },
         tooltip: {
             followCursor: true,
             y: {
                 formatter(val) {
                     return `${formatAmount(val)} kton`;
                 }
-            }
-        },
-        legend: {
-            show: false,
-            fontFamily: `'Public Sans', sans-serif`,
-            offsetX: 10,
-            offsetY: 10,
-            position: "top",
-            horizontalAlign: "right",
-            labels: {
-                useSeriesColors: false
-            },
-            markers: {
-                width: 16,
-                height: 16,
-                offsetX: 2,
-                offsetY: 2
-            },
-            itemMargin: {
-                horizontal: 15,
-                vertical: 50
             }
         },
         responsive: [
