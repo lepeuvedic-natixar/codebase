@@ -53,7 +53,7 @@ const AppLayout = () => {
           <Container
             maxWidth={container ? "xl" : false}
             sx={{
-              ...(container && { px: { xs: 0, sm: 2 } }),
+              ...(container && { px: { xs: 0, sm: 3 } }),
               position: "relative",
               minHeight: "calc(100vh - 110px)",
               display: "flex",
