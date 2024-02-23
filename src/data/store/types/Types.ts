@@ -22,10 +22,18 @@ interface ByCompanyDataPoint {
     company: string
 }
 
+interface ByCountryDataPoint {
+    operation: number,
+    upstream: number,
+    downstream: number,
+    cluster: number,
+    country: string
+}
+
 interface PerceivedData {
     allPoints: Array<DataPoint>,
     byCompany: Array<ByCompanyDataPoint>,
-    byCountry: Array<any>
+    byCountry: Array<ByCountryDataPoint>
 }
 
 interface DataLayout {
@@ -57,6 +65,7 @@ interface DateFilter {
 
 export type { DataPoint }
 export type { ByCompanyDataPoint }
+export type { ByCountryDataPoint }
 
 export type { Location }
 export type { PerceivedData }

@@ -25,7 +25,7 @@ const produceVisibleIndexedData = (dataPoints: Array<DataPoint>): PerceivedData 
         if (!accumulator[currentCompany]) {
             accumulator[currentCompany] = {};
         }
-        
+
         const currCategory = currentPoint.category.toLowerCase()
         if (!accumulator[currentCompany][currCategory]) {
             accumulator[currentCompany][currCategory] = 0;
@@ -33,14 +33,14 @@ const produceVisibleIndexedData = (dataPoints: Array<DataPoint>): PerceivedData 
         accumulator[currentCompany][currCategory] += currentPoint.emission_amount;
         accumulator[currentCompany]["company"] = currentCompany
         return accumulator;
-      }, {});
+    }, {});
 
     const byCountry = dataPoints.reduce((accumulator: any, currentPoint: DataPoint) => {
         const currentCountry = currentPoint.location.country
         if (!accumulator[currentCountry]) {
             accumulator[currentCountry] = {};
         }
-        
+
         const currCategory = currentPoint.category.toLowerCase()
         if (!accumulator[currentCountry][currCategory]) {
             accumulator[currentCountry][currCategory] = 0;
@@ -48,7 +48,7 @@ const produceVisibleIndexedData = (dataPoints: Array<DataPoint>): PerceivedData 
         accumulator[currentCountry][currCategory] += currentPoint.emission_amount;
         accumulator[currentCountry]["country"] = currentCountry
         return accumulator;
-      }, {});
+    }, {});
 
     return {
         allPoints: dataPoints,
