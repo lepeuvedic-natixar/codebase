@@ -1,7 +1,6 @@
 import { FunctionComponent, memo } from "react"
-import { Box } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import ClusteredMap from "components/leaflet-maps/cluster-map"
-import MapContainerStyled from "components/third-party/map/MapContainerStyled";
 import EmissionsByCluster from "components/emissions/clusters/EmissionsByCluster";
 
 import { useSelector } from "react-redux";
@@ -14,18 +13,27 @@ const ClusteredMapSection: FunctionComponent = () => {
   const thereAreDataPoints = selectedCluster?.dataPoints && selectedCluster?.dataPoints.length > 0
 
   return (
-    <Box>
-      <MapContainerStyled>
-        <ClusteredMap />
-      </MapContainerStyled>
-      {thereAreDataPoints && <MapContainerStyled sx={{
-        width: "100%",
-        position: "relative",
+    <Box style={{ width: '100%', height: '576px', position: "relative" }}>
+      <Box style={{
+        position: 'absolute',
         top: 0,
-        left: 0
+        bottom: 0,
+        width: "100%",
+        height: "100%"
       }}>
-        <EmissionsByCluster cluster={selectedCluster} />
-      </MapContainerStyled>}
+        <ClusteredMap />
+      </Box>
+      {thereAreDataPoints &&
+        <Box style={{
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          width: "100%",
+          height: "100%"
+        }} zIndex={9999}>
+          <EmissionsByCluster cluster={selectedCluster} />
+        </Box>
+      }
     </Box>
   )
 }
