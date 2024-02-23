@@ -29,6 +29,7 @@ const EmissionsByClusterSection: FunctionComponent<EmissionsByClusterProps> = ({
                         height: "40px",
                         px: "16px",
                         py: "9px",
+                        color: "white"
                     }}
                         onClick={() => onClose && onClose()}
                         variant="contained"

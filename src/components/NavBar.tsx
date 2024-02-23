@@ -42,7 +42,7 @@ const NavigationBar: FunctionComponent = () => {
                 to: minSliderValue + (delta * newTimeRange[1])
             }))
         }
-    , 700), [dispatch, minSliderValue, delta])
+        , 700), [dispatch, minSliderValue, delta])
 
     const handleTimeRangeChange = (event: Event, newValue: number[]) => {
         event.preventDefault()
@@ -54,7 +54,7 @@ const NavigationBar: FunctionComponent = () => {
         <header>
             <div className="container">
                 <nav className="top-bar">
-                    <Button onClick={onRefreshClick} variant="contained">Pull All</Button>
+                    <Button sx={{ color: "white" }} onClick={onRefreshClick} variant="contained">Pull All</Button>
 
                     <Box className="dimensions-bar">
                         <Slider
