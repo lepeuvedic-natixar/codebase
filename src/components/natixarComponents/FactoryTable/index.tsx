@@ -85,22 +85,6 @@ export const FactoryTable = ({ data }: ScopeTableProps) => (
                   columnGap: "10px",
                 }}
               >
-                {/* <LinearProgress */}
-                {/*  sx={{ */}
-                {/*    width: "100%", */}
-                {/*    backgroundColor: "transparent", */}
-                {/*    height: "24px", */}
-                {/*    borderRadius: "4px", */}
-
-                {/*    ".MuiLinearProgress-bar.MuiLinearProgress-bar1Determinate": */}
-                {/*      { */}
-                {/*        backgroundColor: "#52C41A", */}
-                {/*        borderRadius: "4px", */}
-                {/*      }, */}
-                {/*  }} */}
-                {/*  variant="determinate" */}
-                {/*  value={row.value / 1000} */}
-                {/* /> */}
                 <Box
                   sx={{
                     width: "100%",
