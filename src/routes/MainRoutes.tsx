@@ -28,6 +28,7 @@ const ScopePage = Loadable(lazy(() => import("pages/natixar/ScopePage")))
 const ContributorsPage = Loadable(
   lazy(() => import("pages/natixar/ContributorsPage")),
 )
+const DataPage = Loadable(lazy(() => import("pages/natixar/DataPage")))
 
 // render - charts & map
 const ChartApexchart = Loadable(lazy(() => import("pages/charts/apexchart")))
@@ -96,8 +97,12 @@ const MainRoutes = {
               element: <WidgetStatistics />,
             },
             {
-              path: "data",
+              path: "data1",
               element: <WidgetData />,
+            },
+            {
+              path: "data",
+              element: <DataPage />,
             },
             {
               path: "chart",
