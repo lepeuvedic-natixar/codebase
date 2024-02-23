@@ -6,8 +6,6 @@ const initialState: SelectedCluster = {
 }
 
 const selectClusterPointsReducer: CaseReducer<SelectedCluster, PayloadAction<Array<DataPoint>>> = (state, action) => {
-    console.log("Reducer was called")
-    console.log("And received", action.payload)
     state.dataPoints = action.payload
 }
 
@@ -15,9 +13,12 @@ export const selectedClusterSlice = createSlice({
     name: 'selectedCluster',
     initialState,
     reducers: {
-        selectClusterPoints: selectClusterPointsReducer
+        selectClusterPoints: selectClusterPointsReducer,
+        clearSelectedCluster: (state) => {
+            state.dataPoints = []
+        }
     },
 })
 
-export const { selectClusterPoints } = selectedClusterSlice.actions
+export const { selectClusterPoints, clearSelectedCluster } = selectedClusterSlice.actions
 export default selectedClusterSlice.reducer
