@@ -9,7 +9,7 @@ import { formatAmount } from "utils/formatAmounts"
 const EmissionsByClusterSection: FunctionComponent<EmissionsByClusterProps> = ({ cluster, onClose }) => {
     const totalEmission = useMemo(() => {
         const totalAmount = cluster.dataPoints.reduce((accumulator, currentValue) => accumulator + currentValue.emission_amount, 0)
-        return formatAmount(totalAmount)
+        return formatAmount(totalAmount).toLowerCase()
     }, [cluster])
 
     return (
@@ -33,7 +33,7 @@ const EmissionsByClusterSection: FunctionComponent<EmissionsByClusterProps> = ({
                         onClick={() => onClose && onClose()}
                         variant="contained"
                     ><ArrowBackIcon /> <Typography ml="8px" noWrap>Back to map</Typography></Button>
-                    <Typography variant="h2" noWrap>TOTAL: {totalEmission}</Typography>
+                    <Typography variant="h3" noWrap gutterBottom>TOTAL: {totalEmission} CO2e</Typography>
                 </Stack>
                 <Box sx={{ width: '100%', flex: 1 }}>
                     <EmissionsByClusterTable cluster={cluster} />
