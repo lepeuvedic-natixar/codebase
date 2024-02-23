@@ -1,9 +1,7 @@
 import { FunctionComponent, memo } from "react";
-import { BarChart } from '@mui/x-charts/BarChart';
 
-import { COLOR_OPERATION, COLOR_UPSTREAM, COLOR_DOWNSTREAM, getColorByCategory } from "utils/CategoryColors";
+import { getColorByCategory } from "utils/CategoryColors";
 import { formatAmount } from "utils/formatAmounts";
-import { capitalize } from "@mui/material";
 import ReactApexChart from "react-apexcharts";
 import { ByCompanyDataPoint } from "data/store/types/Types";
 

@@ -80,17 +80,21 @@ const chartOptions = (countries: string[]): ApexCharts.ApexOptions => {
 }
 
 const EmissionByCountry: FunctionComponent<EmissionByCountryProps> = ({ emissionData }) => {
-    const countries = new Set<string>()
-    const seriesByCategories: { [id: string]: (number | null)[] } = {
-        "Operation": [],
-        "Upstream": [],
-        "Downstream": []
+    const countriesSet = new Set<string>()
+    emissionData.forEach(emissionPoint => {
+        countriesSet.add(emissionPoint.country)
+    })
+    const countries = Array.from(countriesSet)
+    const seriesByCategories: { [id: string]: number[] } = {
+        "Operation": Array(countries.length).fill(0),
+        "Upstream": Array(countries.length).fill(0),
+        "Downstream": Array(countries.length).fill(0)
     }
     emissionData.forEach(emissionPoint => {
-        countries.add(emissionPoint.country)
-        seriesByCategories["Operation"].push(emissionPoint.operation)
-        seriesByCategories["Upstream"].push(emissionPoint.upstream)
-        seriesByCategories["Downstream"].push(emissionPoint.downstream)
+        const country = emissionPoint.country
+        seriesByCategories["Operation"][countries.indexOf(country)] += emissionPoint.operation
+        seriesByCategories["Upstream"][countries.indexOf(country)] += emissionPoint.upstream
+        seriesByCategories["Downstream"][countries.indexOf(country)] += emissionPoint.downstream
     })
 
     const series = Object.keys(seriesByCategories)
