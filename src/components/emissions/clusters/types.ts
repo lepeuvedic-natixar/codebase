@@ -1,7 +1,8 @@
 import { DataPoint, SelectedCluster } from "data/store/types/Types"
 
 interface EmissionsByClusterProps {
-    cluster: SelectedCluster
+    cluster: SelectedCluster,
+    onClose?: Function
 }
 
 type DataPointKey = keyof DataPoint

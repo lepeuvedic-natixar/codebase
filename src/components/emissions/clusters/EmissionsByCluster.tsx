@@ -5,19 +5,12 @@ import EmissionsByClusterTable from "./EmissionsTable"
 
 import { EmissionsByClusterProps } from "./types"
 import { formatAmount } from "utils/formatAmounts"
-import { useDispatch } from "react-redux";
-import { clearSelectedCluster } from "data/store/features/coordinates/ClusterSlice";
 
-const EmissionsByClusterSection: FunctionComponent<EmissionsByClusterProps> = ({ cluster }) => {
-    const dispatch = useDispatch()
+const EmissionsByClusterSection: FunctionComponent<EmissionsByClusterProps> = ({ cluster, onClose }) => {
     const totalEmission = useMemo(() => {
         const totalAmount = cluster.dataPoints.reduce((accumulator, currentValue) => accumulator + currentValue.emission_amount, 0)
         return formatAmount(totalAmount)
     }, [cluster])
-
-    const onBackClick = useCallback(() => {
-        dispatch(clearSelectedCluster())
-    }, [dispatch])
 
     return (
         <Paper sx={{
@@ -37,7 +30,7 @@ const EmissionsByClusterSection: FunctionComponent<EmissionsByClusterProps> = ({
                         px: "16px",
                         py: "9px",
                     }}
-                        onClick={onBackClick}
+                        onClick={() => onClose && onClose()}
                         variant="contained"
                     ><ArrowBackIcon /> <Typography ml="8px" noWrap>Back to map</Typography></Button>
                     <Typography variant="h2" noWrap>TOTAL: {totalEmission}</Typography>
