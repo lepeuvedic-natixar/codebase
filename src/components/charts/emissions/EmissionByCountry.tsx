@@ -40,17 +40,17 @@ const chartOptions = (countries: string[]): ApexCharts.ApexOptions => {
             colors: ['transparent']
         },
         xaxis: {
-            categories: [...countries.map(country => capitalize(country))]
-        },
-        yaxis: {
-            title: {
-                text: '(kton)'
-            },
+            categories: [...countries.map(country => capitalize(country))],
             labels: {
                 formatter(val) {
-                    return formatAmount(val)
-                }
+                    return formatAmount(parseFloat(val))
+                } 
+            },
+            title: {
+                text: '(kton)'
             }
+        },
+        yaxis: {
         },
         fill: {
             opacity: 1
