@@ -3,7 +3,7 @@ import { FunctionComponent, memo } from 'react';
 import { TableVirtuoso, TableComponents } from 'react-virtuoso';
 import { EmissionsByClusterProps } from './types';
 import { DataPoint } from 'data/store/types/Types';
-import { Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React from 'react';
 import { formatAmount } from 'utils/formatAmounts';
 import { CategoryLabel } from 'components/categories/CategoriesLegend';
@@ -17,7 +17,7 @@ const tableLayout = {
 
 const VirtuosoTableComponents: TableComponents<DataPoint> = {
     Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
-        <TableContainer component={Paper} {...props} ref={ref} />
+        <TableContainer component={Box} {...props} ref={ref} />
     )),
     Table: (props) => (
         <Table {...props} sx={{ borderCollapse: 'separate', tableLayout: 'fixed' }} />
@@ -46,7 +46,7 @@ function rowContent(_index: number, row: DataPoint) {
         <>
             <TableCell key="company"><Link href="#">{row.company}</Link></TableCell>
             <TableCell key="data-source">ERP</TableCell>
-            <TableCell key="emission-amount">{formatAmount(row.emission_amount)}</TableCell>
+            <TableCell key="emissionAmount">{formatAmount(row.emission_amount)}</TableCell>
             <TableCell key="category"><CategoryLabel name={capitalize(row.category)} /></TableCell>
         </>
     );

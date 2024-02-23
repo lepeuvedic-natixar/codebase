@@ -54,7 +54,7 @@ const NavigationBar: FunctionComponent = () => {
         <header>
             <div className="container">
                 <nav className="top-bar">
-                    <Button onClick={onRefreshClick}>Pull All</Button>
+                    <Button onClick={onRefreshClick} variant="contained">Pull All</Button>
 
                     <Box className="dimensions-bar">
                         <Slider

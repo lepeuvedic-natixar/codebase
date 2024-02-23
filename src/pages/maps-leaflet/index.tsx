@@ -1,8 +1,8 @@
-import ClusteredMapSection from "sections/maps-leaflet/clusters-map"
+import { Stack, Typography } from "@mui/material"
 
 import ByCompanySection from "sections/charts/emissions/ByCompanySection"
 import ByCountrySection from "sections/charts/emissions/ByCountrySection"
-import { Stack, Typography } from "@mui/material"
+import ClusteredMapSection from "sections/maps-leaflet/clusters-map"
 
 const ContributorDashboardPage = () => {
   return (

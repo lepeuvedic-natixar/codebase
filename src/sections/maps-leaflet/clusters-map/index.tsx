@@ -1,12 +1,11 @@
 import { FunctionComponent, memo } from "react"
-import { LatLngTuple } from "leaflet";
 import { Box } from "@mui/material";
-
 import ClusteredMap from "components/leaflet-maps/cluster-map"
 import MapContainerStyled from "components/third-party/map/MapContainerStyled";
-import { RootState } from "data/store";
-import { useSelector } from "react-redux";
 import EmissionsByCluster from "components/emissions/clusters/EmissionsByCluster";
+
+import { useSelector } from "react-redux";
+import { RootState } from "data/store";
 
 const selectSelectedCluster = (state: RootState) => state.selectedCluster
 
@@ -15,12 +14,19 @@ const ClusteredMapSection: FunctionComponent = () => {
   const thereAreDataPoints = selectedCluster?.dataPoints && selectedCluster?.dataPoints.length > 0
 
   return (
-    <>
+    <Box>
       <MapContainerStyled>
         <ClusteredMap />
       </MapContainerStyled>
-      { thereAreDataPoints && <EmissionsByCluster cluster={selectedCluster} /> }
-    </>
+      {thereAreDataPoints && <MapContainerStyled sx={{
+        width: "100%",
+        position: "relative",
+        top: 0,
+        left: 0
+      }}>
+        <EmissionsByCluster cluster={selectedCluster} />
+      </MapContainerStyled>}
+    </Box>
   )
 }
 

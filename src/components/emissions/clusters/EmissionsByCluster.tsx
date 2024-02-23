@@ -1,5 +1,6 @@
 import { FunctionComponent, memo, useMemo } from "react"
-import { Box, Stack, Typography } from "@mui/material"
+import { Box, Button, Paper, Stack, Typography } from "@mui/material"
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EmissionsByClusterTable from "./EmissionsTable"
 
 import { EmissionsByClusterProps } from "./types"
@@ -12,13 +13,32 @@ const EmissionsByClusterSection: FunctionComponent<EmissionsByClusterProps> = ({
     }, [cluster])
 
     return (
-        <Stack direction="column">
-            <Typography variant="h2">TOTAL: {totalEmission}</Typography>
-            <Box style={{ height: 400, width: '100%' }}>
-                <EmissionsByClusterTable cluster={cluster} />
-            </Box>
-        </Stack>
-
+        <Paper sx={{
+            width: "100%",
+            height: "100%"
+        }}>
+            <Stack direction="column" sx={{
+                width: "100%",
+                height: "100%",
+                px: "24px",
+                py: "26px",
+                gap: "20px"
+            }}>
+                <Stack direction="row" justifyContent="space-between">
+                    <Button sx={{
+                        height: "40px",
+                        px: "16px",
+                        py: "9px",
+                    }}
+                        variant="contained"
+                    ><ArrowBackIcon /> <Typography ml="8px" noWrap>Back to map</Typography></Button>
+                    <Typography variant="h2" noWrap>TOTAL: {totalEmission}</Typography>
+                </Stack>
+                <Box sx={{ width: '100%', flex: 1 }}>
+                    <EmissionsByClusterTable cluster={cluster} />
+                </Box>
+            </Stack>
+        </Paper>
     )
 }
 
