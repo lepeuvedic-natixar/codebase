@@ -10,7 +10,7 @@ export const AreaCheckbox = () => (
           sx={{
             width: "1px",
             backgroundColor: "rgba(231,231,231,0.58)",
-            margin: "0 11.5px",
+            marginLeft: "23.5px",
           }}
         />
         <Box sx={{ display: "flex", flexDirection: "column" }}>

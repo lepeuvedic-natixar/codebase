@@ -20,12 +20,12 @@ const Search = () => (
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         placeholder="Business Entity / Facility"
-        // sx={{ width: "160px" }}
+        sx={{ width: "160px" }}
       >
-        <MenuItem value={10}>Business Entity / Facility</MenuItem>
-        <MenuItem value={20}>Business Entity / Facility</MenuItem>
-        <MenuItem value={30}>Business Entity / Facility</MenuItem>
-        {/* <AreaCheckbox /> */}
+        {/* <MenuItem value={10}>Business Entity / Facility</MenuItem> */}
+        {/* <MenuItem value={20}>Business Entity / Facility</MenuItem> */}
+        {/* <MenuItem value={30}>Business Entity / Facility</MenuItem> */}
+        <AreaCheckbox />
       </Select>
     </FormControl>
     <FormControl sx={{ minwidth: 80, mr: 2.5 }}>
@@ -33,12 +33,17 @@ const Search = () => (
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         placeholder="Geographic Area"
-        // sx={{ width: "160px" }}
+        sx={{
+          width: "160px",
+          "& .MuiList-root": {
+            padding: "12px",
+          },
+        }}
       >
-        <MenuItem value={10}>Geographic Area</MenuItem>
-        <MenuItem value={20}>Geographic Area</MenuItem>
-        <MenuItem value={30}>Geographic Area</MenuItem>
-        {/* <AreaCheckbox /> */}
+        {/* <MenuItem value={10}>Geographic Area</MenuItem> */}
+        {/* <MenuItem value={20}>Geographic Area</MenuItem> */}
+        {/* <MenuItem value={30}>Geographic Area</MenuItem> */}
+        <AreaCheckbox />
       </Select>
     </FormControl>
     <FormControl sx={{ minwidth: 80, mr: 2.5 }}>

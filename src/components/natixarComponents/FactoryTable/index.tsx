@@ -55,6 +55,7 @@ export const FactoryTable = ({ data }: ScopeTableProps) => (
                 <Grid item>
                   <Typography align="left">
                     <Link
+                      href="http://localhost:3000/contributor/analysis"
                       sx={{
                         display: "flex",
                         alignItems: "center",

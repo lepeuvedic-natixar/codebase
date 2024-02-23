@@ -18,6 +18,7 @@ export const CheckboxItem = ({ label, children }: CheckboxItemProps) => {
           display: "flex",
           alignItems: "center",
           columnGap: "7px",
+          padding: "0 12px",
         }}
       >
         <IconButton

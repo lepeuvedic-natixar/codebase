@@ -15,7 +15,9 @@ const DashboardAnalytics = Loadable(
 )
 
 // render - contributor
-const ContributorAnalysis = Loadable(lazy(() => import("pages/contributor/analysis")))
+const ContributorAnalysis = Loadable(
+  lazy(() => import("pages/contributor/analysis")),
+)
 
 // render - widget
 const WidgetStatistics = Loadable(lazy(() => import("pages/widget/statistics")))
@@ -23,7 +25,9 @@ const WidgetData = Loadable(lazy(() => import("pages/widget/data")))
 const WidgetChart = Loadable(lazy(() => import("pages/widget/chart")))
 const NatixarChart = Loadable(lazy(() => import("pages/natixar/charts")))
 const ScopePage = Loadable(lazy(() => import("pages/natixar/ScopePage")))
-const DataPage = Loadable(lazy(() => import("pages/natixar/DataPage")))
+const ContributorsPage = Loadable(
+  lazy(() => import("pages/natixar/ContributorsPage")),
+)
 
 // render - charts & map
 const ChartApexchart = Loadable(lazy(() => import("pages/charts/apexchart")))
@@ -77,7 +81,7 @@ const MainRoutes = {
             },
             {
               path: "scope-details/:id",
-              element: <DataPage />,
+              element: <ContributorsPage />,
             },
             {
               path: "map",

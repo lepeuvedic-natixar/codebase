@@ -19,7 +19,7 @@ const rows = [
   createData("Major Factory -  Italy", 11000),
 ]
 
-const DataPage = () => {
+const ContributorsPage = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const params = new URLSearchParams(location.search)
@@ -99,4 +99,4 @@ const DataPage = () => {
   )
 }
 
-export default DataPage
+export default ContributorsPage
