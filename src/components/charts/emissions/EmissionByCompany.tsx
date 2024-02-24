@@ -1,7 +1,7 @@
 import { FunctionComponent, memo } from "react";
 
 import { getColorByCategory } from "utils/CategoryColors";
-import { formatAmount } from "utils/formatAmounts";
+import { formatAmount, formatEmissionAmount } from "utils/formatAmounts";
 import ReactApexChart from "react-apexcharts";
 import { ByCompanyDataPoint } from "data/store/types/Types";
 
@@ -49,11 +49,11 @@ const chartOptions = (companies: string[]): ApexCharts.ApexOptions => {
         },
         yaxis: {
             title: {
-                text: '(kton)'
+                text: 'Emissions'
             },
             labels: {
                 formatter(val) {
-                    return formatAmount(val)
+                    return formatEmissionAmount(val)
                 }
             }
         },
@@ -67,7 +67,7 @@ const chartOptions = (companies: string[]): ApexCharts.ApexOptions => {
             followCursor: true,
             y: {
                 formatter(val) {
-                    return `${formatAmount(val)} kton`;
+                    return formatEmissionAmount(val);
                 }
             }
         },

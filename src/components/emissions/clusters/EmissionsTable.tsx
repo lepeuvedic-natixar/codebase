@@ -3,15 +3,15 @@ import { FunctionComponent, memo } from 'react';
 import { TableVirtuoso, TableComponents } from 'react-virtuoso';
 import { EmissionsByClusterProps } from './types';
 import { DataPoint } from 'data/store/types/Types';
-import { Box, Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Link, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React from 'react';
-import { formatAmount } from 'utils/formatAmounts';
+import { formatEmissionAmount } from 'utils/formatAmounts';
 import { CategoryLabel } from 'components/categories/CategoriesLegend';
 
 const tableLayout = {
     "CONTRIBUTOR": "company",
     "DATA SOURCE": "company",
-    "EMISSIONS (t of CO2)": (amount: number) => formatAmount(amount),
+    "EMISSIONS": (amount: number) => formatEmissionAmount(amount),
     "TYPE OF EMISSIONS": "category"
 }
 
@@ -32,7 +32,9 @@ const VirtuosoTableComponents: TableComponents<DataPoint> = {
 
 const fixedHeaderContent = () => (
     <TableRow>
-        {Object.keys(tableLayout).map(columnName => <TableCell>{columnName}</TableCell>)}
+        {Object.keys(tableLayout).map(columnName =>
+            <TableCell align={columnName === 'EMISSIONS' ? 'right' : 'left'}>{columnName}</TableCell>
+        )}
     </TableRow>
 )
 
@@ -46,7 +48,7 @@ function rowContent(_index: number, row: DataPoint) {
         <>
             <TableCell key="company"><Link href="#">{row.company}</Link></TableCell>
             <TableCell key="data-source">ERP</TableCell>
-            <TableCell key="emissionAmount">{formatAmount(row.emission_amount)}</TableCell>
+            <TableCell key="emissionAmount" align='right'>{formatEmissionAmount(row.emission_amount)}</TableCell>
             <TableCell key="category"><CategoryLabel name={capitalize(row.category)} /></TableCell>
         </>
     );

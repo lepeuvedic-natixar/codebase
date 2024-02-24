@@ -4,18 +4,18 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EmissionsByClusterTable from "./EmissionsTable"
 
 import { EmissionsByClusterProps } from "./types"
-import { formatAmount } from "utils/formatAmounts"
+import { formatEmissionAmount } from "utils/formatAmounts"
 
 const EmissionsByClusterSection: FunctionComponent<EmissionsByClusterProps> = ({ cluster, onClose }) => {
     const totalEmission = useMemo(() => {
         const totalAmount = cluster.dataPoints.reduce((accumulator, currentValue) => accumulator + currentValue.emission_amount, 0)
-        return formatAmount(totalAmount).toLowerCase()
+        return formatEmissionAmount(totalAmount)
     }, [cluster])
 
     return (
         <Paper sx={{
             width: "100%",
-            height: "100%"
+            height: "100%"  
         }}>
             <Stack direction="column" sx={{
                 width: "100%",
@@ -34,7 +34,7 @@ const EmissionsByClusterSection: FunctionComponent<EmissionsByClusterProps> = ({
                         onClick={() => onClose && onClose()}
                         variant="contained"
                     ><ArrowBackIcon /> <Typography ml="8px" noWrap>Back to map</Typography></Button>
-                    <Typography variant="h3" noWrap gutterBottom>TOTAL: {totalEmission} CO2e</Typography>
+                    <Typography variant="h3" noWrap gutterBottom>TOTAL: {totalEmission}</Typography>
                 </Stack>
                 <Box sx={{ width: '100%', flex: 1 }}>
                     <EmissionsByClusterTable cluster={cluster} />

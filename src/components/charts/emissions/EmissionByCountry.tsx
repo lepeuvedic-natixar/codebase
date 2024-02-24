@@ -2,7 +2,7 @@ import { FunctionComponent, memo } from "react";
 import ReactApexChart from "react-apexcharts"
 
 import { getColorByCategory } from "utils/CategoryColors";
-import { formatAmount } from "utils/formatAmounts";
+import { formatAmount, formatEmissionAmount } from "utils/formatAmounts";
 import { ByCountryDataPoint } from "data/store/types/Types";
 import { capitalize } from "@mui/material";
 
@@ -43,11 +43,11 @@ const chartOptions = (countries: string[]): ApexCharts.ApexOptions => {
             categories: [...countries.map(country => capitalize(country))],
             labels: {
                 formatter(val) {
-                    return formatAmount(parseFloat(val))
-                } 
+                    return formatEmissionAmount(parseFloat(val))
+                }
             },
             title: {
-                text: '(kton)'
+                text: 'Emissions'
             }
         },
         yaxis: {
@@ -62,7 +62,7 @@ const chartOptions = (countries: string[]): ApexCharts.ApexOptions => {
             followCursor: true,
             y: {
                 formatter(val) {
-                    return `${formatAmount(val)} kton`;
+                    return formatEmissionAmount(val);
                 }
             }
         },
