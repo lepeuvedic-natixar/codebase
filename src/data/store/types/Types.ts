@@ -47,20 +47,32 @@ interface SelectedCluster {
 interface DataSet {
     min_time: number,
     max_time: number,
+    totalSteps: number,
     categories: string[],
     companies: string[],
     countries: string[],
     data: DataLayout
 }
 
-interface EmissionStorage {
-    wholeDataSet: DataSet,
-    visibleFrame: PerceivedData
-}
+/* 
+    Suppose, we have a sequence of partitions by timestamp
+    We keep track of the last N timestamps
+    Here we specify the range, relative to the most recent known timestamp
+    So, for example, if N = 6 and we have the filder { from: 1, to: 3 } ->
+    -5s -4s -3s -2s -1s now
+        [         ]
+    we will ^ select this time window 
 
-interface DateFilter {
+*/
+interface DateTimeRangeFilter {
     from: number,
     to: number
+}
+
+interface EmissionStorage {
+    wholeDataSet: DataSet,
+    filter: DateTimeRangeFilter,
+    visibleFrame: PerceivedData
 }
 
 export type { DataPoint }
@@ -73,4 +85,4 @@ export type { SelectedCluster }
 export type { DataSet }
 export type { EmissionStorage }
 
-export type { DateFilter }
+export type { DateTimeRangeFilter }

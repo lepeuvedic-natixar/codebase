@@ -1,16 +1,23 @@
 import { CaseReducer, PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-import { DataPoint, DateFilter, EmissionStorage, PerceivedData } from '../../types/Types'
+import { DataPoint, DateTimeRangeFilter, EmissionStorage, PerceivedData } from '../../types/Types'
 import { coordinateApi } from './CoordinateClient'
+
+const MOST_WINDOWS_OF_INTEREST = 12
 
 let initialState: EmissionStorage = {
     wholeDataSet: {
         min_time: Date.now() - (60 * 60 * 1000),
         max_time: Date.now(),
+        totalSteps: MOST_WINDOWS_OF_INTEREST,
         categories: [],
         companies: [],
         countries: [],
         data: {}
+    },
+    filter: {
+        from: 0,
+        to: MOST_WINDOWS_OF_INTEREST - 1
     },
     visibleFrame: {
         allPoints: [],
@@ -81,27 +88,23 @@ const extractFilterValues = (
 
 const extractVisibleDataPoints = (
     state: EmissionStorage,
-    dateFilter: DateFilter
+    dateFilter: DateTimeRangeFilter = state.filter
 ) => {
-    const { from, to } = dateFilter
     const allDates = Object.keys(state.wholeDataSet.data)
-    const datesOfInterest = allDates
-        .filter((dateStr) => {
-            let dateEpoch = parseInt(dateStr)
-            return from <= dateEpoch && dateEpoch <= to
-        })
+    let { from, to } = dateFilter
 
-    const filteredDataPoints: Array<DataPoint> = []
-    datesOfInterest.forEach(dateStr => {
-        const dataByDate = state.wholeDataSet.data[dateStr]
-        filteredDataPoints.push(...dataByDate)
+    const datesOfInterest = allDates.slice(from, to)
+
+    const filteredDataPoints = datesOfInterest.flatMap(timeWindowMark => {
+        return state.wholeDataSet.data[timeWindowMark]
     })
 
     state.visibleFrame = produceVisibleIndexedData(filteredDataPoints)
 }
 
-const changeVisibleDates: CaseReducer<EmissionStorage, PayloadAction<DateFilter>> = (state, action) => {
-    extractVisibleDataPoints(state, action.payload)
+const changeVisibleDates: CaseReducer<EmissionStorage, PayloadAction<DateTimeRangeFilter>> = (state, action) => {
+    state.filter = action.payload
+    extractVisibleDataPoints(state)
 }
 
 export const coordinateSlice = createSlice({
@@ -112,13 +115,15 @@ export const coordinateSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addMatcher(coordinateApi.endpoints.getRandomCoordinates.matchFulfilled, (state, action) => {
-            state.wholeDataSet = action.payload
-            const dateFilter: DateFilter = {
-                from: state.wholeDataSet.min_time,
-                to: state.wholeDataSet.max_time
-            }
+            const newData = Object.assign({}, state.wholeDataSet.data, action.payload.data)
+            const timestampsOfInterest = Object.keys(newData).sort().slice(-MOST_WINDOWS_OF_INTEREST)
+            state.wholeDataSet.data = Object.fromEntries(
+                timestampsOfInterest.map((timeMoment) => [timeMoment, newData[timeMoment]])
+            )
+            state.wholeDataSet.min_time = parseInt(timestampsOfInterest[0], 10)
+            state.wholeDataSet.max_time = parseInt(timestampsOfInterest[timestampsOfInterest.length - 1], 10)
             extractFilterValues(state)
-            extractVisibleDataPoints(state, dateFilter)
+            extractVisibleDataPoints(state)
         })
     }
 })

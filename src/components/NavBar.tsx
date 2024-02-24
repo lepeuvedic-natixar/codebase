@@ -9,21 +9,18 @@ import { debounce } from 'lodash'
 
 import './navbar.css'
 
-
-const RANGES_TO_USE = 12
-
-const selectMinTime = (state: RootState) => state.coordinates.wholeDataSet.min_time
-const selectMaxTime = (state: RootState) => state.coordinates.wholeDataSet.max_time
+const coordinatesDataSet = (state: RootState) => state.coordinates.wholeDataSet
 
 const NavigationBar: FunctionComponent = () => {
-    const [range, setRange] = useState([0, RANGES_TO_USE - 1])
-    const minSliderValue = useSelector(selectMinTime);
-    const maxSliderValue = useSelector(selectMaxTime);
+    const {
+        min_time: minSliderValue,
+        max_time: maxSliderValue,
+        totalSteps: rangesToUse
+    } = useSelector(coordinatesDataSet);
+    const [range, setRange] = useState([0, rangesToUse - 1])
     const dispatch = useAppDispatch()
-
-    const delta = (maxSliderValue - minSliderValue) / RANGES_TO_USE
-
-    const valueText = useMemo(() => (value: number): string => {
+    const delta = (maxSliderValue - minSliderValue) / rangesToUse
+    const valueText = useCallback((value: number): string => {
         const timeLabel = new Date(minSliderValue + (delta * value))
         return `${timeLabel.toLocaleTimeString()}`;
     }, [minSliderValue, delta])
@@ -56,7 +53,7 @@ const NavigationBar: FunctionComponent = () => {
                             getAriaValueText={valueText}
                             valueLabelFormat={valueText}
                             min={0}
-                            max={RANGES_TO_USE - 1}
+                            max={rangesToUse - 1}
                             value={range}
                             step={1}
                             marks
