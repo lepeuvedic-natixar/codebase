@@ -18,6 +18,9 @@ const DashboardAnalytics = Loadable(
 const ContributorAnalysis = Loadable(
   lazy(() => import("pages/contributor/analysis")),
 )
+const CategoryAnalysis = Loadable(
+  lazy(() => import("pages/contributor/categoryanalysis")),
+)
 
 // render - widget
 const WidgetStatistics = Loadable(lazy(() => import("pages/widget/statistics")))
@@ -83,6 +86,10 @@ const MainRoutes = {
             {
               path: "scope-details/:id",
               element: <ContributorsPage />,
+            },
+            {
+              path: "category-analysis/:id",
+              element: <CategoryAnalysis />,
             },
             {
               path: "map",
