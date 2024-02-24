@@ -2,8 +2,6 @@
 import { Box, FormControl, MenuItem, Select, Typography } from "@mui/material";
 import { AreaCheckbox } from "../../../components/natixarComponents/AreaCheckbox"
 import NavigationBar from 'components/NavBar';
-import { RootState } from 'data/store';
-import { useSelector } from 'react-redux';
 
 // import { DateRangePicker, SingleInputDateRangeField } from '@mui/x-date-pickers-pro';
 
