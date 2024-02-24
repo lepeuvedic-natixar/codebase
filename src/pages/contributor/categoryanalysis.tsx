@@ -1,35 +1,26 @@
 // material-ui
-import { Box, Grid, Typography } from "@mui/material"
-import { FactoryCard } from "sections/contributor/analysis/FactoryCard"
+import { Grid, Typography } from "@mui/material"
+import { FactoryCard } from "sections/contributor/category-analysis/FactoryCard"
+import { CategoryCalcTable } from "components/natixarComponents/CategoryCalcTable"
 import MainCard from "components/MainCard"
-import { Stack } from "@mui/material"
-import { useTheme } from "@mui/material/styles"
-import EmissionsChart from "sections/contributor/analysis/EmissionsChart"
 
-// ==============================|| WIDGET - CHARTS ||============================== //
+// table data
+const createData = (year: number, methodology: string, amount: number) => ({
+  year,
+  methodology,
+  amount,
+})
 
-const yearEmission = [
-  "01.2020",
-  "01.2021",
-  "01.2022",
-  "01.2023",
-  "01.2024",
-  "01.2025",
-  "01.2026",
-]
-const productEmission = [
-  "Prod 1",
-  "Prod 2",
-  "Prod 3",
-  "Prod 4",
-  "Prod 5",
-  "Prod 6",
-  "Prod 7",
+const rows = [
+  createData(2024, "Emission Factors", 63.5),
+  createData(2023, "Emission Factors", 32),
+  createData(2022, "Emission Factors", 10),
+  createData(2021, "Emission Factors", 34),
+  createData(2020, "Emission Factors", 76),
+  createData(2019, "Emission Factors", 8.4),
 ]
 
 const CategoryAnalysis = () => {
-  const theme = useTheme()
-
   return (
     <>
       <Typography variant="h5" sx={{ marginBottom: "30px" }}>
@@ -40,27 +31,16 @@ const CategoryAnalysis = () => {
           <FactoryCard />
         </Grid>
         <Grid item xs={12} md={8}>
-          <Stack spacing={3}>
-            <MainCard content={false}>
-              <Box sx={{ p: 3, pb: 0 }}>
-                <Stack spacing={2}>
-                  <Typography variant="h5">Years of data emissions</Typography>
-                </Stack>
-              </Box>
-              <EmissionsChart
-                color={theme.palette.primary.main}
-                xLabels={yearEmission}
-              />
-            </MainCard>
-            <MainCard content={false}>
-              <Box sx={{ p: 3, pb: 0 }}>
-                <Stack spacing={2}>
-                  <Typography variant="h5">Emissions by product</Typography>
-                </Stack>
-              </Box>
-              <EmissionsChart color="#ffa940" xLabels={productEmission} />
-            </MainCard>
-          </Stack>
+          <MainCard contentSX={{ p: "0 !important" }}>
+            <Grid item xs={12} md={12} xl={12}>
+              <Typography sx={{ p: "1.7rem" }} variant="h5">
+                Calculation Method
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={12} xl={12}>
+              <CategoryCalcTable data={rows} />
+            </Grid>
+          </MainCard>
         </Grid>
       </Grid>
     </>
