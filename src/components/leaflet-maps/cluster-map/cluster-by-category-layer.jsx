@@ -7,11 +7,11 @@ import MarkerClusterGroup from 'react-leaflet-cluster'
 import _ from "lodash"
 import MapMarker from "components/third-party/map/MapMarker"
 
-import 'leaflet/dist/leaflet.css'
+// import 'leaflet/dist/leaflet.css'
 import './map-style.css'
 
-import {useAppDispatch} from "data/store"
-import {selectClusterPoints} from "data/store/features/coordinates/ClusterSlice"
+import { useAppDispatch } from "data/store"
+import { selectClusterPoints } from "data/store/features/coordinates/ClusterSlice"
 import { formatAmount } from "utils/formatAmounts"
 
 const selectVisibleData = (state) => state.coordinates.visibleFrame.allPoints
@@ -28,9 +28,11 @@ const MAX_ICON_SIZE = 130;
 const CLUSTER_RADIUS = MAX_ICON_SIZE * 1.75
 
 const sizeByValue = (value) => {
-    const ratio = (_.clamp(value, MIN_EMISSION, MAX_EMISSION) - MIN_EMISSION) / (MAX_EMISSION - MIN_EMISSION)
+    const clampedValue = Math.min(Math.max(value, MIN_EMISSION), MAX_EMISSION);
+
+    const ratio = (clampedValue - MIN_EMISSION) / (MAX_EMISSION - MIN_EMISSION)
     const newSize = MIN_ICON_SIZE + ratio * (MAX_ICON_SIZE - MIN_ICON_SIZE)
-    return _.clamp(newSize, MIN_ICON_SIZE, MAX_ICON_SIZE)
+    return Math.min(Math.max(newSize, MIN_ICON_SIZE), MAX_ICON_SIZE)
 }
 
 const clusterRadiusByZoom = (zoom) => {
@@ -40,10 +42,10 @@ const clusterRadiusByZoom = (zoom) => {
 const createClusterCustomIcon = (cluster) => {
     // https://github.com/Leaflet/Leaflet.markercluster/blob/master/src/MarkerClusterGroup.js#L821
     const childCount = cluster.getChildCount()
-    const childMarkers = cluster.getAllChildMarkers()
 
     let category = "cluster"
     if (childCount > 0) {
+        const childMarkers = cluster.getAllChildMarkers()
         category = childMarkers[0].options.dataPoint.category
         const thereIsOtherCategory = childMarkers.some(marker => category !== marker.options.dataPoint.category)
         if (thereIsOtherCategory) {
@@ -114,6 +116,7 @@ const ClusterByCategoryLayer = () => {
         maxClusterRadius={CLUSTER_RADIUS}
         zoomToBoundsOnClick={false}
         onClick={onClusterClick}
+        onClusterClick={onClusterClick}
         ref={clusterGroupRef}
     />)
 }

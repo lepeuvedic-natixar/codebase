@@ -6,7 +6,6 @@ import { formatAmount, formatEmissionAmount } from "utils/formatAmounts";
 import { ByCountryDataPoint } from "data/store/types/Types";
 import { capitalize } from "@mui/material";
 
-
 interface EmissionByCountryProps {
     emissionData: Array<ByCountryDataPoint>
 }
@@ -84,7 +83,7 @@ const EmissionByCountry: FunctionComponent<EmissionByCountryProps> = ({ emission
     emissionData.forEach(emissionPoint => {
         countriesSet.add(emissionPoint.country)
     })
-    const countries = Array.from(countriesSet)
+    const countries = Array.from(countriesSet).sort()
     const seriesByCategories: { [id: string]: number[] } = {
         "Operation": Array(countries.length).fill(0),
         "Upstream": Array(countries.length).fill(0),
@@ -106,13 +105,12 @@ const EmissionByCountry: FunctionComponent<EmissionByCountryProps> = ({ emission
             }
         })
 
-    return (emissionData.length <= 0 ? null : <ReactApexChart
+    return <ReactApexChart
         type="bar"
         options={chartOptions(Array.from(countries))}
         series={series}
         height="100%"
     />
-    )
 }
 
 export default memo(EmissionByCountry)

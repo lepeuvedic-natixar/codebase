@@ -1,9 +1,8 @@
-import { FunctionComponent, useMemo, useState } from "react";
-import { Box, Button, Slider } from "@mui/material"
+import { FunctionComponent, useCallback, useMemo, useState } from "react";
+import { Box, Button, Checkbox, FormControlLabel, Slider } from "@mui/material"
 import { useSelector } from "react-redux";
 
 import { RootState, useAppDispatch } from "data/store";
-import { useLazyGetRandomCoordinatesQuery } from "data/store/features/coordinates/CoordinateClient";
 import { changeVisibileDates } from "data/store/features/coordinates/CoordinateSlice";
 
 import { debounce } from 'lodash'
@@ -20,7 +19,6 @@ const NavigationBar: FunctionComponent = () => {
     const [range, setRange] = useState([0, RANGES_TO_USE - 1])
     const minSliderValue = useSelector(selectMinTime);
     const maxSliderValue = useSelector(selectMaxTime);
-    const [pullAllData] = useLazyGetRandomCoordinatesQuery()
     const dispatch = useAppDispatch()
 
     const delta = (maxSliderValue - minSliderValue) / RANGES_TO_USE
@@ -30,12 +28,7 @@ const NavigationBar: FunctionComponent = () => {
         return `${timeLabel.toLocaleTimeString()}`;
     }, [minSliderValue, delta])
 
-    const onRefreshClick = (e: React.MouseEvent<HTMLElement>) => {
-        e.preventDefault()
-        pullAllData()
-    }
-
-    const updateTimeFilter = useMemo(() => debounce(
+    const updateTimeFilter = useCallback(debounce(
         (newTimeRange: number[]) => {
             dispatch(changeVisibileDates({
                 from: minSliderValue + (delta * newTimeRange[0]),
@@ -54,8 +47,6 @@ const NavigationBar: FunctionComponent = () => {
         <header>
             <div className="container">
                 <nav className="top-bar">
-                    <Button sx={{ color: "white" }} onClick={onRefreshClick} variant="contained">Pull All</Button>
-
                     <Box className="dimensions-bar">
                         <Slider
                             variant="solid"

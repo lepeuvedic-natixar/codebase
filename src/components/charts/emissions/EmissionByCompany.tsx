@@ -5,14 +5,6 @@ import { formatAmount, formatEmissionAmount } from "utils/formatAmounts";
 import ReactApexChart from "react-apexcharts";
 import { ByCompanyDataPoint } from "data/store/types/Types";
 
-interface CompanyData {
-    operation: number,
-    upstream: number,
-    downstream: number,
-    cluster: number,
-    company: string
-}
-
 interface EmissionByCompanyProps {
     emissionData: ByCompanyDataPoint[]
 }
@@ -115,12 +107,12 @@ const EmissionByCompany: FunctionComponent<EmissionByCompanyProps> = ({ emission
             }
         })
 
-    return (emissionData.length <= 0 ? null : <ReactApexChart
+    return <ReactApexChart
         type="bar"
         options={chartOptions(companies)}
         series={series}
         height="100%"
-    />)
+    />
 }
 
 export default memo(EmissionByCompany)
