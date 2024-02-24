@@ -4,6 +4,9 @@ export const COLOR_DOWNSTREAM = "#80D977"
 export const COLOR_CLUSTER = "#515F66"
 
 export const getColorByCategory = (category: string): string => {
+  if (!category) {
+    return COLOR_CLUSTER
+  }
   let result: string
   switch (category.toLowerCase()) {
     case "operation":
@@ -14,6 +17,9 @@ export const getColorByCategory = (category: string): string => {
       break
     case "downstream":
       result = COLOR_DOWNSTREAM
+      break
+    case "cluster":
+      result = COLOR_CLUSTER
       break
     default:
       result = COLOR_CLUSTER

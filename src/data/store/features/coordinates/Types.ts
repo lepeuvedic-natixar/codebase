@@ -14,20 +14,18 @@ interface DataPoint {
   location: Location
 }
 
+interface CategorizedEmissionData {
+  [key: string]: number
+}
+
 interface ByCompanyDataPoint {
-  operation: number
-  upstream: number
-  downstream: number
-  cluster: number
   company: string
+  emissionsByCategory: CategorizedEmissionData
 }
 
 interface ByCountryDataPoint {
-  operation: number
-  upstream: number
-  downstream: number
-  cluster: number
   country: string
+  emissionsByCategory: CategorizedEmissionData
 }
 
 interface PerceivedData {
@@ -61,8 +59,7 @@ interface DataSet {
     So, for example, if N = 6 and we have the filder { from: 1, to: 3 } ->
     -5s -4s -3s -2s -1s now
         [         ]
-    we will ^ select this time window 
-
+    we will ^ select this time window
 */
 interface DateTimeRangeFilter {
   from: number

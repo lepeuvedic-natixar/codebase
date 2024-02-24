@@ -1,9 +1,10 @@
-import { FunctionComponent, memo } from "react"
+import { memo } from "react"
 
 import { getColorByCategory } from "utils/CategoryColors"
-import { formatAmount, formatEmissionAmount } from "utils/formatAmounts"
+import { formatEmissionAmount } from "utils/formatAmounts"
 import ReactApexChart from "react-apexcharts"
 import { ByCompanyDataPoint } from "data/store/features/coordinates/Types"
+import _ from "lodash"
 
 interface EmissionByCompanyProps {
   emissionData: ByCompanyDataPoint[]
@@ -74,35 +75,36 @@ const chartOptions = (companies: string[]): ApexCharts.ApexOptions => ({
   ],
 })
 
-const valueFormatter = (value: number) => `${value}mm`
-
-const EmissionByCompany: FunctionComponent<EmissionByCompanyProps> = ({
-  emissionData,
-}) => {
+const EmissionByCompany = (props: EmissionByCompanyProps) => {
+  const { emissionData } = props
   const companiesSet = new Set<string>()
   emissionData.forEach((emissionPoint) => {
     companiesSet.add(emissionPoint.company)
   })
   const companies = Array.from(companiesSet)
 
-  const seriesByCategories: { [id: string]: number[] } = {
-    Operation: Array(companies.length).fill(0),
-    Upstream: Array(companies.length).fill(0),
-    Downstream: Array(companies.length).fill(0),
-  }
+  const seriesByCategories: { [id: string]: number[] } = {}
 
   emissionData.forEach((emissionPoint) => {
     const { company } = emissionPoint
-    seriesByCategories.Operation[companies.indexOf(company)] +=
-      emissionPoint.operation
-    seriesByCategories.Upstream[companies.indexOf(company)] +=
-      emissionPoint.upstream
-    seriesByCategories.Downstream[companies.indexOf(company)] +=
-      emissionPoint.downstream
+    const categorizedEmissions = emissionPoint.emissionsByCategory
+    Object.keys(categorizedEmissions)
+      .map((category) => category.toLowerCase())
+      .forEach((categoryOfEmission) => {
+        let seriesForThatCategory = seriesByCategories[categoryOfEmission]
+        if (!seriesForThatCategory) {
+          seriesByCategories[categoryOfEmission] = Array(companies.length).fill(
+            0,
+          )
+          seriesForThatCategory = seriesByCategories[categoryOfEmission]
+        }
+        seriesForThatCategory[companies.indexOf(company)] +=
+          categorizedEmissions[categoryOfEmission]
+      })
   })
 
   const series = Object.keys(seriesByCategories).map((category) => ({
-    name: category,
+    name: _.capitalize(category),
     data: seriesByCategories[category],
     color: getColorByCategory(category),
   }))

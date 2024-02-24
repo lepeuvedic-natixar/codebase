@@ -1,10 +1,10 @@
-import { FunctionComponent, memo } from "react"
+import { memo } from "react"
 import ReactApexChart from "react-apexcharts"
 
 import { getColorByCategory } from "utils/CategoryColors"
-import { formatAmount, formatEmissionAmount } from "utils/formatAmounts"
+import { formatEmissionAmount } from "utils/formatAmounts"
 import { ByCountryDataPoint } from "data/store/features/coordinates/Types"
-import { capitalize } from "@mui/material"
+import _ from "lodash"
 
 interface EmissionByCountryProps {
   emissionData: Array<ByCountryDataPoint>
@@ -38,7 +38,7 @@ const chartOptions = (countries: string[]): ApexCharts.ApexOptions => ({
     colors: ["transparent"],
   },
   xaxis: {
-    categories: [...countries.map((country) => capitalize(country))],
+    categories: [...countries.map((country) => _.capitalize(country))],
     labels: {
       formatter(val) {
         return formatEmissionAmount(parseFloat(val))
@@ -75,27 +75,30 @@ const chartOptions = (countries: string[]): ApexCharts.ApexOptions => ({
   ],
 })
 
-const EmissionByCountry: FunctionComponent<EmissionByCountryProps> = ({
-  emissionData,
-}) => {
+const EmissionByCountry = (props: EmissionByCountryProps) => {
+  const { emissionData } = props
   const countriesSet = new Set<string>()
   emissionData.forEach((emissionPoint) => {
     countriesSet.add(emissionPoint.country)
   })
   const countries = Array.from(countriesSet).sort()
-  const seriesByCategories: { [id: string]: number[] } = {
-    Operation: Array(countries.length).fill(0),
-    Upstream: Array(countries.length).fill(0),
-    Downstream: Array(countries.length).fill(0),
-  }
+  const seriesByCategories: { [id: string]: number[] } = {}
   emissionData.forEach((emissionPoint) => {
     const { country } = emissionPoint
-    seriesByCategories.Operation[countries.indexOf(country)] +=
-      emissionPoint.operation
-    seriesByCategories.Upstream[countries.indexOf(country)] +=
-      emissionPoint.upstream
-    seriesByCategories.Downstream[countries.indexOf(country)] +=
-      emissionPoint.downstream
+    const categorizedEmissions = emissionPoint.emissionsByCategory
+    Object.keys(categorizedEmissions)
+      .map((category) => category.toLowerCase())
+      .forEach((categoryOfEmission) => {
+        let seriesForThatCategory = seriesByCategories[categoryOfEmission]
+        if (!seriesForThatCategory) {
+          seriesByCategories[categoryOfEmission] = Array(countries.length).fill(
+            0,
+          )
+          seriesForThatCategory = seriesByCategories[categoryOfEmission]
+        }
+        seriesForThatCategory[countries.indexOf(country)] +=
+          categorizedEmissions[categoryOfEmission]
+      })
   })
 
   const series = Object.keys(seriesByCategories).map((category) => ({

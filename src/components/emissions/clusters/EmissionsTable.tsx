@@ -1,4 +1,4 @@
-import React, { FunctionComponent, memo } from "react"
+import React, { memo } from "react"
 
 import { TableVirtuoso, TableComponents } from "react-virtuoso"
 import { DataPoint } from "data/store/features/coordinates/Types"
@@ -35,6 +35,7 @@ const VirtuosoTableComponents: TableComponents<DataPoint> = {
     />
   ),
   TableHead,
+  // eslint-disable-next-line react/prop-types
   TableRow: ({ item: _item, ...props }) => <TableRow {...props} />,
   TableBody: React.forwardRef<HTMLTableSectionElement>((props, ref) => (
     <TableBody {...props} ref={ref} />
@@ -55,7 +56,6 @@ const fixedHeaderContent = () => (
 )
 
 function rowContent(_index: number, row: DataPoint) {
-  const columns = Object.values(tableLayout)
   return (
     <>
       <TableCell key="company">
@@ -66,15 +66,14 @@ function rowContent(_index: number, row: DataPoint) {
         {formatEmissionAmount(row.emission_amount)}
       </TableCell>
       <TableCell key="category">
-        <CategoryLabel name={_.capitalize(row.category)} />
+        <CategoryLabel category={_.capitalize(row.category)} />
       </TableCell>
     </>
   )
 }
 
-const EmissionsByClusterTable: FunctionComponent<EmissionsByClusterProps> = ({
-  cluster,
-}) => {
+const EmissionsByClusterTable = (props: EmissionsByClusterProps) => {
+  const { cluster } = props
   const data = [...cluster.dataPoints]
   const sortedEmissions = data.sort(
     (a, b) => b.emission_amount - a.emission_amount,

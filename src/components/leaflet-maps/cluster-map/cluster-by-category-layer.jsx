@@ -4,7 +4,6 @@ import { useSelector } from "react-redux"
 import L from "leaflet"
 import MarkerClusterGroup from "react-leaflet-cluster"
 
-import _ from "lodash"
 import MapMarker from "components/third-party/map/MapMarker"
 
 // import 'leaflet/dist/leaflet.css'
@@ -34,8 +33,6 @@ const sizeByValue = (value) => {
   const newSize = MIN_ICON_SIZE + ratio * (MAX_ICON_SIZE - MIN_ICON_SIZE)
   return Math.min(Math.max(newSize, MIN_ICON_SIZE), MAX_ICON_SIZE)
 }
-
-const clusterRadiusByZoom = (zoom) => CLUSTER_RADIUS
 
 const createClusterCustomIcon = (cluster) => {
   // https://github.com/Leaflet/Leaflet.markercluster/blob/master/src/MarkerClusterGroup.js#L821
@@ -74,6 +71,7 @@ const ClusterByCategoryLayer = () => {
   const onClusterClick = useCallback(
     (e) => {
       const childMarkers = e.layer.getAllChildMarkers()
+      // eslint-disable-next-line @typescript-eslint/no-shadow
       const dataPoints = childMarkers.map(
         (cluster) => cluster.options.dataPoint,
       )

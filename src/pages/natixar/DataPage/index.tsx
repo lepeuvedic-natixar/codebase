@@ -2,6 +2,7 @@ import { Grid, Typography } from "@mui/material"
 
 import RecentTickets from "sections/widget/data/RecentTickets"
 import SourcesTable from "./SourcesTable"
+import UnknownMappings from "sections/data-health/UnknownMappingsSection"
 
 const DataPage = () => (
   <Grid container spacing={3}>
@@ -18,7 +19,7 @@ const DataPage = () => (
       <Typography variant="h5">Data mapping</Typography>
     </Grid>
     <Grid item xs={12} md={12} lg={12}>
-      <RecentTickets />
+      <UnknownMappings />
     </Grid>
   </Grid>
 )
