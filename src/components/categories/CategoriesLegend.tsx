@@ -32,7 +32,7 @@ const _CategoryLabel: FunctionComponent<CategoryLabelProps> = ({ name }) => {
 
 const CategoriesLegend: FunctionComponent = () => {
     const categoryLabels = ["Operation", "Upstream", "Downstream"].map(category =>
-        <_CategoryLabel name={category} />
+        <_CategoryLabel key={category} name={category} />
     )
 
     return <Stack

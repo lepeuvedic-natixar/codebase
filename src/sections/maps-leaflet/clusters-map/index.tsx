@@ -15,7 +15,7 @@ const ClusteredMapSection: FunctionComponent = () => {
   const onAnimationEndListener = useCallback(() => {
     dispatch(clearSelectedCluster())
     setTableCloseVeto(false)
-  }, [dispatch])
+  }, [dispatch, setTableCloseVeto])
 
   const onTableClose = useCallback(() => setTableCloseVeto(true), [setTableCloseVeto])
   const selectedCluster = useSelector(selectSelectedCluster)

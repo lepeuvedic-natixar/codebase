@@ -3,7 +3,7 @@ import { FunctionComponent, memo } from "react";
 import { getColorByCategory } from "utils/CategoryColors";
 import { formatAmount, formatEmissionAmount } from "utils/formatAmounts";
 import ReactApexChart from "react-apexcharts";
-import { ByCompanyDataPoint } from "data/store/types/Types";
+import { ByCompanyDataPoint } from "data/store/features/coordinates/Types";
 
 interface EmissionByCompanyProps {
     emissionData: ByCompanyDataPoint[]

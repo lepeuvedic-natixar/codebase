@@ -1,6 +1,6 @@
 import { CaseReducer, PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-import { DataPoint, DateTimeRangeFilter, EmissionStorage, PerceivedData } from '../../types/Types'
+import { DataPoint, DateTimeRangeFilter, EmissionStorage, PerceivedData } from './Types'
 import { coordinateApi } from './CoordinateClient'
 
 const MOST_WINDOWS_OF_INTEREST = 12

@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react"
 import EmissionByCompany from "components/charts/emissions/EmissionByCompany";
 
-import { ByCompanyDataPoint } from "data/store/types/Types";
+import { ByCompanyDataPoint } from "data/store/features/coordinates/Types";
 import { useSelector } from "react-redux";
 import { RootState } from "data/store";
 import MainCard from "components/MainCard";

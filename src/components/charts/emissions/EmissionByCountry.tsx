@@ -3,7 +3,7 @@ import ReactApexChart from "react-apexcharts"
 
 import { getColorByCategory } from "utils/CategoryColors";
 import { formatAmount, formatEmissionAmount } from "utils/formatAmounts";
-import { ByCountryDataPoint } from "data/store/types/Types";
+import { ByCountryDataPoint } from "data/store/features/coordinates/Types";
 import { capitalize } from "@mui/material";
 
 interface EmissionByCountryProps {

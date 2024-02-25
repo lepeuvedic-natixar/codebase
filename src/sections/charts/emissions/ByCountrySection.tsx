@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import Paper from "@mui/material/Paper";
 import EmissionByCountry from "components/charts/emissions/EmissionByCountry";
 
-import { ByCompanyDataPoint, ByCountryDataPoint } from "data/store/types/Types";
+import { ByCompanyDataPoint, ByCountryDataPoint } from "data/store/features/coordinates/Types";
 import { useSelector } from "react-redux";
 import { RootState } from "data/store";
 import MainCard from "components/MainCard";

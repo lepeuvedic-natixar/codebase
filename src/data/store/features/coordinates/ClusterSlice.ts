@@ -1,5 +1,5 @@
 import { CaseReducer, PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { DataPoint, SelectedCluster } from "data/store/types/Types"
+import { DataPoint, SelectedCluster } from "data/store/features/coordinates/Types"
 
 const initialState: SelectedCluster = {
     dataPoints: []

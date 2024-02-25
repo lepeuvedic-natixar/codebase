@@ -1,4 +1,4 @@
-import { DataPoint, SelectedCluster } from "data/store/types/Types"
+import { DataPoint, SelectedCluster } from "data/store/features/coordinates/Types"
 
 interface EmissionsByClusterProps {
     cluster: SelectedCluster,
