@@ -21,6 +21,9 @@ const ContributorAnalysis = Loadable(
 const CategoryAnalysis = Loadable(
   lazy(() => import("pages/contributor/categoryanalysis")),
 )
+const ContributorUpload = Loadable(
+  lazy(() => import("pages/contributor/upload")),
+)
 
 // render - widget
 const WidgetStatistics = Loadable(lazy(() => import("pages/widget/statistics")))
@@ -98,6 +101,10 @@ const MainRoutes = {
             {
               path: "analysis",
               element: <ContributorAnalysis />,
+            },
+            {
+              path: "upload",
+              element: <ContributorUpload />,
             },
             {
               path: "statistics",
