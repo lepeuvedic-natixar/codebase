@@ -40,6 +40,7 @@ const DataPage = Loadable(lazy(() => import("pages/natixar/DataPage")))
 const ChartApexchart = Loadable(lazy(() => import("pages/charts/apexchart")))
 const ChartOrganization = Loadable(lazy(() => import("pages/charts/org-chart")))
 const ClustersMap = Loadable(lazy(() => import("pages/maps")))
+const ClustersLeafletMap = Loadable(lazy(() => import("pages/maps-leaflet")))
 
 const MaintenanceError = Loadable(lazy(() => import("pages/maintenance/404")))
 const MaintenanceError500 = Loadable(
@@ -105,6 +106,10 @@ const MainRoutes = {
             {
               path: "upload",
               element: <ContributorUpload />,
+            },
+            {
+              path: "map2",
+              element: <ClustersLeafletMap />,
             },
             {
               path: "statistics",

@@ -1,6 +1,8 @@
 // material-ui
-import { Box, FormControl, MenuItem, Select, Typography } from "@mui/material"
+import { Box, FormControl, MenuItem, Select, Typography } from "@mui/material";
 import { AreaCheckbox } from "../../../components/natixarComponents/AreaCheckbox"
+import NavigationBar from 'components/NavBar';
+
 // import { DateRangePicker, SingleInputDateRangeField } from '@mui/x-date-pickers-pro';
 
 // ==============================|| HEADER CONTENT - SEARCH ||============================== //
@@ -61,6 +63,7 @@ const Search = () => (
     <FormControl sx={{ minwidth: 80, mr: 2.5 }}>
       {/* <DateRangePicker slots={{ field: SingleInputDateRangeField }} name="allowedRange" /> */}
     </FormControl>
+    <NavigationBar />
   </Box>
 )
 
