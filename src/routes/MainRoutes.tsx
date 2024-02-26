@@ -144,7 +144,7 @@ const MainRoutes = {
         },
         {
           path: "map",
-          element: <Map />,
+          element: <ClustersLeafletMap />,
         },
       ],
     },
