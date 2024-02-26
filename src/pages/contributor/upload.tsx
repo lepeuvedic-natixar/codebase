@@ -5,6 +5,7 @@ import { AppstoreOutlined, UnorderedListOutlined } from "@ant-design/icons"
 import { Formik } from "formik"
 import * as yup from "yup"
 import { FormHelperText } from "@mui/material"
+import { useTheme } from "@mui/material/styles"
 import UploadSingleFile from "components/third-party/dropzone/SingleFile"
 import UploadMultiFile from "components/third-party/dropzone/MultiFile"
 import { useState } from "react"
@@ -27,6 +28,7 @@ const rows = [
 
 const ContributorUpload = () => {
   const [list, setList] = useState(false)
+  const theme = useTheme()
 
   return (
     <>
@@ -37,6 +39,7 @@ const ContributorUpload = () => {
         <Grid item xs={12}>
           <MainCard
             title="Upload Multiple File"
+            sx={{ bgcolor: theme.palette.grey.A100 }}
             secondary={
               <Stack direction="row" alignItems="center" spacing={1.25}>
                 <IconButton
@@ -93,7 +96,10 @@ const ContributorUpload = () => {
           </MainCard>
         </Grid>
         <Grid item xs={12}>
-          <MainCard title="Upload Single File">
+          <MainCard
+            title="Upload Single File"
+            sx={{ bgcolor: theme.palette.grey.A100 }}
+          >
             <Formik
               initialValues={{ files: null }}
               onSubmit={(values: any) => {
