@@ -86,7 +86,7 @@ const Row = ({
   )
 }
 
-const SourcesTable = ({title}: {title: string}) => (
+const SourcesTable = ({ title }: { title: string }) => (
   <MainCard title={title} content={false}>
     <TableContainer>
       <Table>

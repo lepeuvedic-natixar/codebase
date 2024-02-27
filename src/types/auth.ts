@@ -16,10 +16,10 @@ export type UserProfile = {
 }
 
 export interface AuthProps {
-  isLoggedIn: boolean;
-  isInitialized?: boolean;
-  user?: UserProfile | null;
-  token?: string | null;
+  isLoggedIn: boolean
+  isInitialized?: boolean
+  user?: UserProfile | null
+  token?: string | null
 }
 
 export interface AuthActionProps {

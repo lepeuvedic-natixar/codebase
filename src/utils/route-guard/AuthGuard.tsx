@@ -9,7 +9,7 @@ import { GuardProps } from "types/auth"
 
 // ==============================|| AUTH GUARD ||============================== //
 
-const AuthGuard = ({ children }: GuardProps) => {
+const AuthGuard = ({ children }: GuardProps) =>
   // const { isLoggedIn } = useAuth()
   // const navigate = useNavigate()
   // const location = useLocation()
@@ -25,7 +25,6 @@ const AuthGuard = ({ children }: GuardProps) => {
   //   }
   // }, [isLoggedIn, navigate, location])
 
-  return children
-}
+  children
 
 export default AuthGuard

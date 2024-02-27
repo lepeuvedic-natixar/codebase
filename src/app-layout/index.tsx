@@ -26,7 +26,8 @@ const AppLayout = () => {
   const matchDownXL = useMediaQuery(theme.breakpoints.down("xl"))
   const downLG = useMediaQuery(theme.breakpoints.down("lg"))
 
-  const { container, miniDrawer, menuOrientation, isShowExtraHeader } = useConfig()
+  const { container, miniDrawer, menuOrientation, isShowExtraHeader } =
+    useConfig()
 
   const isHorizontal = menuOrientation === MenuOrientation.HORIZONTAL && !downLG
 

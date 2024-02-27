@@ -1,57 +1,57 @@
 interface Location {
-    lat: number,
-    lon: number,
-    country: string
+  lat: number
+  lon: number
+  country: string
 }
 
 interface DataPoint {
-    id: string,
-    time: number,
-    emission_amount: number,
-    emission_measure: string,
-    category: string,
-    company: string,
-    location: Location
+  id: string
+  time: number
+  emission_amount: number
+  emission_measure: string
+  category: string
+  company: string
+  location: Location
 }
 
 interface ByCompanyDataPoint {
-    operation: number,
-    upstream: number,
-    downstream: number,
-    cluster: number,
-    company: string
+  operation: number
+  upstream: number
+  downstream: number
+  cluster: number
+  company: string
 }
 
 interface ByCountryDataPoint {
-    operation: number,
-    upstream: number,
-    downstream: number,
-    cluster: number,
-    country: string
+  operation: number
+  upstream: number
+  downstream: number
+  cluster: number
+  country: string
 }
 
 interface PerceivedData {
-    allPoints: Array<DataPoint>,
-    byCompany: Array<ByCompanyDataPoint>,
-    byCountry: Array<ByCountryDataPoint>
+  allPoints: Array<DataPoint>
+  byCompany: Array<ByCompanyDataPoint>
+  byCountry: Array<ByCountryDataPoint>
 }
 
 interface DataLayout {
-    [key: string]: Array<DataPoint>
+  [key: string]: Array<DataPoint>
 }
 
 interface SelectedCluster {
-    dataPoints: Array<DataPoint>
+  dataPoints: Array<DataPoint>
 }
 
 interface DataSet {
-    min_time: number,
-    max_time: number,
-    totalSteps: number,
-    categories: string[],
-    companies: string[],
-    countries: string[],
-    data: DataLayout
+  min_time: number
+  max_time: number
+  totalSteps: number
+  categories: string[]
+  companies: string[]
+  countries: string[]
+  data: DataLayout
 }
 
 /* 
@@ -65,14 +65,14 @@ interface DataSet {
 
 */
 interface DateTimeRangeFilter {
-    from: number,
-    to: number
+  from: number
+  to: number
 }
 
 interface EmissionStorage {
-    wholeDataSet: DataSet,
-    filter: DateTimeRangeFilter,
-    visibleFrame: PerceivedData
+  wholeDataSet: DataSet
+  filter: DateTimeRangeFilter
+  visibleFrame: PerceivedData
 }
 
 export type { DataPoint }

@@ -1,8 +1,11 @@
-import { DataPoint, SelectedCluster } from "data/store/features/coordinates/Types"
+import {
+  DataPoint,
+  SelectedCluster,
+} from "data/store/features/coordinates/Types"
 
 interface EmissionsByClusterProps {
-    cluster: SelectedCluster,
-    onClose?: Function
+  cluster: SelectedCluster
+  onClose?: Function
 }
 
 type DataPointKey = keyof DataPoint

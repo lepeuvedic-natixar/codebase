@@ -109,9 +109,8 @@ const EmissionsChart = ({ color, xLabels }: EmissionChartProps) => {
           style: {
             colors: [secondary],
           },
-          formatter: (value: number) => {
-            return value === 0 ? value : value / 1000 + "K"
-          },
+          formatter: (value: number) =>
+            value === 0 ? value : `${value / 1000}K`,
         },
       },
       theme: {

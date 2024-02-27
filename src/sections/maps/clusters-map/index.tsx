@@ -29,7 +29,7 @@ const MapClusters = ({ ...other }: MapBoxProps) => {
   const onClick = (event: MapLayerMouseEvent) => {
     const feature = event.features?.[0]
     const clusterId = feature?.properties?.cluster_id
-    
+
     // @ts-ignore
     const mapboxSource = mapRef.current?.getSource(
       "earthquakes",

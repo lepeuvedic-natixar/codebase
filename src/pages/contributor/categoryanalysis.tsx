@@ -20,31 +20,29 @@ const rows = [
   createData(2019, "Emission Factors", 8.4),
 ]
 
-const CategoryAnalysis = () => {
-  return (
-    <>
-      <Typography variant="h5" sx={{ marginBottom: "30px" }}>
-        Category Analysis
-      </Typography>
-      <Grid container rowSpacing={4.5} columnSpacing={3}>
-        <Grid item xs={12} md={4}>
-          <FactoryCard />
-        </Grid>
-        <Grid item xs={12} md={8}>
-          <MainCard contentSX={{ p: "0 !important" }}>
-            <Grid item xs={12} md={12} xl={12}>
-              <Typography sx={{ p: "1.7rem" }} variant="h5">
-                Calculation Method
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={12} xl={12}>
-              <CategoryCalcTable data={rows} />
-            </Grid>
-          </MainCard>
-        </Grid>
+const CategoryAnalysis = () => (
+  <>
+    <Typography variant="h5" sx={{ marginBottom: "30px" }}>
+      Category Analysis
+    </Typography>
+    <Grid container rowSpacing={4.5} columnSpacing={3}>
+      <Grid item xs={12} md={4}>
+        <FactoryCard />
       </Grid>
-    </>
-  )
-}
+      <Grid item xs={12} md={8}>
+        <MainCard contentSX={{ p: "0 !important" }}>
+          <Grid item xs={12} md={12} xl={12}>
+            <Typography sx={{ p: "1.7rem" }} variant="h5">
+              Calculation Method
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={12} xl={12}>
+            <CategoryCalcTable data={rows} />
+          </Grid>
+        </MainCard>
+      </Grid>
+    </Grid>
+  </>
+)
 
 export default CategoryAnalysis

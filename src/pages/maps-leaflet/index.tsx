@@ -7,7 +7,7 @@ import ClusteredMapSection from "sections/maps-leaflet/clusters-map"
 
 const ContributorDashboardPage = () => {
   useGetRandomCoordinatesQuery(undefined, {
-    pollingInterval: 5000
+    pollingInterval: 5000,
   })
 
   return (
