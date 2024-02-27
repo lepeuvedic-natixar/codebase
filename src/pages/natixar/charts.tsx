@@ -12,6 +12,7 @@ import CO2DonutSection from "../../components/natixarComponents/CO2DonutSection"
 // assets
 import { ChartCard } from "../../components/natixarComponents/ChartCard"
 import AcquisitionChart from "../../sections/dashboard/analytics/AcquisitionChart"
+import DateFilter from "../../components/DateFilter"
 
 // ==============================|| WIDGET - CHARTS ||============================== //
 
@@ -21,6 +22,11 @@ const NatixarChart = () => {
 
   return (
     <Grid container rowSpacing={4.5} columnSpacing={3}>
+      <Grid item xs={12} md={12} xl={12}>
+        <MainCard>
+          <DateFilter />
+        </MainCard>
+      </Grid>
       <Grid item xs={12} md={12} xl={12}>
         <MainCard>
           <Typography variant="h5" sx={{ marginBottom: "15px" }}>
