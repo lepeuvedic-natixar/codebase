@@ -1,6 +1,6 @@
 import { styled } from "@mui/material/styles"
 import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker"
-import { Box } from "@mui/material"
+import { Box, Slider } from "@mui/material"
 
 export const StyledDatePicker = styled(StaticDatePicker)(() => ({
   width: "fit-content",
@@ -57,4 +57,48 @@ export const PickersWrapper = styled(Box)(() => ({
   width: "100%",
   gap: "16px",
   position: "relative",
+}))
+
+export const DateInputsWrapper = styled(Box)(() => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "100%",
+  gap: "16px",
+}))
+
+export const MainContainer = styled(Box)(() => ({
+  display: "flex",
+  flexDirection: "column",
+  width: "100%",
+  gap: "30px",
+}))
+
+export const DateSlider = styled(Slider)(() => ({
+  height: "40px",
+  width: "calc(100% - 40px)",
+  margin: "0 20px",
+  "& .MuiSlider-rail": {
+    width: "calc(100% + 40px)",
+    left: -20,
+    padding: "0",
+    borderRadius: "4px",
+    height: "40px",
+  },
+  "& .MuiSlider-thumb": {
+    height: "40px",
+    width: "40px",
+    borderRadius: "4px",
+    background: "transparent",
+    borderColor: "#000",
+    "&.Mui-focusVisible": {
+      boxShadow: "none",
+    },
+    "&:hover": {
+      boxShadow: "none",
+    },
+  },
+  "& .MuiSlider-track": {
+    color: "transparent",
+  },
 }))
