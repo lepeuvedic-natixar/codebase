@@ -97,6 +97,7 @@ const Notification = () => {
         </Badge>
       </IconButton>
       <Popper
+        sx={{ zIndex: "10" }}
         placement={matchesXs ? "bottom" : "bottom-end"}
         open={open}
         anchorEl={anchorRef.current}
