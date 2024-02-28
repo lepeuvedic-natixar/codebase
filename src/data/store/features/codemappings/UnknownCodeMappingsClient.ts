@@ -16,7 +16,7 @@ export const unknownMappingsApi = createApi({
       void
     >({
       query: () => ({
-        url: `/unknown_mappings`,
+        url: `/unknownMappings`,
         method: "GET",
       }),
       transformResponse(
@@ -31,7 +31,7 @@ export const unknownMappingsApi = createApi({
     }),
     getCurrentUnknownMappingIds: builder.query<string[], void>({
       query: () => ({
-        url: `/unknown_mapping_ids`,
+        url: `/unknownMappingIds`,
         method: "GET",
       }),
     }),

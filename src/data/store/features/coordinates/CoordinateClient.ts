@@ -8,7 +8,7 @@ export const coordinateApi = createApi({
   endpoints: (builder) => ({
     getRandomCoordinates: builder.query<DataSet, void>({
       query: () => ({
-        url: `/random_data`,
+        url: `/emissionsByCoordinates`,
         method: "GET",
       }),
     }),
