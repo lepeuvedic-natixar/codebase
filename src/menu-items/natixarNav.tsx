@@ -14,6 +14,8 @@ import {
 
 // type
 import { NavItemType } from "types/menu"
+import { LCAIcon } from "../assets/images/icons/IconComponents/LCAIcon"
+import { MapIcon } from "../assets/images/icons/IconComponents/MapIcon"
 
 // icons
 const icons = {
@@ -35,8 +37,8 @@ const natixarNav: NavItemType[] = [
     type: "group",
     children: [
       {
-        id: "climat-change-dashboard",
-        title: <FormattedMessage id="Climat Change Dashboard" />,
+        id: "climate-change-dashboard",
+        title: <FormattedMessage id="Climate Change Dashboard" />,
         type: "item",
         url: "/contributor/dashboard",
         icon: icons.PieChartOutlined,
@@ -46,14 +48,14 @@ const natixarNav: NavItemType[] = [
         title: <FormattedMessage id="Map" />,
         type: "item",
         url: "/contributor/map",
-        icon: icons.DashboardOutlined,
+        icon: MapIcon,
       },
       {
         id: "map2",
         title: <FormattedMessage id="Leaflet Map" />,
         type: "item",
         url: "/contributor/map2",
-        icon: icons.DashboardOutlined,
+        icon: MapIcon,
       },
       {
         id: "data",
@@ -81,7 +83,7 @@ const natixarNav: NavItemType[] = [
         title: <FormattedMessage id="LCA (user permissions)" />,
         type: "item",
         url: "/contributor/lca",
-        icon: icons.DashboardOutlined,
+        icon: LCAIcon,
       },
     ],
   },

@@ -149,6 +149,7 @@ const Profile = () => {
         </Stack>
       </ButtonBase>
       <Popper
+        sx={{ zIndex: "10" }}
         placement="bottom-end"
         open={open}
         anchorEl={anchorRef.current}
