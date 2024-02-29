@@ -9,15 +9,21 @@ import HeaderWithCategoriesLegend from "components/charts/HeaderWithCategoriesLe
 
 const selectByCompany = (state: RootState) =>
   state.coordinates.visibleFrame.byCompany
+const selectVisibleCategories = (state: RootState) =>
+  state.coordinates.wholeDataSet.categories
 
 const ByCompanySection: FunctionComponent = () => {
   const visibleFrame: ByCompanyDataPoint[] = useSelector(selectByCompany)
+  const categories: string[] = useSelector(selectVisibleCategories)
 
   return visibleFrame.length <= 0 ? null : (
     <MainCard
       contentSX={{ height: 500 }}
       title={
-        <HeaderWithCategoriesLegend titleText="Emissions by contributor" />
+        <HeaderWithCategoriesLegend
+          titleText="Emissions by contributor"
+          categories={categories}
+        />
       }
     >
       <EmissionByCompany emissionData={visibleFrame} />

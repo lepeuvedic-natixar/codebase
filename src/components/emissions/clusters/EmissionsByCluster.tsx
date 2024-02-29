@@ -1,15 +1,15 @@
-import { FunctionComponent, memo, useCallback, useMemo } from "react"
-import { Box, Button, Paper, Stack, Typography } from "@mui/material"
+import { memo, useMemo } from "react"
+import { Box, Button, Paper, Stack, SxProps, Typography } from "@mui/material"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import { formatEmissionAmount } from "utils/formatAmounts"
 import EmissionsByClusterTable from "./EmissionsTable"
 
 import { EmissionsByClusterProps } from "./types"
 
-const EmissionsByClusterSection: FunctionComponent<EmissionsByClusterProps> = ({
-  cluster,
-  onClose,
-}) => {
+const EmissionsByClusterSection = (
+  props: EmissionsByClusterProps & SxProps,
+) => {
+  const { cluster, onClose, ...sxProps } = props
   const totalEmission = useMemo(() => {
     const totalAmount = cluster.dataPoints.reduce(
       (accumulator, currentValue) => accumulator + currentValue.emission_amount,
@@ -23,6 +23,7 @@ const EmissionsByClusterSection: FunctionComponent<EmissionsByClusterProps> = ({
       sx={{
         width: "100%",
         height: "100%",
+        ...sxProps,
       }}
     >
       <Stack
@@ -42,6 +43,7 @@ const EmissionsByClusterSection: FunctionComponent<EmissionsByClusterProps> = ({
               px: "16px",
               py: "9px",
               color: "white",
+              backgroundColor: "#1890FF !important",
             }}
             onClick={() => onClose && onClose()}
             variant="contained"

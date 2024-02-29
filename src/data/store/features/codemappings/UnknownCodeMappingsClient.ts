@@ -1,0 +1,46 @@
+import { createApi } from "@reduxjs/toolkit/query/react"
+import { backendBaseQueryFn } from "data/store/config/BackendConfigs"
+import { CodeMapping, IncompleteCodeMappingStorage } from "./Types"
+
+interface AllMappingResponse {
+  ids: string[]
+  mappings: CodeMapping[]
+}
+
+export const unknownMappingsApi = createApi({
+  reducerPath: "unknownMappingsApi",
+  baseQuery: backendBaseQueryFn(),
+  endpoints: (builder) => ({
+    getCurrentUnknownMappings: builder.query<
+      IncompleteCodeMappingStorage,
+      void
+    >({
+      query: () => ({
+        url: `/unknownMappings`,
+        method: "GET",
+      }),
+      transformResponse(
+        responseMappings: AllMappingResponse,
+      ): IncompleteCodeMappingStorage {
+        return {
+          mappings: responseMappings.mappings,
+          currentIds: responseMappings.ids,
+          recentKnownIds: responseMappings.ids,
+        }
+      },
+    }),
+    getCurrentUnknownMappingIds: builder.query<string[], void>({
+      query: () => ({
+        url: `/unknownMappingIds`,
+        method: "GET",
+      }),
+    }),
+  }),
+})
+
+export const {
+  useGetCurrentUnknownMappingsQuery,
+  useLazyGetCurrentUnknownMappingsQuery,
+  useGetCurrentUnknownMappingIdsQuery,
+  useLazyGetCurrentUnknownMappingIdsQuery,
+} = unknownMappingsApi

@@ -26,7 +26,7 @@ const emissionAmountFormatter = (kgCO2eqAmount: number): string => {
     amount >= MEASURE_UNIT_GRADATION // We can pick a bigger measurement
   ) {
     amount /= MEASURE_UNIT_GRADATION
-    measureUnitIndex++
+    measureUnitIndex += 1
   }
 
   let formattedAmount = amount.toFixed(1)

@@ -1,8 +1,9 @@
 // material-ui
 import { Theme } from "@mui/material/styles"
-import { Box, useMediaQuery } from "@mui/material"
+import { Box, Stack, useMediaQuery } from "@mui/material"
 
 // project import
+import NetworkIndicator from "components/network/NetworkIndicator"
 import Profile from "./Profile"
 import Notification from "./Notification"
 import Customization from "./Customization"
@@ -16,10 +17,13 @@ const HeaderContent = () => {
       {!downLG && <Box sx={{ width: "100%" }} />}
       {downLG && <Box sx={{ width: "100%", ml: 1 }} />}
 
-      <Notification />
-      <Customization />
-      {!downLG && <Profile />}
-      {downLG && <MobileSection />}
+      <Stack direction="row" alignItems="center" gap={1}>
+        <Notification />
+        <Customization />
+        <NetworkIndicator />
+        {!downLG && <Profile />}
+        {downLG && <MobileSection />}
+      </Stack>
     </>
   )
 }

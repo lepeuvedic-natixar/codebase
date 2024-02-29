@@ -40,13 +40,20 @@ const produceVisibleIndexedData = (
       if (!accumulator[currentCompany]) {
         accumulator[currentCompany] = {}
       }
+      const accumulatorForCompany = accumulator[currentCompany]
+      if (!accumulatorForCompany.emissionsByCategory) {
+        accumulatorForCompany.emissionsByCategory = {}
+      }
 
       const currCategory = currentPoint.category.toLowerCase()
-      if (!accumulator[currentCompany][currCategory]) {
-        accumulator[currentCompany][currCategory] = 0
+      if (!accumulatorForCompany.emissionsByCategory[currCategory]) {
+        accumulatorForCompany.emissionsByCategory[currCategory] = 0
       }
-      accumulator[currentCompany][currCategory] += currentPoint.emission_amount
-      accumulator[currentCompany].company = currentCompany
+
+      accumulatorForCompany.company = currentCompany
+      accumulatorForCompany.emissionsByCategory[currCategory] +=
+        currentPoint.emission_amount
+
       return accumulator
     },
     {},
@@ -59,12 +66,20 @@ const produceVisibleIndexedData = (
         accumulator[currentCountry] = {}
       }
 
-      const currCategory = currentPoint.category.toLowerCase()
-      if (!accumulator[currentCountry][currCategory]) {
-        accumulator[currentCountry][currCategory] = 0
+      const accumulatorForCountry = accumulator[currentCountry]
+      if (!accumulatorForCountry.emissionsByCategory) {
+        accumulatorForCountry.emissionsByCategory = {}
       }
-      accumulator[currentCountry][currCategory] += currentPoint.emission_amount
-      accumulator[currentCountry].country = currentCountry
+
+      const currCategory = currentPoint.category.toLowerCase()
+      if (!accumulatorForCountry.emissionsByCategory[currCategory]) {
+        accumulatorForCountry.emissionsByCategory[currCategory] = 0
+      }
+
+      accumulatorForCountry.country = currentCountry
+      accumulatorForCountry.emissionsByCategory[currCategory] +=
+        currentPoint.emission_amount
+
       return accumulator
     },
     {},
@@ -92,11 +107,11 @@ const extractFilterValues = (state: EmissionStorage) => {
     })
   })
 
-  state.wholeDataSet.categories = Array.from(categories).map((category) =>
-    category.toLowerCase(),
-  )
-  state.wholeDataSet.companies = Array.from(companies)
-  state.wholeDataSet.countries = Array.from(countries)
+  state.wholeDataSet.categories = Array.from(categories)
+    .map((category) => category.toLowerCase())
+    .toSorted()
+  state.wholeDataSet.companies = Array.from(companies).toSorted()
+  state.wholeDataSet.countries = Array.from(countries).toSorted()
 }
 
 const extractVisibleDataPoints = (
