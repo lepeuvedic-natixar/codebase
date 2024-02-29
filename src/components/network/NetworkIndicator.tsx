@@ -6,12 +6,15 @@ import { memo } from "react"
 
 const NetworkIndicator = (props: SxProps) => {
   const { ...sxProps } = props
-  const { error } = useGetNetworkInformationQuery(undefined, {
+  const { data, error } = useGetNetworkInformationQuery(undefined, {
     pollingInterval: 2000,
   })
+
+  const networkIsOk = data && !error
+
   return (
     <Box sx={{ ...sxProps }}>
-      {!error ? (
+      {networkIsOk ? (
         <SensorsIcon color="success" />
       ) : (
         <SensorsOffIcon color="warning" />
