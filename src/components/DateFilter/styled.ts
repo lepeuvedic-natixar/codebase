@@ -90,7 +90,7 @@ export const DateSlider = styled(Slider)(() => ({
     width: "40px",
     borderRadius: "4px",
     background: "transparent",
-    borderColor: "#000",
+    border: "2px solid #000 !important",
     "&.Mui-focusVisible": {
       boxShadow: "none",
     },
@@ -101,4 +101,21 @@ export const DateSlider = styled(Slider)(() => ({
   "& .MuiSlider-track": {
     color: "transparent",
   },
+}))
+
+export const Years = styled(Box)(() => ({
+  display: "flex",
+  justifyContent: "space-between",
+  width: "100%",
+  height: "100%",
+  alignItems: "center",
+  gap: "30px",
+  position: "absolute",
+  padding: "0 20px",
+}))
+
+export const SliderWrapper = styled(Box)(() => ({
+  display: "flex",
+  width: "100%",
+  position: "relative",
 }))
