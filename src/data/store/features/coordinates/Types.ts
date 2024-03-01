@@ -43,12 +43,6 @@ interface SelectedCluster {
 }
 
 interface DataSet {
-  min_time: number
-  max_time: number
-  totalSteps: number
-  categories: string[]
-  companies: string[]
-  countries: string[]
   data: DataLayout
 }
 
@@ -68,7 +62,6 @@ interface DateTimeRangeFilter {
 
 interface EmissionStorage {
   wholeDataSet: DataSet
-  filter: DateTimeRangeFilter
   visibleFrame: PerceivedData
 }
 

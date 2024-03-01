@@ -10,7 +10,7 @@ import HeaderWithCategoriesLegend from "components/charts/HeaderWithCategoriesLe
 const selectByCompany = (state: RootState) =>
   state.coordinates.visibleFrame.byCompany
 const selectVisibleCategories = (state: RootState) =>
-  state.coordinates.wholeDataSet.categories
+  state.globalFilter.availableValues.categories
 
 const ByCompanySection: FunctionComponent = () => {
   const visibleFrame: ByCompanyDataPoint[] = useSelector(selectByCompany)

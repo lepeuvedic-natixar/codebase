@@ -10,7 +10,7 @@ import CategoriesLegend from "components/categories/CategoriesLegend"
 
 const selectSelectedCluster = (state: RootState) => state.selectedCluster
 const selectVisibleCategories = (state: RootState) =>
-  state.coordinates.wholeDataSet.categories
+  state.globalFilter.availableValues.categories
 
 const ClusteredMapSection = (props: SxProps) => {
   const { ...sxProps } = props

@@ -76,17 +76,26 @@ const extractFilterValues = (
   state: GlobalFilterState,
   emissionDataset: DataSet,
 ) => {
+  if (Object.keys(emissionDataset.data).length <= 0) {
+    state.availableValues.categories = []
+    state.availableValues.companies = []
+    state.availableValues.countries = []
+    return
+  }
+
   const categories = new Set<string>()
   const companies = new Set<string>()
   const countries = new Set<string>()
 
-  emissionDataset.data.dataPoints.forEach((dataPoint) => {
-    const { company, category } = dataPoint
-    const { country } = dataPoint.location
-    companies.add(company)
-    categories.add(category)
-    countries.add(country)
-  })
+  Object.keys(emissionDataset.data)
+    .flatMap((timeWindowMark) => emissionDataset.data[timeWindowMark])
+    .forEach((dataPoint) => {
+      const { company, category } = dataPoint
+      const { country } = dataPoint.location
+      companies.add(company)
+      categories.add(category)
+      countries.add(country)
+    })
 
   state.availableValues.categories = Array.from(categories)
     .map((category) => category.toLowerCase())
