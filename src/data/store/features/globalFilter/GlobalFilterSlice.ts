@@ -5,6 +5,8 @@ import {
   GlobalEmissionFilter,
   GlobalFilterState,
 } from "./Types"
+import { coordinateApi } from "../coordinates/CoordinateClient"
+import { DataSet } from "../coordinates/Types"
 
 const initialFilter: GlobalEmissionFilter = {
   countries: [],
@@ -70,6 +72,29 @@ const clearFilterReducer: CaseReducer<GlobalFilterState, PayloadAction> = (
   state.selectedValues = { ...initialFilter }
 }
 
+const extractFilterValues = (
+  state: GlobalFilterState,
+  emissionDataset: DataSet,
+) => {
+  const categories = new Set<string>()
+  const companies = new Set<string>()
+  const countries = new Set<string>()
+
+  emissionDataset.data.dataPoints.forEach((dataPoint) => {
+    const { company, category } = dataPoint
+    const { country } = dataPoint.location
+    companies.add(company)
+    categories.add(category)
+    countries.add(country)
+  })
+
+  state.availableValues.categories = Array.from(categories)
+    .map((category) => category.toLowerCase())
+    .toSorted()
+  state.availableValues.companies = Array.from(companies).toSorted()
+  state.availableValues.countries = Array.from(countries).toSorted()
+}
+
 export const globalFilterSlice = createSlice({
   name: "globalFilter",
   initialState,
@@ -78,6 +103,14 @@ export const globalFilterSlice = createSlice({
     clearAvailableValues: clearAvailableValuesReducer,
     setFilter: setFilterReducer,
     clearFilter: clearFilterReducer,
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      coordinateApi.endpoints.getRandomCoordinates.matchFulfilled,
+      (state, action) => {
+        extractFilterValues(state, action.payload)
+      },
+    )
   },
 })
 
