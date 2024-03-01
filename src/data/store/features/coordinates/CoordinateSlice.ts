@@ -8,7 +8,7 @@ import {
 } from "./Types"
 import { coordinateApi } from "./CoordinateClient"
 
-// const MOST_WINDOWS_OF_INTEREST = 12
+const MOST_WINDOWS_OF_INTEREST = 12
 
 const initialState: EmissionStorage = {
   wholeDataSet: {
@@ -113,24 +113,20 @@ export const coordinateSlice = createSlice({
     builder.addMatcher(
       coordinateApi.endpoints.getRandomCoordinates.matchFulfilled,
       (state, action) => {
+        // Joining date partitions
         const newData = {
           ...state.wholeDataSet.data,
           ...action.payload.data,
         }
-        /*
         const timestampsOfInterest = Object.keys(newData)
           .sort()
           .slice(-MOST_WINDOWS_OF_INTEREST)
-        */
-        state.wholeDataSet.data = newData
-        /*
-        Object.fromEntries(
+        state.wholeDataSet.data = Object.fromEntries(
           timestampsOfInterest.map((timeMoment) => [
             timeMoment,
             newData[timeMoment],
           ]),
         )
-        */
         extractVisibleDataPoints(state)
       },
     )
