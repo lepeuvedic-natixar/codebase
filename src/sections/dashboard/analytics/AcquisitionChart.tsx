@@ -17,14 +17,114 @@ import { Box } from "@mui/material"
 
 interface Props {
   slot: string
+  compare: boolean
 }
 
-const AcquisitionChart = ({ slot }: Props) => {
+const AcquisitionChart = ({ slot, compare }: Props) => {
   const theme = useTheme()
   const line = theme.palette.divider
   const { primary, secondary } = theme.palette.text
 
   const { mode } = useConfig()
+
+  // TODO: refactor colors in chart
+
+  const colorChartData = compare
+    ? [
+        "#EF8100",
+        "rgba(0,132,255,0.5)",
+        "#00BA34",
+
+        "rgba(239,129,0,0.5)",
+        "#0084FF",
+        "rgba(0,186,52,0.5)",
+
+        "#00BA34",
+        "rgba(0,132,255,0.5)",
+        "#EF8100",
+
+        "rgba(0,186,52,0.5)",
+        "#0084FF",
+
+        "rgba(239,129,0,0.5)",
+      ]
+    : ["#EF8100", "#0084FF", "#00BA34"]
+
+  let slotData
+
+  switch (slot) {
+    case "month":
+      slotData = [
+        2000, 2000, 4000, 1000, 4000, 2000, 5000, 2000, 5000, 2000, 4000, 2000,
+      ]
+      break
+    case "quarter":
+      slotData = [
+        5000, 3000, 4000, 2000, 4000, 5000, 2000, 3000, 1000, 1000, 3000, 4000,
+      ]
+      break
+    case "year":
+      slotData = [
+        2000, 2000, 2000, 1000, 4000, 1000, 3000, 4000, 4000, 4000, 4000, 5000,
+      ]
+      break
+    default:
+      slotData = [
+        2000, 2000, 4000, 1000, 4000, 2000, 5000, 2000, 5000, 2000, 4000, 2000,
+      ]
+      break
+  }
+
+  const chartData = compare
+    ? [
+        {
+          name: "Scope 1 A",
+          group: "A",
+          data: slotData,
+        },
+        {
+          name: "Scope 1 B",
+          group: "B",
+          data: slotData,
+        },
+        {
+          name: "Scope 2 A",
+          group: "A",
+          data: slotData,
+        },
+        {
+          name: "Scope 2 B",
+          group: "B",
+          data: slotData,
+        },
+        {
+          name: "Scope 3 A",
+          group: "A",
+          data: slotData,
+        },
+        {
+          name: "Scope 3 B",
+          group: "B",
+          data: slotData,
+        },
+      ]
+    : [
+        {
+          name: "Scope 1",
+          group: "A",
+          data: slotData,
+        },
+        {
+          name: "Scope 2",
+          group: "A",
+          data: slotData,
+        },
+        {
+          name: "Scope 3",
+          group: "A",
+          data: slotData,
+        },
+      ]
 
   // chart options
   const barChartOptions = {
@@ -160,46 +260,15 @@ const AcquisitionChart = ({ slot }: Props) => {
   const [options, setOptions] = useState<ChartProps>(barChartOptions)
   const [series, setSeries] = useState([
     {
-      name: "Scope 1",
-      data: [21, 17, 15, 13, 15, 13, 16, 13, 8, 14, 11, 9, 7, 5, 3, 3, 7],
-    },
-    {
-      name: "Scope 2",
-      data: [28, 30, 20, 26, 18, 27, 22, 28, 20, 21, 15, 14, 12, 10, 8, 18, 16],
-    },
-    {
-      name: "Scope 3",
-      data: [
-        50, 51, 60, 54, 53, 48, 55, 40, 44, 42, 44, 44, 42, 40, 42, 32, 16,
-      ],
+      name: "",
+      group: "",
+      data: [0, 0, 0],
     },
   ])
 
   useEffect(() => {
-    setSeries([
-      {
-        name: "Scope 1",
-        data:
-          slot === "month"
-            ? [76, 85, 101, 98, 87, 105, 91, 114, 94, 86, 115, 35]
-            : [31, 40, 28, 51, 42, 109, 100],
-      },
-      {
-        name: "Scope 2",
-        data:
-          slot === "month"
-            ? [110, 60, 150, 35, 60, 36, 26, 45, 65, 52, 53, 41]
-            : [11, 32, 45, 32, 34, 52, 41],
-      },
-      {
-        name: "Scope 3",
-        data:
-          slot === "month"
-            ? [23, 20, 201, 24, 57, 21, 45, 22, 75, 45, 49, 42]
-            : [8, 40, 38, 46, 32, 49, 56],
-      },
-    ])
-  }, [slot])
+    setSeries(chartData)
+  }, [slot, chartData])
 
   useEffect(() => {
     setOptions((prevState) => ({
@@ -215,7 +284,7 @@ const AcquisitionChart = ({ slot }: Props) => {
           show: false,
         },
       },
-      colors: ["#EF8100", "#00BA34", "#0084FF"],
+      colors: colorChartData,
       theme: {
         mode: mode === ThemeMode.DARK ? "dark" : "light",
       },

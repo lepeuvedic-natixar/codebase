@@ -10,7 +10,7 @@ import IncomeAreaChart from "sections/dashboard/default/IncomeAreaChart"
 import CO2DonutSection from "../../components/natixarComponents/CO2DonutSection"
 
 // assets
-import { ChartCard } from "../../components/natixarComponents/ChartCard"
+import { ChartCard } from "../../components/natixarComponents/ChartCard/ChartCard"
 import AcquisitionChart from "../../sections/dashboard/analytics/AcquisitionChart"
 import DateFilter from "../../components/DateFilter"
 
@@ -19,6 +19,7 @@ import DateFilter from "../../components/DateFilter"
 const NatixarChart = () => {
   const [areaSlot, setAreaSlot] = useState("month")
   const [acquisitionSlot, setAcquisitionSlot] = useState("month")
+  const [compare, setCompare] = useState(false)
 
   return (
     <Grid container rowSpacing={4.5} columnSpacing={3}>
@@ -54,8 +55,10 @@ const NatixarChart = () => {
           slot={acquisitionSlot}
           setSlot={setAcquisitionSlot}
           compareButton
+          compare={compare}
+          setCompare={setCompare}
         >
-          <AcquisitionChart slot={acquisitionSlot} />
+          <AcquisitionChart slot={acquisitionSlot} compare={compare} />
         </ChartCard>
       </Grid>
     </Grid>
