@@ -7,7 +7,7 @@ export const networkCheckApi = createApi({
   endpoints: (builder) => ({
     getNetworkInformation: builder.query<string, void>({
       query: () => ({
-        url: `/`,
+        url: `/health`,
         method: "GET",
         responseHandler: "text",
       }),
