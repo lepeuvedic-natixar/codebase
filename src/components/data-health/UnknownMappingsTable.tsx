@@ -1,25 +1,16 @@
-import {
-  FunctionComponent,
-  memo,
-  useCallback,
-  useEffect,
-  useState,
-} from "react"
+import { memo, useCallback, useEffect, useState } from "react"
 import {
   DataGrid,
   GridActionsCellItem,
   GridColDef,
   GridColTypeDef,
-  GridEventListener,
   GridRenderEditCellParams,
-  GridRowEditStopReasons,
   GridRowId,
   GridRowModel,
   GridRowModes,
   GridRowModesModel,
   GridRowParams,
   GridPreProcessEditCellProps,
-  GridRowClassNameParams,
   GridValidRowModel,
 } from "@mui/x-data-grid"
 import CheckIcon from "@mui/icons-material/Check"
@@ -31,7 +22,6 @@ import KeywordInput from "components/inputs/KeywordInput"
 import KeywordsWidget from "components/inputs/KeywordsWidget"
 import { Button, Link, SxProps } from "@mui/material"
 import { Popover, PopoverContent, PopoverTrigger } from "components/ui/popover"
-import { useDispatch } from "react-redux"
 
 /**
 It's 6 for NESH
@@ -142,12 +132,14 @@ const columns: GridColDef[] = [
 interface UnknownMappingsTableProps {
   initialMappings: CodeMapping[]
   mostRecentTimestamp: number
+  onRowUpdated: (newRow: CodeMapping) => void
 }
 
 const PAGINATION_OPTIONS = [5, 10, 25]
 
 const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
-  const { initialMappings, mostRecentTimestamp, ...sxProps } = props
+  const { initialMappings, mostRecentTimestamp, onRowUpdated, ...sxProps } =
+    props
   const [rows, setRows] = useState<CodeMapping[]>([])
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({})
 
@@ -193,9 +185,10 @@ const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
     (newRow: GridRowModel) => {
       const updatedRow = { ...newRow } as CodeMapping
       setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)))
+      onRowUpdated(updatedRow)
       return updatedRow
     },
-    [setRows],
+    [setRows, onRowUpdated],
   )
 
   const getRowClass = useCallback(

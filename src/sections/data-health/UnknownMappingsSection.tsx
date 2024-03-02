@@ -10,6 +10,7 @@ import {
   SxProps,
   Typography,
 } from "@mui/material"
+import DoneAllIcon from "@mui/icons-material/DoneAll"
 import RefreshIcon from "@mui/icons-material/Refresh"
 import MainCard from "components/MainCard"
 import UnknownMappingsTable from "components/data-health/UnknownMappingsTable"
@@ -30,46 +31,98 @@ const mappingToEditSelector = (state: RootState) =>
   state.mappingToEdit.mappingToEdit
 const idsRefreshInterval = 5 * 1000
 
-const UnknownMappingsHeader = () => (
-  <Stack
-    sx={{ height: "100%", p: 0, m: 0 }}
-    direction="row"
-    gap={2}
-    alignItems="bottom"
-  >
-    <Typography variant="h5">Unknown codes</Typography>
-    <Link
-      underline="always"
-      target="_blank"
-      rel="noopener noreferrer"
-      href={CODES_REGISTRY_URL}
+interface UnknownMappingsHeaderProps {
+  onSaveAll: () => void
+}
+
+const UnknownMappingsHeader = (props: UnknownMappingsHeaderProps & SxProps) => {
+  const { onSaveAll, ...sxProps } = props
+  const onSaveClick = useCallback(() => onSaveAll(), [onSaveAll])
+  return (
+    <Stack
+      sx={{ height: "100%", p: 0, m: 0, ...sxProps }}
+      direction="row"
+      gap={2}
+      alignItems="center"
     >
-      Public code base
-    </Link>
-  </Stack>
-)
+      <Typography variant="h5">Unknown codes</Typography>
+      <Link
+        underline="always"
+        target="_blank"
+        rel="noopener noreferrer"
+        href={CODES_REGISTRY_URL}
+      >
+        Public code base
+      </Link>
+      <Button
+        sx={{ marginLeft: "auto" }}
+        startIcon={<DoneAllIcon />}
+        onClick={onSaveClick}
+      >
+        Save all
+      </Button>
+    </Stack>
+  )
+}
+
+const mappingIsFilled = (mapping: CodeMapping): boolean => {
+  const goodsCodeIsFilled = mapping.goodsCode?.trim().length
+  const keywordsAreFilled = mapping.precision?.length
+
+  return (
+    goodsCodeIsFilled !== undefined &&
+    goodsCodeIsFilled > 0 &&
+    keywordsAreFilled !== undefined &&
+    keywordsAreFilled > 0
+  )
+}
 
 const UnknownMappingsSection = (props: SxProps) => {
   const { ...sxProps } = props
+
   const [pullMappings, { isLoading }] = useLazyGetCurrentUnknownMappingsQuery()
-  //   const [weClickedLoading, setClickedLoading] = useState(false)
-  useGetCurrentUnknownMappingIdsQuery(undefined, {
-    pollingInterval: idsRefreshInterval,
-  })
-  useEffect(() => {
-    pullMappings()
-  }, [pullMappings])
   const onPullClick = useCallback(() => {
     pullMappings()
-    // setClickedLoading(true)
   }, [pullMappings])
-  const allMappings = useSelector(allMappingsSelector)
-  const mappingToEdit = useSelector(mappingToEditSelector)
+  useEffect(onPullClick, [pullMappings])
 
+  const allMappings = useSelector(allMappingsSelector)
+  const [filledMappings, setFilledMappings] = useState<
+    Record<string, CodeMapping | undefined>
+  >({})
+  useEffect(() => {
+    const computedFilledMappings: Record<string, CodeMapping> =
+      allMappings.mappings
+        .filter(mappingIsFilled)
+        .map((m) => ({ ...m })) // De-reduxing
+        .reduce(
+          (acc, newMapping) => {
+            acc[newMapping.id] = newMapping
+            return acc
+          },
+          {} as Record<string, CodeMapping>,
+        )
+    setFilledMappings(computedFilledMappings)
+  }, [allMappings.mappings])
+
+  const onSaveAllClick = useCallback(() => {
+    // filledMappings
+  }, [allMappings])
+
+  const mappingToEdit = useSelector(mappingToEditSelector)
   const onValueSubmit = (newMapping: CodeMapping) => {
+    if (mappingIsFilled(newMapping)) {
+      filledMappings[newMapping.id] = newMapping
+    } else {
+      filledMappings[newMapping.id] = undefined
+    }
+    setFilledMappings(filledMappings)
     alert(`Yes, I see new value ${JSON.stringify(newMapping)}`)
   }
 
+  useGetCurrentUnknownMappingIdsQuery(undefined, {
+    pollingInterval: idsRefreshInterval,
+  })
   const newMappingsCount =
     allMappings.recentKnownIds.length - allMappings.currentIds.length
   const mappingsMessageText =
@@ -80,7 +133,7 @@ const UnknownMappingsSection = (props: SxProps) => {
 
   return (
     <MainCard
-      title={<UnknownMappingsHeader />}
+      title={<UnknownMappingsHeader onSaveAll={onSaveAllClick} />}
       sx={{ ...sxProps }}
       contentSX={{
         p: 0,
@@ -130,6 +183,7 @@ const UnknownMappingsSection = (props: SxProps) => {
           <UnknownMappingsTable
             mostRecentTimestamp={allMappings.mostRecentTimestamp}
             initialMappings={allMappings.mappings}
+            onRowUpdated={onValueSubmit}
           />
         </Stack>
         {isLoading ? (
@@ -142,8 +196,6 @@ const UnknownMappingsSection = (props: SxProps) => {
               position: "absolute",
               zIndex: 2,
             }}
-            width="100%"
-            height="100%"
             variant="rectangular"
           />
         ) : null}
