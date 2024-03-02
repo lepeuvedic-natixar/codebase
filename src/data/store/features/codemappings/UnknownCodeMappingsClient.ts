@@ -8,9 +8,13 @@ interface AllMappingResponse {
   mostRecentTimestamp: number
 }
 
+const TAG_TYPE_MAPPING = "UnknownMappings"
+const TAG_TYPE_MAPPING_ID = "UnknownMappingIds"
+
 export const unknownMappingsApi = createApi({
   reducerPath: "unknownMappingsApi",
   baseQuery: backendBaseQueryFn(),
+  tagTypes: [TAG_TYPE_MAPPING, TAG_TYPE_MAPPING_ID],
   endpoints: (builder) => ({
     getCurrentUnknownMappings: builder.query<
       IncompleteCodeMappingStorage,
@@ -30,12 +34,28 @@ export const unknownMappingsApi = createApi({
           mostRecentTimestamp: responseMappings.mostRecentTimestamp,
         }
       },
+      providesTags: () => [
+        { type: TAG_TYPE_MAPPING, id: "LIST" },
+        { type: TAG_TYPE_MAPPING_ID, id: "LIST" },
+      ],
     }),
     getCurrentUnknownMappingIds: builder.query<string[], void>({
       query: () => ({
         url: `/unknownMappingIds`,
         method: "GET",
       }),
+      providesTags: () => [{ type: TAG_TYPE_MAPPING_ID, id: "LIST" }],
+    }),
+    saveFilledMappings: builder.mutation<string[], CodeMapping[]>({
+      query: (data) => ({
+        url: "/mappings",
+        method: "POST",
+        data,
+      }),
+      invalidatesTags: [
+        { type: TAG_TYPE_MAPPING, id: "LIST" },
+        { type: TAG_TYPE_MAPPING_ID, id: "LIST" },
+      ],
     }),
   }),
 })
@@ -45,4 +65,5 @@ export const {
   useLazyGetCurrentUnknownMappingsQuery,
   useGetCurrentUnknownMappingIdsQuery,
   useLazyGetCurrentUnknownMappingIdsQuery,
+  useSaveFilledMappingsMutation,
 } = unknownMappingsApi

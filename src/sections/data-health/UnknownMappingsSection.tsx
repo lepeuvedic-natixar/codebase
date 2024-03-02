@@ -21,8 +21,12 @@ import { RootState } from "data/store"
 import {
   useGetCurrentUnknownMappingIdsQuery,
   useLazyGetCurrentUnknownMappingsQuery,
+  useSaveFilledMappingsMutation,
 } from "data/store/features/codemappings/UnknownCodeMappingsClient"
-import { CodeMapping } from "data/store/features/codemappings/Types"
+import {
+  CodeMapping,
+  IncompleteCodeMappingStorage,
+} from "data/store/features/codemappings/Types"
 
 const CODES_REGISTRY_URL =
   "https://ec.europa.eu/taxation_customs/dds2/taric/taric_consultation.jsp?Expand=true"
@@ -35,35 +39,88 @@ interface UnknownMappingsHeaderProps {
   onSaveAll: () => void
 }
 
-const UnknownMappingsHeader = (props: UnknownMappingsHeaderProps & SxProps) => {
-  const { onSaveAll, ...sxProps } = props
-  const onSaveClick = useCallback(() => onSaveAll(), [onSaveAll])
-  return (
-    <Stack
-      sx={{ height: "100%", p: 0, m: 0, ...sxProps }}
-      direction="row"
-      gap={2}
-      alignItems="center"
-    >
-      <Typography variant="h5">Unknown codes</Typography>
-      <Link
-        underline="always"
-        target="_blank"
-        rel="noopener noreferrer"
-        href={CODES_REGISTRY_URL}
+const UnknownMappingsHeader = memo(
+  (props: UnknownMappingsHeaderProps & SxProps) => {
+    const { onSaveAll, ...sxProps } = props
+    const onSaveClick = useCallback(() => onSaveAll(), [onSaveAll])
+    return (
+      <Stack
+        sx={{ height: "100%", p: 0, m: 0, ...sxProps }}
+        direction="row"
+        gap={2}
+        alignItems="center"
       >
-        Public code base
-      </Link>
-      <Button
-        sx={{ marginLeft: "auto" }}
-        startIcon={<DoneAllIcon />}
-        onClick={onSaveClick}
-      >
-        Save all
-      </Button>
-    </Stack>
-  )
+        <Typography variant="h5">Unknown codes</Typography>
+        <Link
+          underline="always"
+          target="_blank"
+          rel="noopener noreferrer"
+          href={CODES_REGISTRY_URL}
+        >
+          Public code base
+        </Link>
+        <Button
+          sx={{ marginLeft: "auto" }}
+          startIcon={<DoneAllIcon />}
+          onClick={onSaveClick}
+        >
+          Save all
+        </Button>
+      </Stack>
+    )
+  },
+)
+
+interface NewIdsNotificationProps {
+  allMappings: IncompleteCodeMappingStorage
+  onClick: () => void
 }
+
+const NewIdsNotification = memo((props: NewIdsNotificationProps & SxProps) => {
+  const { allMappings, onClick, ...sxProps } = props
+  useGetCurrentUnknownMappingIdsQuery(undefined, {
+    pollingInterval: idsRefreshInterval,
+  })
+  const newMappingsCount =
+    allMappings.recentKnownIds.length - allMappings.currentIds.length
+  const mappingsMessageText =
+    newMappingsCount > 0
+      ? `New ${newMappingsCount} mappings`
+      : "Mappings are up-to-date!"
+  const messageColor = newMappingsCount > 0 ? "info" : "success"
+
+  return (
+    <Collapse in={newMappingsCount > 0}>
+      <Button
+        color={messageColor}
+        onClick={onClick}
+        sx={{
+          width: "100%",
+          border: 0,
+          p: 0,
+          m: 0,
+          ...sxProps,
+        }}
+      >
+        <Stack
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          gap={2}
+          sx={{
+            width: "100%",
+            color: "white",
+            backgroundColor: (theme) => theme.palette.info.main,
+            p: 2,
+          }}
+        >
+          <Typography variant="h5">{mappingsMessageText}</Typography>
+          <RefreshIcon color="action" sx={{ color: "secondary" }} />
+        </Stack>
+      </Button>
+    </Collapse>
+  )
+})
 
 const mappingIsFilled = (mapping: CodeMapping): boolean => {
   const goodsCodeIsFilled = mapping.goodsCode?.trim().length
@@ -77,6 +134,14 @@ const mappingIsFilled = (mapping: CodeMapping): boolean => {
   )
 }
 
+const OVERLAY_FRAME_PROPS: SxProps = {
+  top: 0,
+  bottom: 0,
+  width: "100%",
+  height: "100%",
+  position: "absolute",
+}
+
 const UnknownMappingsSection = (props: SxProps) => {
   const { ...sxProps } = props
 
@@ -85,10 +150,12 @@ const UnknownMappingsSection = (props: SxProps) => {
     pullMappings()
   }, [pullMappings])
   useEffect(onPullClick, [pullMappings])
+  const [saveAllMappings, { isLoading: isUpdating }] =
+    useSaveFilledMappingsMutation()
 
   const allMappings = useSelector(allMappingsSelector)
   const [filledMappings, setFilledMappings] = useState<
-    Record<string, CodeMapping | undefined>
+    Record<string, CodeMapping>
   >({})
   useEffect(() => {
     const computedFilledMappings: Record<string, CodeMapping> =
@@ -106,30 +173,21 @@ const UnknownMappingsSection = (props: SxProps) => {
   }, [allMappings.mappings])
 
   const onSaveAllClick = useCallback(() => {
-    // filledMappings
-  }, [allMappings])
+    const mappingsToSave = Object.values(filledMappings)
+    saveAllMappings(mappingsToSave)
+  }, [allMappings, saveAllMappings])
 
   const mappingToEdit = useSelector(mappingToEditSelector)
   const onValueSubmit = (newMapping: CodeMapping) => {
+    const newFilledMappings = { ...filledMappings }
     if (mappingIsFilled(newMapping)) {
-      filledMappings[newMapping.id] = newMapping
+      newFilledMappings[newMapping.id] = newMapping
     } else {
-      filledMappings[newMapping.id] = undefined
+      delete newFilledMappings[newMapping.id]
     }
-    setFilledMappings(filledMappings)
+    setFilledMappings(() => newFilledMappings)
     alert(`Yes, I see new value ${JSON.stringify(newMapping)}`)
   }
-
-  useGetCurrentUnknownMappingIdsQuery(undefined, {
-    pollingInterval: idsRefreshInterval,
-  })
-  const newMappingsCount =
-    allMappings.recentKnownIds.length - allMappings.currentIds.length
-  const mappingsMessageText =
-    newMappingsCount > 0
-      ? `New ${newMappingsCount} mappings`
-      : "Mappings are up-to-date!"
-  const messageColor = newMappingsCount > 0 ? "info" : "success"
 
   return (
     <MainCard
@@ -144,56 +202,21 @@ const UnknownMappingsSection = (props: SxProps) => {
       <Box sx={{ width: "100%", minHeight: "440px", position: "relative" }}>
         <Stack
           sx={{
-            position: "absolute",
-            top: 0,
-            bottom: 0,
-            width: "100%",
-            height: "100%",
+            ...OVERLAY_FRAME_PROPS,
             zIndex: 1,
           }}
         >
-          <Collapse in={newMappingsCount > 0}>
-            <Button
-              color={messageColor}
-              onClick={onPullClick}
-              sx={{
-                width: "100%",
-                border: 0,
-                p: 0,
-                m: 0,
-              }}
-            >
-              <Stack
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                gap={2}
-                sx={{
-                  width: "100%",
-                  color: "white",
-                  backgroundColor: (theme) => theme.palette.info.main,
-                  p: 2,
-                }}
-              >
-                <Typography variant="h5">{mappingsMessageText}</Typography>
-                <RefreshIcon color="action" sx={{ color: "secondary" }} />
-              </Stack>
-            </Button>
-          </Collapse>
+          <NewIdsNotification allMappings={allMappings} onClick={onPullClick} />
           <UnknownMappingsTable
             mostRecentTimestamp={allMappings.mostRecentTimestamp}
             initialMappings={allMappings.mappings}
             onRowUpdated={onValueSubmit}
           />
         </Stack>
-        {isLoading ? (
+        {isLoading || isUpdating ? (
           <Skeleton
             sx={{
-              top: 0,
-              bottom: 0,
-              width: "100%",
-              height: "100%",
-              position: "absolute",
+              ...OVERLAY_FRAME_PROPS,
               zIndex: 2,
             }}
             variant="rectangular"
@@ -202,11 +225,7 @@ const UnknownMappingsSection = (props: SxProps) => {
         <Fade in={mappingToEdit != null} timeout={300}>
           <Box
             sx={{
-              top: 0,
-              bottom: 0,
-              width: "100%",
-              height: "100%",
-              position: "absolute",
+              ...OVERLAY_FRAME_PROPS,
               zIndex: 3,
             }}
           >
