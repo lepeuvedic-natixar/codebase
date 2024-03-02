@@ -5,6 +5,7 @@ import { CodeMapping, IncompleteCodeMappingStorage } from "./Types"
 interface AllMappingResponse {
   ids: string[]
   mappings: CodeMapping[]
+  mostRecentTimestamp: number
 }
 
 export const unknownMappingsApi = createApi({
@@ -26,6 +27,7 @@ export const unknownMappingsApi = createApi({
           mappings: responseMappings.mappings,
           currentIds: responseMappings.ids,
           recentKnownIds: responseMappings.ids,
+          mostRecentTimestamp: responseMappings.mostRecentTimestamp,
         }
       },
     }),
