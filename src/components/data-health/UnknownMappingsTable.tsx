@@ -1,4 +1,10 @@
-import { FunctionComponent, memo, useEffect, useState } from "react"
+import {
+  FunctionComponent,
+  memo,
+  useCallback,
+  useEffect,
+  useState,
+} from "react"
 import {
   DataGrid,
   GridActionsCellItem,
@@ -14,6 +20,7 @@ import {
   GridRowParams,
   GridPreProcessEditCellProps,
   GridRowClassNameParams,
+  GridValidRowModel,
 } from "@mui/x-data-grid"
 import CheckIcon from "@mui/icons-material/Check"
 import CloseIcon from "@mui/icons-material/Close"
@@ -134,12 +141,13 @@ const columns: GridColDef[] = [
 
 interface UnknownMappingsTableProps {
   initialMappings: CodeMapping[]
+  mostRecentTimestamp: number
 }
 
 const PAGINATION_OPTIONS = [5, 10, 25]
 
 const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
-  const { initialMappings, ...sxProps } = props
+  const { initialMappings, mostRecentTimestamp, ...sxProps } = props
   const [rows, setRows] = useState<CodeMapping[]>([])
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({})
 
@@ -157,9 +165,12 @@ const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
   // console.log("Editable mappings", editableInitialMappings)
   // console.log("Our rows", rows)
 
-  const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
-    setRowModesModel(newRowModesModel)
-  }
+  const handleRowModesModelChange = useCallback(
+    (newRowModesModel: GridRowModesModel) => {
+      setRowModesModel(newRowModesModel)
+    },
+    [setRowModesModel],
+  )
 
   const handleEditClick = (id: GridRowId) => () => {
     /* , row: GridRowModel */
@@ -178,11 +189,31 @@ const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
     })
   }
 
-  const processRowUpdate = (newRow: GridRowModel) => {
-    const updatedRow = { ...newRow } as CodeMapping
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)))
-    return updatedRow
-  }
+  const processRowUpdate = useCallback(
+    (newRow: GridRowModel) => {
+      const updatedRow = { ...newRow } as CodeMapping
+      setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)))
+      return updatedRow
+    },
+    [setRows],
+  )
+
+  const getRowClass = useCallback(
+    (params: GridValidRowModel) => {
+      const { row } = params
+      const rowIsFilled =
+        row.goodsCode && row.precision && row.precision!!.length > 0
+      const rowIsRecent = row.timestamp === mostRecentTimestamp
+      let rowClass = ""
+      if (rowIsFilled) {
+        rowClass = "bg-sky-50"
+      } else if (rowIsRecent) {
+        rowClass = "bg-yellow-50"
+      }
+      return rowClass
+    },
+    [mostRecentTimestamp],
+  )
 
   const createActionsColumn = () => ({
     field: "actions",
@@ -193,7 +224,7 @@ const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
     hideable: false,
     minWidth: 100,
     getActions: (params: GridRowParams) => {
-      const currentRow = params.row
+      // const currentRow = params.row
       const { id } = params
       const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit
 
@@ -228,13 +259,10 @@ const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
   })
 
   const columnDefinitions = [...columns, createActionsColumn()]
-  const headerCssSelector = `& .${HEADER_CSS_CLASS}`
 
   return (
     <DataGrid
       sx={{
-        width: "100%",
-        height: "100%",
         "& .MuiDataGrid-cell": {
           outline: "none !important",
         },
@@ -245,20 +273,14 @@ const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
           backgroundColor: `blue`,
           color: "#ff4343",
         },
-        [headerCssSelector]: {
+        [`& .${HEADER_CSS_CLASS}`]: {
           backgroundColor: "#F0F0F0",
         },
         ...sxProps,
       }}
       editMode="row"
       columns={columnDefinitions}
-      getRowClassName={(params) => {
-        const rowIsFilled =
-          params.row.goodsCode &&
-          params.row.precision &&
-          params.row.precision!!.length > 0
-        return rowIsFilled ? "bg-sky-50 hover:bg-sky-700" : ""
-      }}
+      getRowClassName={getRowClass}
       rows={rows}
       rowModesModel={rowModesModel}
       onRowModesModelChange={handleRowModesModelChange}
