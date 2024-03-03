@@ -38,12 +38,17 @@ const idsRefreshInterval = 5 * 1000
 
 interface UnknownMappingsHeaderProps {
   onSaveAll: () => void
+  itemsToSaveCount?: number
 }
 
 const UnknownMappingsHeader = memo(
   (props: UnknownMappingsHeaderProps & SxProps) => {
-    const { onSaveAll, ...sxProps } = props
+    const { onSaveAll, itemsToSaveCount, ...sxProps } = props
     const onSaveClick = useCallback(() => onSaveAll(), [onSaveAll])
+    let saveAllText = "Save all"
+    if (itemsToSaveCount > 0) {
+      saveAllText += `(${itemsToSaveCount})`
+    }
     return (
       <Stack
         sx={{ height: "100%", p: 0, m: 0, ...sxProps }}
@@ -60,13 +65,15 @@ const UnknownMappingsHeader = memo(
         >
           Public code base
         </Link>
-        <Button
-          sx={{ marginLeft: "auto" }}
-          startIcon={<DoneAllIcon />}
-          onClick={onSaveClick}
-        >
-          Save all
-        </Button>
+        <Fade in={itemsToSaveCount !== undefined && itemsToSaveCount > 0}>
+          <Button
+            sx={{ marginLeft: "auto" }}
+            startIcon={<DoneAllIcon />}
+            onClick={onSaveClick}
+          >
+            {saveAllText}
+          </Button>
+        </Fade>
       </Stack>
     )
   },
@@ -139,6 +146,8 @@ const UnknownMappingsSection = (props: SxProps) => {
   const { ...sxProps } = props
 
   const [pullMappings, { isLoading }] = useLazyGetCurrentUnknownMappingsQuery()
+  const [filledMappingsCount, setFilledMappingsCount] = useState(0)
+
   const onPullClick = useCallback(() => {
     pullMappings()
   }, [pullMappings])
@@ -175,26 +184,26 @@ const UnknownMappingsSection = (props: SxProps) => {
       .map((mapping) => ({ ...mapping })) // De-reduxing
     console.log("Mappings to save ", mappingsToSave)
     saveAllMappings(mappingsToSave)
+    setFilledMappingsCount(0)
   }, [allMappings, saveAllMappings])
 
   const mappingToEdit = useSelector(mappingToEditSelector)
-  const onValueSubmit = () => {
-    // const newFilledMappings = { ...filledMappings }
-    // if (mappingIsFilled(newMapping)) {
-    // newFilledMappings[newMapping.id] = newMapping
-    // } else {
-    // delete newFilledMappings[newMapping.id]
-    // }
-    // useEffect(
-    // () => setFilledMappings(() => newFilledMappings),
-    // [setFilledMappings],
-    // )
-    // alert(`Yes, I see new value ${JSON.stringify(newMapping)}`)
+  const onValueSubmit = (updatedMapping: CodeMapping) => {
+    if (mappingIsFilled(updatedMapping)) {
+      setFilledMappingsCount(filledMappingsCount + 1)
+    } else {
+      setFilledMappingsCount(Math.max(0, filledMappingsCount - 1))
+    }
   }
 
   return (
     <MainCard
-      title={<UnknownMappingsHeader onSaveAll={onSaveAllClick} />}
+      title={
+        <UnknownMappingsHeader
+          onSaveAll={onSaveAllClick}
+          itemsToSaveCount={filledMappingsCount}
+        />
+      }
       sx={{ ...sxProps }}
       contentSX={{
         p: 0,

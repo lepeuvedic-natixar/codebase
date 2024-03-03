@@ -177,7 +177,7 @@ const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
       const updatedRow = { ...newRow } as CodeMapping
       setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)))
       try {
-        // onRowUpdated(updatedRow)
+        onRowUpdated(updatedRow)
       } catch (e) {
         console.log("Error !2123", e)
       }
