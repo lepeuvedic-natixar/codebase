@@ -130,7 +130,8 @@ const columns: GridColDef[] = [
 ]
 
 interface UnknownMappingsTableProps {
-  initialMappings: CodeMapping[]
+  rows: CodeMapping[]
+  setRows: (newRows: CodeMapping[]) => void
   mostRecentTimestamp: number
   onRowUpdated: (newRow: CodeMapping) => void
 }
@@ -138,25 +139,8 @@ interface UnknownMappingsTableProps {
 const PAGINATION_OPTIONS = [5, 10, 25]
 
 const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
-  const { initialMappings, mostRecentTimestamp, onRowUpdated, ...sxProps } =
-    props
-  const [rows, setRows] = useState<CodeMapping[]>([])
+  const { rows, setRows, mostRecentTimestamp, onRowUpdated, ...sxProps } = props
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({})
-
-  useEffect(() => {
-    const editableInitialMappings: CodeMapping[] = initialMappings.map(
-      (mapping) => ({ ...mapping }) as CodeMapping,
-    )
-    // We receive initialMappings from Redux.
-    // So array and it's objects are immutable
-    // Here, we deconstruct them to make new, mutable array and objects
-    setRows(editableInitialMappings)
-  }, [initialMappings])
-
-  // console.log("Initial mappings", initialMappings)
-  // console.log("Editable mappings", editableInitialMappings)
-  // console.log("Our rows", rows)
-
   const handleRowModesModelChange = useCallback(
     (newRowModesModel: GridRowModesModel) => {
       setRowModesModel(newRowModesModel)
@@ -164,28 +148,39 @@ const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
     [setRowModesModel],
   )
 
-  const handleEditClick = (id: GridRowId) => () => {
-    /* , row: GridRowModel */
-    // dispatch(selectMappingToEdit(row as CodeMapping))
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } })
-  }
+  const handleEditClick = useCallback(
+    (id: GridRowId) => () => {
+      setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } })
+    },
+    [setRowModesModel],
+  )
 
-  const handleSaveClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } })
-  }
+  const handleSaveClick = useCallback(
+    (id: GridRowId) => () => {
+      setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } })
+    },
+    [setRowModesModel],
+  )
 
-  const handleCancelClick = (id: GridRowId) => () => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
-    })
-  }
+  const handleCancelClick = useCallback(
+    (id: GridRowId) => () => {
+      setRowModesModel({
+        ...rowModesModel,
+        [id]: { mode: GridRowModes.View, ignoreModifications: true },
+      })
+    },
+    [setRowModesModel],
+  )
 
   const processRowUpdate = useCallback(
     (newRow: GridRowModel) => {
       const updatedRow = { ...newRow } as CodeMapping
       setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)))
-      onRowUpdated(updatedRow)
+      try {
+        // onRowUpdated(updatedRow)
+      } catch (e) {
+        console.log("Error !2123", e)
+      }
       return updatedRow
     },
     [setRows, onRowUpdated],

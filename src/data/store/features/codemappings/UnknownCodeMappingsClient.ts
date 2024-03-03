@@ -46,11 +46,14 @@ export const unknownMappingsApi = createApi({
       }),
       providesTags: () => [{ type: TAG_TYPE_MAPPING_ID, id: "LIST" }],
     }),
-    saveFilledMappings: builder.mutation<string[], CodeMapping[]>({
-      query: (data) => ({
+    saveFilledMappings: builder.mutation({
+      query: (payload) => ({
         url: "/mappings",
         method: "POST",
-        data,
+        body: payload,
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
       }),
       invalidatesTags: [
         { type: TAG_TYPE_MAPPING, id: "LIST" },

@@ -14,7 +14,6 @@ import DoneAllIcon from "@mui/icons-material/DoneAll"
 import RefreshIcon from "@mui/icons-material/Refresh"
 import MainCard from "components/MainCard"
 import UnknownMappingsTable from "components/data-health/UnknownMappingsTable"
-import UnknownMappingForm from "components/data-health/UnknownMappingForm"
 
 import { useSelector } from "react-redux"
 import { RootState } from "data/store"
@@ -26,7 +25,9 @@ import {
 import {
   CodeMapping,
   IncompleteCodeMappingStorage,
+  mappingIsFilled,
 } from "data/store/features/codemappings/Types"
+import _ from "lodash"
 
 const CODES_REGISTRY_URL =
   "https://ec.europa.eu/taxation_customs/dds2/taric/taric_consultation.jsp?Expand=true"
@@ -122,18 +123,6 @@ const NewIdsNotification = memo((props: NewIdsNotificationProps & SxProps) => {
   )
 })
 
-const mappingIsFilled = (mapping: CodeMapping): boolean => {
-  const goodsCodeIsFilled = mapping.goodsCode?.trim().length
-  const keywordsAreFilled = mapping.precision?.length
-
-  return (
-    goodsCodeIsFilled !== undefined &&
-    goodsCodeIsFilled > 0 &&
-    keywordsAreFilled !== undefined &&
-    keywordsAreFilled > 0
-  )
-}
-
 const OVERLAY_FRAME_PROPS: SxProps = {
   top: 0,
   bottom: 0,
@@ -141,6 +130,10 @@ const OVERLAY_FRAME_PROPS: SxProps = {
   height: "100%",
   position: "absolute",
 }
+
+const mappingIsDirty = (mapping: CodeMapping): boolean =>
+  (mapping.goodsCode !== undefined && _.trim(mapping.goodsCode).length > 0) ||
+  (mapping.precision !== undefined && mapping.precision?.length > 0)
 
 const UnknownMappingsSection = (props: SxProps) => {
   const { ...sxProps } = props
@@ -154,39 +147,49 @@ const UnknownMappingsSection = (props: SxProps) => {
     useSaveFilledMappingsMutation()
 
   const allMappings = useSelector(allMappingsSelector)
-  const [filledMappings, setFilledMappings] = useState<
-    Record<string, CodeMapping>
-  >({})
+  const [rows, setRows] = useState<CodeMapping[]>([])
   useEffect(() => {
-    const computedFilledMappings: Record<string, CodeMapping> =
-      allMappings.mappings
-        .filter(mappingIsFilled)
-        .map((m) => ({ ...m })) // De-reduxing
-        .reduce(
-          (acc, newMapping) => {
-            acc[newMapping.id] = newMapping
-            return acc
-          },
-          {} as Record<string, CodeMapping>,
-        )
-    setFilledMappings(computedFilledMappings)
+    const rowsLayout = rows.reduce(
+      (acc, nextMapping) => {
+        acc[nextMapping.id] = nextMapping
+        return acc
+      },
+      {} as Record<string, CodeMapping | undefined>,
+    )
+    // Merge data, received from the server with what we edited already
+    const editableInitialMappings: CodeMapping[] = allMappings.mappings.map(
+      (mappingFromServer) => {
+        const prevValue = rowsLayout[mappingFromServer.id]
+        if (prevValue !== undefined && mappingIsDirty(prevValue)) {
+          return { ...prevValue, ...mappingFromServer }
+        }
+        return { ...mappingFromServer }
+      },
+    )
+    setRows(editableInitialMappings)
   }, [allMappings.mappings])
 
   const onSaveAllClick = useCallback(() => {
-    const mappingsToSave = Object.values(filledMappings)
+    const mappingsToSave = rows
+      .filter(mappingIsFilled)
+      .map((mapping) => ({ ...mapping })) // De-reduxing
+    console.log("Mappings to save ", mappingsToSave)
     saveAllMappings(mappingsToSave)
   }, [allMappings, saveAllMappings])
 
   const mappingToEdit = useSelector(mappingToEditSelector)
-  const onValueSubmit = (newMapping: CodeMapping) => {
-    const newFilledMappings = { ...filledMappings }
-    if (mappingIsFilled(newMapping)) {
-      newFilledMappings[newMapping.id] = newMapping
-    } else {
-      delete newFilledMappings[newMapping.id]
-    }
-    setFilledMappings(() => newFilledMappings)
-    alert(`Yes, I see new value ${JSON.stringify(newMapping)}`)
+  const onValueSubmit = () => {
+    // const newFilledMappings = { ...filledMappings }
+    // if (mappingIsFilled(newMapping)) {
+    // newFilledMappings[newMapping.id] = newMapping
+    // } else {
+    // delete newFilledMappings[newMapping.id]
+    // }
+    // useEffect(
+    // () => setFilledMappings(() => newFilledMappings),
+    // [setFilledMappings],
+    // )
+    // alert(`Yes, I see new value ${JSON.stringify(newMapping)}`)
   }
 
   return (
@@ -208,8 +211,9 @@ const UnknownMappingsSection = (props: SxProps) => {
         >
           <NewIdsNotification allMappings={allMappings} onClick={onPullClick} />
           <UnknownMappingsTable
+            rows={rows}
+            setRows={setRows}
             mostRecentTimestamp={allMappings.mostRecentTimestamp}
-            initialMappings={allMappings.mappings}
             onRowUpdated={onValueSubmit}
           />
         </Stack>
@@ -229,10 +233,10 @@ const UnknownMappingsSection = (props: SxProps) => {
               zIndex: 3,
             }}
           >
-            <UnknownMappingForm
+            {/* <UnknownMappingForm
               mappingToEdit={mappingToEdit}
               valueObserver={onValueSubmit}
-            />
+            /> */}
           </Box>
         </Fade>
       </Box>

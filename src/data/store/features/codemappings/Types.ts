@@ -1,3 +1,5 @@
+import _ from "lodash"
+
 interface CodeMapping {
   id: string
   tool: string
@@ -6,6 +8,15 @@ interface CodeMapping {
   goodsCode?: string
   precision?: string[]
   timestamp: number
+}
+
+const mappingIsFilledFn = (mapping: CodeMapping): boolean => {
+  const goodsCodeIsFilled =
+    mapping.goodsCode !== undefined && _.trim(mapping.goodsCode).length > 0
+  const keywordsAreFilled =
+    mapping.precision !== undefined && mapping.precision.length > 0
+
+  return goodsCodeIsFilled && keywordsAreFilled
 }
 
 interface GoodsRegistryInfo {
@@ -26,6 +37,7 @@ interface IncompleteCodeMappingStorage {
   mostRecentTimestamp: number
 }
 
+export const mappingIsFilled = mappingIsFilledFn
 export type { CodeMapping }
 export type { GoodsRegistryInfo }
 export type { MappintToEditContent }
