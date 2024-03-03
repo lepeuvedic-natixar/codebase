@@ -20,13 +20,12 @@ import { useState } from "react"
 
 // ==============================|| HEADER CONTENT - SEARCH ||============================== //
 
-const selectVisibleCategories = (state: RootState) =>
-  state.coordinates.wholeDataSet
+const selectGlobalFilter = (state: RootState) => state.globalFilter
 
 const Search = () => {
-  const { companies, categories, countries } = useSelector(
-    selectVisibleCategories,
-  )
+  const { availableValues } = useSelector(selectGlobalFilter)
+  const { companies, categories, countries } = availableValues
+
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const [selectedCompanies, setSelectedCompanies] = useState<string[]>([])
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars

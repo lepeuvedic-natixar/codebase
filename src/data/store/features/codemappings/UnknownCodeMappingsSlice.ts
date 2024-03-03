@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import _ from "lodash"
 import { IncompleteCodeMappingStorage } from "./Types"
 import { unknownMappingsApi } from "./UnknownCodeMappingsClient"
 
@@ -6,6 +7,7 @@ const initialState: IncompleteCodeMappingStorage = {
   mappings: [],
   currentIds: [],
   recentKnownIds: [],
+  mostRecentTimestamp: 0,
 }
 
 export const unknownCodesSlice = createSlice({
@@ -17,9 +19,8 @@ export const unknownCodesSlice = createSlice({
       .addMatcher(
         unknownMappingsApi.endpoints.getCurrentUnknownMappings.matchFulfilled,
         (state, action) => {
-          state.mappings = action.payload.mappings
-          state.currentIds = action.payload.currentIds
-          state.recentKnownIds = action.payload.recentKnownIds
+          Object.assign(state, action.payload)
+          state.mappings = _.sortBy(state.mappings, "timestamp").reverse()
         },
       )
       .addMatcher(

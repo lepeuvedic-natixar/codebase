@@ -12,17 +12,7 @@ const MOST_WINDOWS_OF_INTEREST = 12
 
 const initialState: EmissionStorage = {
   wholeDataSet: {
-    min_time: Date.now() - 60 * 60 * 1000,
-    max_time: Date.now(),
-    totalSteps: MOST_WINDOWS_OF_INTEREST,
-    categories: [],
-    companies: [],
-    countries: [],
     data: {},
-  },
-  filter: {
-    from: 0,
-    to: MOST_WINDOWS_OF_INTEREST - 1,
   },
   visibleFrame: {
     allPoints: [],
@@ -92,36 +82,11 @@ const produceVisibleIndexedData = (
   }
 }
 
-const extractFilterValues = (state: EmissionStorage) => {
-  const categories = new Set<string>()
-  const companies = new Set<string>()
-  const countries = new Set<string>()
-
-  Object.values(state.wholeDataSet.data).forEach((dataPoints) => {
-    dataPoints.forEach((dataPoint) => {
-      const { company, category } = dataPoint
-      const { country } = dataPoint.location
-      companies.add(company)
-      categories.add(category)
-      countries.add(country)
-    })
-  })
-
-  state.wholeDataSet.categories = Array.from(categories)
-    .map((category) => category.toLowerCase())
-    .toSorted()
-  state.wholeDataSet.companies = Array.from(companies).toSorted()
-  state.wholeDataSet.countries = Array.from(countries).toSorted()
-}
-
-const extractVisibleDataPoints = (
-  state: EmissionStorage,
-  dateFilter: DateTimeRangeFilter = state.filter,
-) => {
+const extractVisibleDataPoints = (state: EmissionStorage) => {
   const allDates = Object.keys(state.wholeDataSet.data)
-  const { from, to } = dateFilter
+  // const { from, to } = dateFilter
 
-  const datesOfInterest = allDates.slice(from, to)
+  const datesOfInterest = allDates // .slice(from, to)
 
   const filteredDataPoints = datesOfInterest.flatMap(
     (timeWindowMark) => state.wholeDataSet.data[timeWindowMark],
@@ -133,8 +98,8 @@ const extractVisibleDataPoints = (
 const changeVisibleDates: CaseReducer<
   EmissionStorage,
   PayloadAction<DateTimeRangeFilter>
-> = (state, action) => {
-  state.filter = action.payload
+> = (state) => {
+  // state.filter = action.payload
   extractVisibleDataPoints(state)
 }
 
@@ -148,6 +113,7 @@ export const coordinateSlice = createSlice({
     builder.addMatcher(
       coordinateApi.endpoints.getRandomCoordinates.matchFulfilled,
       (state, action) => {
+        // Joining date partitions
         const newData = {
           ...state.wholeDataSet.data,
           ...action.payload.data,
@@ -161,12 +127,6 @@ export const coordinateSlice = createSlice({
             newData[timeMoment],
           ]),
         )
-        state.wholeDataSet.min_time = parseInt(timestampsOfInterest[0], 10)
-        state.wholeDataSet.max_time = parseInt(
-          timestampsOfInterest[timestampsOfInterest.length - 1],
-          10,
-        )
-        extractFilterValues(state)
         extractVisibleDataPoints(state)
       },
     )

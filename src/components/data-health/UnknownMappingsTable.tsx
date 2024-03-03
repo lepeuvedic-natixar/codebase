@@ -1,19 +1,17 @@
-import { FunctionComponent, memo, useEffect, useState } from "react"
+import { memo, useCallback, useState } from "react"
 import {
   DataGrid,
   GridActionsCellItem,
   GridColDef,
   GridColTypeDef,
-  GridEventListener,
   GridRenderEditCellParams,
-  GridRowEditStopReasons,
   GridRowId,
   GridRowModel,
   GridRowModes,
   GridRowModesModel,
   GridRowParams,
   GridPreProcessEditCellProps,
-  GridRowClassNameParams,
+  GridValidRowModel,
 } from "@mui/x-data-grid"
 import CheckIcon from "@mui/icons-material/Check"
 import CloseIcon from "@mui/icons-material/Close"
@@ -22,9 +20,8 @@ import EditIcon from "@mui/icons-material/Edit"
 import { CodeMapping } from "data/store/features/codemappings/Types"
 import KeywordInput from "components/inputs/KeywordInput"
 import KeywordsWidget from "components/inputs/KeywordsWidget"
-import { Button, Link, SxProps } from "@mui/material"
-import { Popover, PopoverContent, PopoverTrigger } from "components/ui/popover"
-import { useDispatch } from "react-redux"
+import { Box, Button, Link, Popover, SxProps } from "@mui/material"
+import KeywordsCellEditor from "./KeywordsCellEditor"
 
 /**
 It's 6 for NESH
@@ -119,70 +116,87 @@ const columns: GridColDef[] = [
         : "Insert any keyword"
 
       return (
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button>{buttonText}</Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-120" hideWhenDetached>
-            <KeywordInput {...params} />
-          </PopoverContent>
-        </Popover>
+        <KeywordsCellEditor buttonText={buttonText}>
+          <KeywordInput {...params} />
+        </KeywordsCellEditor>
       )
     },
   },
 ]
 
 interface UnknownMappingsTableProps {
-  initialMappings: CodeMapping[]
+  rows: CodeMapping[]
+  setRows: (newRows: CodeMapping[]) => void
+  mostRecentTimestamp: number
+  onRowUpdated: (newRow: CodeMapping) => void
 }
 
 const PAGINATION_OPTIONS = [5, 10, 25]
 
 const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
-  const { initialMappings, ...sxProps } = props
-  const [rows, setRows] = useState<CodeMapping[]>([])
+  const { rows, setRows, mostRecentTimestamp, onRowUpdated, ...sxProps } = props
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({})
+  const handleRowModesModelChange = useCallback(
+    (newRowModesModel: GridRowModesModel) => {
+      setRowModesModel(newRowModesModel)
+    },
+    [setRowModesModel],
+  )
 
-  useEffect(() => {
-    const editableInitialMappings: CodeMapping[] = initialMappings.map(
-      (mapping) => ({ ...mapping }) as CodeMapping,
-    )
-    // We receive initialMappings from Redux.
-    // So array and it's objects are immutable
-    // Here, we deconstruct them to make new, mutable array and objects
-    setRows(editableInitialMappings)
-  }, [initialMappings])
+  const handleEditClick = useCallback(
+    (id: GridRowId) => () => {
+      setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } })
+    },
+    [setRowModesModel],
+  )
 
-  // console.log("Initial mappings", initialMappings)
-  // console.log("Editable mappings", editableInitialMappings)
-  // console.log("Our rows", rows)
+  const handleSaveClick = useCallback(
+    (id: GridRowId) => () => {
+      setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } })
+    },
+    [setRowModesModel],
+  )
 
-  const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
-    setRowModesModel(newRowModesModel)
-  }
+  const handleCancelClick = useCallback(
+    (id: GridRowId) => () => {
+      setRowModesModel({
+        ...rowModesModel,
+        [id]: { mode: GridRowModes.View, ignoreModifications: true },
+      })
+    },
+    [setRowModesModel],
+  )
 
-  const handleEditClick = (id: GridRowId) => () => {
-    /* , row: GridRowModel */
-    // dispatch(selectMappingToEdit(row as CodeMapping))
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } })
-  }
+  const processRowUpdate = useCallback(
+    (newRow: GridRowModel) => {
+      const updatedRow = { ...newRow } as CodeMapping
+      setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)))
+      try {
+        onRowUpdated(updatedRow)
+      } catch (e) {
+        console.log("Error !2123", e)
+      }
+      return updatedRow
+    },
+    [setRows, onRowUpdated],
+  )
 
-  const handleSaveClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } })
-  }
-
-  const handleCancelClick = (id: GridRowId) => () => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
-    })
-  }
-
-  const processRowUpdate = (newRow: GridRowModel) => {
-    const updatedRow = { ...newRow } as CodeMapping
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)))
-    return updatedRow
-  }
+  const getRowClass = useCallback(
+    (params: GridValidRowModel) => {
+      const { row } = params
+      const rowIsFilled =
+        row.goodsCode && row.precision && row.precision!!.length > 0
+      const rowIsRecent = row.timestamp === mostRecentTimestamp
+      let rowClass = ""
+      if (rowIsFilled) {
+        rowClass = "bg-sky-50"
+      } else if (rowIsRecent) {
+        rowClass = "bg-yellow-50"
+      }
+      return rowClass
+    },
+    [mostRecentTimestamp],
+  )
 
   const createActionsColumn = () => ({
     field: "actions",
@@ -193,7 +207,7 @@ const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
     hideable: false,
     minWidth: 100,
     getActions: (params: GridRowParams) => {
-      const currentRow = params.row
+      // const currentRow = params.row
       const { id } = params
       const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit
 
@@ -228,13 +242,10 @@ const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
   })
 
   const columnDefinitions = [...columns, createActionsColumn()]
-  const headerCssSelector = `& .${HEADER_CSS_CLASS}`
 
   return (
     <DataGrid
       sx={{
-        width: "100%",
-        height: "100%",
         "& .MuiDataGrid-cell": {
           outline: "none !important",
         },
@@ -245,20 +256,14 @@ const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
           backgroundColor: `blue`,
           color: "#ff4343",
         },
-        [headerCssSelector]: {
+        [`& .${HEADER_CSS_CLASS}`]: {
           backgroundColor: "#F0F0F0",
         },
         ...sxProps,
       }}
       editMode="row"
       columns={columnDefinitions}
-      getRowClassName={(params) => {
-        const rowIsFilled =
-          params.row.goodsCode &&
-          params.row.precision &&
-          params.row.precision!!.length > 0
-        return rowIsFilled ? "bg-sky-50 hover:bg-sky-700" : ""
-      }}
+      getRowClassName={getRowClass}
       rows={rows}
       rowModesModel={rowModesModel}
       onRowModesModelChange={handleRowModesModelChange}

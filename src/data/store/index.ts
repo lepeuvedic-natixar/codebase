@@ -2,16 +2,18 @@ import { configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
 import { useDispatch } from "react-redux"
 
-import { coordinateApi } from "./features/coordinates/CoordinateClient"
+import GlobalFilterSlice from "./features/globalFilter/GlobalFilterSlice"
 import CoordinateSlice from "./features/coordinates/CoordinateSlice"
 import ClusterSlice from "./features/coordinates/ClusterSlice"
 import UnknownCodeMappingsSlice from "./features/codemappings/UnknownCodeMappingsSlice"
 import MappingToEditSlice from "./features/codemappings/MappingEditSlice"
+import { coordinateApi } from "./features/coordinates/CoordinateClient"
 import { unknownMappingsApi } from "./features/codemappings/UnknownCodeMappingsClient"
 import { networkCheckApi } from "./features/networkIndication/NetworkCheckClient"
 
 export const store = configureStore({
   reducer: {
+    globalFilter: GlobalFilterSlice,
     coordinates: CoordinateSlice,
     unknownCodeMappings: UnknownCodeMappingsSlice,
     mappingToEdit: MappingToEditSlice,

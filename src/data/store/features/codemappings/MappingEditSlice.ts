@@ -1,33 +1,39 @@
-import { CaseReducer, PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { CodeMapping, MappintToEditContent } from './Types'
+import { CaseReducer, PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { CodeMapping, MappintToEditContent } from "./Types"
 
 const initialState: MappintToEditContent = {
-    mappingToEdit: null,
-    foundMappings: [],
-    informationFromRegistry: null
+  mappingToEdit: null,
+  foundMappings: [],
+  informationFromRegistry: null,
 }
 
-const updateWithMapping = (state: MappintToEditContent, newMapping: CodeMapping | null) => {
-    state.mappingToEdit = newMapping
-    state.foundMappings = []
-    state.informationFromRegistry = null
+const updateWithMapping = (
+  state: MappintToEditContent,
+  newMapping: CodeMapping | null,
+) => {
+  state.mappingToEdit = newMapping
+  state.foundMappings = []
+  state.informationFromRegistry = null
 }
 
-const mappingEditor: CaseReducer<MappintToEditContent, PayloadAction<CodeMapping>> = (state, action) => {
-    updateWithMapping(state, action.payload)
+const mappingEditor: CaseReducer<
+  MappintToEditContent,
+  PayloadAction<CodeMapping>
+> = (state, action) => {
+  updateWithMapping(state, action.payload)
 }
 
 export const mappingEditSlice = createSlice({
-    name: 'mapping-edit-slice',
-    initialState,
-    reducers: {
-        selectMappingToEdit: mappingEditor,
-        clearMapping: (state, action) => {
-            updateWithMapping(state, null)
-        }
+  name: "mapping-edit-slice",
+  initialState,
+  reducers: {
+    selectMappingToEdit: mappingEditor,
+    clearMapping: (state) => {
+      updateWithMapping(state, null)
     },
-    extraReducers: (builder) => {
-        /*
+  },
+  //   extraReducers: (builder) => {
+  /*
         builder
             .addMatcher(unknownMappingsApi.endpoints.getCurrentUnknownMappings.matchFulfilled, (state, action) => {
                 state.mappings = action.payload.mappings
@@ -38,7 +44,7 @@ export const mappingEditSlice = createSlice({
                 state.recentKnownIds = action.payload
             })
             */
-    }
+  //   },
 })
 
 export const { selectMappingToEdit, clearMapping } = mappingEditSlice.actions
