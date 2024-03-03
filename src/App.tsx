@@ -2,7 +2,6 @@ import { RouterProvider } from "react-router-dom"
 
 // project import
 import router from "routes"
-import "globals.css"
 
 import ThemeCustomization from "themes"
 
