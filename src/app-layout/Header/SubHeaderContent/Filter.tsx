@@ -1,36 +1,34 @@
 // material-ui
+import { memo, useState } from "react"
 import {
-  Box,
   Checkbox,
   FormControl,
   InputLabel,
   ListItemText,
   MenuItem,
   Select,
+  SelectChangeEvent,
   Stack,
   Typography,
 } from "@mui/material"
+import { CategoryLabel } from "components/categories/CategoriesLegend"
 import { RootState } from "data/store"
 import { useSelector } from "react-redux"
-import { CategoryLabel } from "components/categories/CategoriesLegend"
 import _ from "lodash"
-import { useState } from "react"
 
 // import { DateRangePicker, SingleInputDateRangeField } from '@mui/x-date-pickers-pro';
 
 // ==============================|| HEADER CONTENT - SEARCH ||============================== //
 
 const selectGlobalFilter = (state: RootState) => state.globalFilter
+const multiSelectJoiner = (selected: string[]) => selected.join(", ")
 
 const Search = () => {
   const { availableValues } = useSelector(selectGlobalFilter)
   const { companies, categories, countries } = availableValues
 
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const [selectedCompanies, setSelectedCompanies] = useState<string[]>([])
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const [selectedCountries, setSelectedCountries] = useState<string[]>([])
 
   const weHaveAnyData =
@@ -50,13 +48,14 @@ const Search = () => {
       {country}
     </MenuItem>
   ))
-  const categoryNodes = categories.map((category) => (
-    <MenuItem key={category} value={category}>
-      <CategoryLabel category={_.capitalize(category)} />
-    </MenuItem>
-  ))
+  const categoryNodes = categories
+    .map((category) => _.capitalize(category))
+    .map((category) => (
+      <MenuItem key={category} value={category}>
+        <CategoryLabel category={category} />
+      </MenuItem>
+    ))
 
-  /*
   const handleCompaniesChange = (
     event: SelectChangeEvent<typeof selectedCompanies>,
   ) => {
@@ -65,62 +64,77 @@ const Search = () => {
     } = event
     setSelectedCompanies(typeof value === "string" ? value.split(",") : value)
   }
-  */
+
+  const handleCountriesChange = (
+    event: SelectChangeEvent<typeof selectedCountries>,
+  ) => {
+    const {
+      target: { value },
+    } = event
+    setSelectedCountries(typeof value === "string" ? value.split(",") : value)
+  }
+
+  const handleCategoriesChange = (
+    event: SelectChangeEvent<typeof selectedCategories>,
+  ) => {
+    const {
+      target: { value },
+    } = event
+    setSelectedCategories(typeof value === "string" ? value.split(",") : value)
+  }
 
   return (
-    <Box
+    <Stack
+      direction="row"
+      gap={2.5}
+      alignItems="center"
       sx={{
-        display: "flex",
-        alignItems: "center",
         width: "100%",
         ml: { xs: 0, md: 1, lg: -1 },
         p: 1,
       }}
     >
-      <Stack direction="row" gap={2.5} alignItems="center">
-        <Typography>Filter</Typography>
-        <FormControl sx={{ width: 220 }}>
-          <InputLabel>Business Entity / Facility</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={selectedCompanies}
-            // onChange={handleCompaniesChange}
-            multiple
-          >
-            {companyNodes}
-          </Select>
-        </FormControl>
-        <FormControl sx={{ width: 160 }}>
-          <InputLabel>Geographic Area</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            multiple
-            value={selectedCountries}
-            sx={{
-              "& .MuiList-root": {
-                padding: "12px",
-              },
-            }}
-          >
-            {countryNodes}
-          </Select>
-        </FormControl>
-        <FormControl sx={{ width: 100 }}>
-          <InputLabel>Scope</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            multiple
-            value={selectedCategories}
-          >
-            {categoryNodes}
-          </Select>
-        </FormControl>
-      </Stack>
-    </Box>
+      <Typography>Filter</Typography>
+      <FormControl sx={{ width: 220 }}>
+        <InputLabel>Business Entity / Facility</InputLabel>
+        <Select
+          value={selectedCompanies}
+          renderValue={multiSelectJoiner}
+          onChange={handleCompaniesChange}
+          multiple
+        >
+          {companyNodes}
+        </Select>
+      </FormControl>
+      <FormControl sx={{ width: 160 }}>
+        <InputLabel>Geographic Area</InputLabel>
+        <Select
+          value={selectedCountries}
+          renderValue={multiSelectJoiner}
+          onChange={handleCountriesChange}
+          multiple
+          sx={{
+            "& .MuiList-root": {
+              padding: "12px",
+            },
+          }}
+        >
+          {countryNodes}
+        </Select>
+      </FormControl>
+      <FormControl sx={{ width: 100 }}>
+        <InputLabel>Scope</InputLabel>
+        <Select
+          value={selectedCategories}
+          renderValue={multiSelectJoiner}
+          onChange={handleCategoriesChange}
+          multiple
+        >
+          {categoryNodes}
+        </Select>
+      </FormControl>
+    </Stack>
   )
 }
 
-export default Search
+export default memo(Search)
