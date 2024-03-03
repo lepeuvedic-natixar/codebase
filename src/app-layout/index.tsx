@@ -59,7 +59,7 @@ const AppLayout = () => {
               minHeight: "calc(100vh - 110px)",
               display: "flex",
               flexDirection: "column",
-              paddingTop: isShowExtraHeader ? 17 : 17,
+              paddingTop: isShowExtraHeader ? 17 : 9,
             }}
           >
             <Outlet />
