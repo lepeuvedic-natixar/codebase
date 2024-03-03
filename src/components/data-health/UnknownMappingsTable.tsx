@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState } from "react"
+import { memo, useCallback, useState } from "react"
 import {
   DataGrid,
   GridActionsCellItem,
@@ -20,8 +20,8 @@ import EditIcon from "@mui/icons-material/Edit"
 import { CodeMapping } from "data/store/features/codemappings/Types"
 import KeywordInput from "components/inputs/KeywordInput"
 import KeywordsWidget from "components/inputs/KeywordsWidget"
-import { Button, Link, SxProps } from "@mui/material"
-import { Popover, PopoverContent, PopoverTrigger } from "components/ui/popover"
+import { Box, Button, Link, Popover, SxProps } from "@mui/material"
+import KeywordsCellEditor from "./KeywordsCellEditor"
 
 /**
 It's 6 for NESH
@@ -116,14 +116,9 @@ const columns: GridColDef[] = [
         : "Insert any keyword"
 
       return (
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button>{buttonText}</Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-120" hideWhenDetached>
-            <KeywordInput {...params} />
-          </PopoverContent>
-        </Popover>
+        <KeywordsCellEditor buttonText={buttonText}>
+          <KeywordInput {...params} />
+        </KeywordsCellEditor>
       )
     },
   },
