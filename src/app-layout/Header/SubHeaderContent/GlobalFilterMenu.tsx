@@ -9,12 +9,18 @@ import {
   Select,
   SelectChangeEvent,
   Stack,
+  SxProps,
   Typography,
 } from "@mui/material"
 import { CategoryLabel } from "components/categories/CategoriesLegend"
 import { RootState } from "data/store"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import _ from "lodash"
+import {
+  setSelectedCategories as selectedCategoriesAction,
+  setSelectedCompanies as selectedCompaniesAction,
+  setSelectedCountries as selectedCountriesAction,
+} from "data/store/features/coordinates/CoordinateSlice"
 
 // import { DateRangePicker, SingleInputDateRangeField } from '@mui/x-date-pickers-pro';
 
@@ -22,33 +28,45 @@ import _ from "lodash"
 
 const selectGlobalFilter = (state: RootState) => state.globalFilter
 const multiSelectJoiner = (selected: string[]) => selected.join(", ")
+const parseSelectedValues = (receivedValues: string | string[]): string[] =>
+  receivedValues === "string"
+    ? receivedValues.split(",").sort()
+    : (receivedValues as string[])
 
-const Search = () => {
-  const { availableValues } = useSelector(selectGlobalFilter)
-  const { companies, categories, countries } = availableValues
+const GlobalFilterMenu = (props: SxProps) => {
+  const { ...sxProps } = props
+  const dispatch = useDispatch()
+  const globalFilter = useSelector(selectGlobalFilter)
+  const {
+    companies: availableCompanies,
+    categories: availableCategories,
+    countries: availableCountries,
+  } = globalFilter.availableValues
 
   const [selectedCompanies, setSelectedCompanies] = useState<string[]>([])
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [selectedCountries, setSelectedCountries] = useState<string[]>([])
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
   const weHaveAnyData =
-    companies.length && categories.length && countries.length
+    availableCompanies.length &&
+    availableCountries.length &&
+    availableCategories.length
   if (!weHaveAnyData) {
     return null
   }
 
-  const companyNodes = companies.map((company) => (
+  const companyNodes = availableCompanies.map((company) => (
     <MenuItem key={company} value={company}>
       <Checkbox checked={selectedCompanies.indexOf(company) > -1} />
       <ListItemText primary={company} />
     </MenuItem>
   ))
-  const countryNodes = countries.map((country) => (
+  const countryNodes = availableCountries.map((country) => (
     <MenuItem key={country} value={country}>
       {country}
     </MenuItem>
   ))
-  const categoryNodes = categories
+  const categoryNodes = availableCategories
     .map((category) => _.capitalize(category))
     .map((category) => (
       <MenuItem key={category} value={category}>
@@ -62,7 +80,9 @@ const Search = () => {
     const {
       target: { value },
     } = event
-    setSelectedCompanies(typeof value === "string" ? value.split(",") : value)
+    const parsedValues = parseSelectedValues(value)
+    dispatch(selectedCompaniesAction(parsedValues))
+    setSelectedCompanies(parsedValues)
   }
 
   const handleCountriesChange = (
@@ -71,7 +91,9 @@ const Search = () => {
     const {
       target: { value },
     } = event
-    setSelectedCountries(typeof value === "string" ? value.split(",") : value)
+    const parsedValues = parseSelectedValues(value)
+    dispatch(selectedCountriesAction(parsedValues))
+    setSelectedCountries(parsedValues)
   }
 
   const handleCategoriesChange = (
@@ -80,7 +102,9 @@ const Search = () => {
     const {
       target: { value },
     } = event
-    setSelectedCategories(typeof value === "string" ? value.split(",") : value)
+    const parsedValues = parseSelectedValues(value)
+    dispatch(selectedCategoriesAction(parsedValues))
+    setSelectedCategories(parsedValues)
   }
 
   return (
@@ -92,6 +116,7 @@ const Search = () => {
         width: "100%",
         ml: { xs: 0, md: 1, lg: -1 },
         p: 1,
+        ...sxProps,
       }}
     >
       <Typography>Filter</Typography>
@@ -137,4 +162,4 @@ const Search = () => {
   )
 }
 
-export default memo(Search)
+export default memo(GlobalFilterMenu)

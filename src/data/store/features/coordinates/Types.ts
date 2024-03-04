@@ -1,3 +1,5 @@
+import { GlobalEmissionFilter, GlobalFilterState } from "../globalFilter/Types"
+
 interface Location {
   lat: number
   lon: number
@@ -63,6 +65,7 @@ interface DateTimeRangeFilter {
 interface EmissionStorage {
   wholeDataSet: DataSet
   visibleFrame: PerceivedData
+  globalFilter: GlobalFilterState
 }
 
 export type { DataPoint }
@@ -73,6 +76,7 @@ export type { Location }
 export type { PerceivedData }
 export type { SelectedCluster }
 export type { DataSet }
+export type { DataLayout }
 export type { EmissionStorage }
 
 export type { DateTimeRangeFilter }

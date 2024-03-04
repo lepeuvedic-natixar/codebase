@@ -8,8 +8,8 @@ import { MenuOrientation } from "types/config"
 import DrawerHeader from "../../Drawer/DrawerHeader"
 
 // types
-import Filter from "./Filter"
 import Protocol from "./Protocol"
+import GlobalFilterMenu from "./GlobalFilterMenu"
 
 // ==============================|| HEADER - CONTENT ||============================== //
 
@@ -23,7 +23,7 @@ const SubHeaderContent = () => {
       {menuOrientation === MenuOrientation.HORIZONTAL && !downLG && (
         <DrawerHeader open />
       )}
-      {!downLG && <Filter />}
+      {!downLG && <GlobalFilterMenu />}
       {downLG && <Box sx={{ width: "100%", ml: 1 }} />}
       {!downLG && <Protocol />}
     </>
