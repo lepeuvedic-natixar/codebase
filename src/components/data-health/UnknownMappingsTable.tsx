@@ -1,4 +1,5 @@
 import { memo, useCallback, useState } from "react"
+import { Link, SxProps } from "@mui/material"
 import {
   DataGrid,
   GridActionsCellItem,
@@ -16,11 +17,11 @@ import {
 import CheckIcon from "@mui/icons-material/Check"
 import CloseIcon from "@mui/icons-material/Close"
 import EditIcon from "@mui/icons-material/Edit"
-
-import { CodeMapping } from "data/store/features/codemappings/Types"
 import KeywordInput from "components/inputs/KeywordInput"
 import KeywordsWidget from "components/inputs/KeywordsWidget"
-import { Link, SxProps } from "@mui/material"
+import "./mappingRowStyles.css"
+
+import { CodeMapping } from "data/store/features/codemappings/Types"
 import KeywordsCellEditor from "./KeywordsCellEditor"
 
 /**
@@ -187,9 +188,9 @@ const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
       const rowIsRecent = row.timestamp === mostRecentTimestamp
       let rowClass = ""
       if (rowIsFilled) {
-        rowClass = "bg-sky-50"
+        rowClass = "filledRow"
       } else if (rowIsRecent) {
-        rowClass = "bg-yellow-50"
+        rowClass = "recentRow"
       }
       return rowClass
     },
