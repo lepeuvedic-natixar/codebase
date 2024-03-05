@@ -1,4 +1,5 @@
 import { memo, useCallback, useState } from "react"
+import { Link, SxProps } from "@mui/material"
 import {
   DataGrid,
   GridActionsCellItem,
@@ -16,11 +17,11 @@ import {
 import CheckIcon from "@mui/icons-material/Check"
 import CloseIcon from "@mui/icons-material/Close"
 import EditIcon from "@mui/icons-material/Edit"
-
-import { CodeMapping } from "data/store/features/codemappings/Types"
 import KeywordInput from "components/inputs/KeywordInput"
 import KeywordsWidget from "components/inputs/KeywordsWidget"
-import { Box, Button, Link, Popover, SxProps } from "@mui/material"
+import "./mappingRowStyles.css"
+
+import { CodeMapping } from "data/store/features/codemappings/Types"
 import KeywordsCellEditor from "./KeywordsCellEditor"
 
 /**
@@ -28,8 +29,8 @@ It's 6 for NESH
 and 8 for NC8 
 */
 const GOODS_CODE_LIMITATION = 6
-const CODE_DETAIL_URL_PREFIX =
-  "https://ec.europa.eu/taxation_customs/dds2/taric/measures.jsp?Taric="
+const CODE_DETAIL_URL_PREFIX = import.meta.env.VITE_GOODS_DETAIL_PAGE
+const PAGINATION_OPTIONS = [5, 10, 25]
 
 const HEADER_CSS_CLASS = "common-super-class-name"
 const AWESOME_COLUMN: GridColTypeDef = {
@@ -131,8 +132,6 @@ interface UnknownMappingsTableProps {
   onRowUpdated: (newRow: CodeMapping) => void
 }
 
-const PAGINATION_OPTIONS = [5, 10, 25]
-
 const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
   const { rows, setRows, mostRecentTimestamp, onRowUpdated, ...sxProps } = props
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({})
@@ -174,7 +173,7 @@ const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
       try {
         onRowUpdated(updatedRow)
       } catch (e) {
-        console.log("Error !2123", e)
+        // Nothing
       }
       return updatedRow
     },
@@ -189,9 +188,9 @@ const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
       const rowIsRecent = row.timestamp === mostRecentTimestamp
       let rowClass = ""
       if (rowIsFilled) {
-        rowClass = "bg-sky-50"
+        rowClass = "filledRow"
       } else if (rowIsRecent) {
-        rowClass = "bg-yellow-50"
+        rowClass = "recentRow"
       }
       return rowClass
     },

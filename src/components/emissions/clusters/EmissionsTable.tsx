@@ -24,6 +24,9 @@ const tableLayout = {
   "TYPE OF EMISSIONS": "category",
 }
 
+const getCompanyUrl = (companyName: string): string =>
+  import.meta.env.VITE_COMPANY_LINK_TEMPLATE + companyName
+
 const VirtuosoTableComponents: TableComponents<DataPoint> = {
   Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
     <TableContainer component={Box} {...props} ref={ref} />
@@ -59,7 +62,7 @@ function rowContent(_index: number, row: DataPoint) {
   return (
     <>
       <TableCell key="company">
-        <Link href="#">{row.company}</Link>
+        <Link href={getCompanyUrl(row.company)}>{row.company}</Link>
       </TableCell>
       <TableCell key="data-source">ERP</TableCell>
       <TableCell key="emissionAmount" align="right">

@@ -1,23 +1,23 @@
-import { FunctionComponent } from "react"
+import { memo } from "react"
+import { SxProps } from "@mui/material"
+import HeaderWithCategoriesLegend from "components/charts/HeaderWithCategoriesLegend"
 import EmissionByCountry from "components/charts/emissions/EmissionByCountry"
 
-import { ByCountryDataPoint } from "data/store/features/coordinates/Types"
 import { useSelector } from "react-redux"
-import { RootState } from "data/store"
 import MainCard from "components/MainCard"
-import HeaderWithCategoriesLegend from "components/charts/HeaderWithCategoriesLegend"
+import {
+  selectAllVisibleCategories,
+  selectCoordinatesByCountry,
+} from "data/store/features/coordinates/Selectors"
 
-const selectByCompany = (state: RootState) =>
-  state.coordinates.visibleFrame.byCountry
-const selectVisibleCategories = (state: RootState) =>
-  state.globalFilter.availableValues.categories
-
-const ByCountrySection: FunctionComponent = () => {
-  const visibleFrame: ByCountryDataPoint[] = useSelector(selectByCompany)
-  const categories: string[] = useSelector(selectVisibleCategories)
+const ByCountrySection = (props: SxProps) => {
+  const { ...sxProps } = props
+  const categories = useSelector(selectAllVisibleCategories)
+  const visibleFrame = useSelector(selectCoordinatesByCountry)
 
   return visibleFrame == null || visibleFrame.length <= 0 ? null : (
     <MainCard
+      sx={{ ...sxProps }}
       contentSX={{ height: 500 }}
       title={
         <HeaderWithCategoriesLegend
@@ -31,4 +31,4 @@ const ByCountrySection: FunctionComponent = () => {
   )
 }
 
-export default ByCountrySection
+export default memo(ByCountrySection)
