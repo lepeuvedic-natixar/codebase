@@ -32,8 +32,7 @@ import {
   mappingToEditSelector,
 } from "data/store/features/codemappings/Selectors"
 
-const CODES_REGISTRY_URL =
-  "https://ec.europa.eu/taxation_customs/dds2/taric/taric_consultation.jsp?Expand=true"
+const CODES_REGISTRY_URL = import.meta.env.VITE_GOODS_CODE_REPOSITORY
 
 const idsRefreshInterval = 5 * 1000
 
@@ -183,7 +182,6 @@ const UnknownMappingsSection = (props: SxProps) => {
     const mappingsToSave = rows
       .filter(mappingIsFilled)
       .map((mapping) => ({ ...mapping })) // De-reduxing
-    console.log("Mappings to save ", mappingsToSave)
     saveAllMappings(mappingsToSave)
     setFilledMappingsCount(0)
   }, [allMappings, saveAllMappings])

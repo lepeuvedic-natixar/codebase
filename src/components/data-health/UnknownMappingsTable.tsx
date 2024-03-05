@@ -20,7 +20,7 @@ import EditIcon from "@mui/icons-material/Edit"
 import { CodeMapping } from "data/store/features/codemappings/Types"
 import KeywordInput from "components/inputs/KeywordInput"
 import KeywordsWidget from "components/inputs/KeywordsWidget"
-import { Box, Button, Link, Popover, SxProps } from "@mui/material"
+import { Link, SxProps } from "@mui/material"
 import KeywordsCellEditor from "./KeywordsCellEditor"
 
 /**
@@ -28,8 +28,8 @@ It's 6 for NESH
 and 8 for NC8 
 */
 const GOODS_CODE_LIMITATION = 6
-const CODE_DETAIL_URL_PREFIX =
-  "https://ec.europa.eu/taxation_customs/dds2/taric/measures.jsp?Taric="
+const CODE_DETAIL_URL_PREFIX = import.meta.env.VITE_GOODS_DETAIL_PAGE
+const PAGINATION_OPTIONS = [5, 10, 25]
 
 const HEADER_CSS_CLASS = "common-super-class-name"
 const AWESOME_COLUMN: GridColTypeDef = {
@@ -131,8 +131,6 @@ interface UnknownMappingsTableProps {
   onRowUpdated: (newRow: CodeMapping) => void
 }
 
-const PAGINATION_OPTIONS = [5, 10, 25]
-
 const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
   const { rows, setRows, mostRecentTimestamp, onRowUpdated, ...sxProps } = props
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({})
@@ -174,7 +172,7 @@ const UnknownMappingsTable = (props: UnknownMappingsTableProps & SxProps) => {
       try {
         onRowUpdated(updatedRow)
       } catch (e) {
-        console.log("Error !2123", e)
+        // Nothing
       }
       return updatedRow
     },
