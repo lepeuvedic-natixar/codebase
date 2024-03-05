@@ -15,8 +15,8 @@ import RefreshIcon from "@mui/icons-material/Refresh"
 import MainCard from "components/MainCard"
 import UnknownMappingsTable from "components/data-health/UnknownMappingsTable"
 
+import _ from "lodash"
 import { useSelector } from "react-redux"
-import { RootState } from "data/store"
 import {
   useGetCurrentUnknownMappingIdsQuery,
   useLazyGetCurrentUnknownMappingsQuery,
@@ -27,13 +27,14 @@ import {
   IncompleteCodeMappingStorage,
   mappingIsFilled,
 } from "data/store/features/codemappings/Types"
-import _ from "lodash"
+import {
+  allMappingsSelector,
+  mappingToEditSelector,
+} from "data/store/features/codemappings/Selectors"
 
 const CODES_REGISTRY_URL =
   "https://ec.europa.eu/taxation_customs/dds2/taric/taric_consultation.jsp?Expand=true"
-const allMappingsSelector = (state: RootState) => state.unknownCodeMappings
-const mappingToEditSelector = (state: RootState) =>
-  state.mappingToEdit.mappingToEdit
+
 const idsRefreshInterval = 5 * 1000
 
 interface UnknownMappingsHeaderProps {
@@ -46,7 +47,7 @@ const UnknownMappingsHeader = memo(
     const { onSaveAll, itemsToSaveCount, ...sxProps } = props
     const onSaveClick = useCallback(() => onSaveAll(), [onSaveAll])
     let saveAllText = "Save all"
-    if (itemsToSaveCount > 0) {
+    if (itemsToSaveCount !== undefined && itemsToSaveCount > 0) {
       saveAllText += `(${itemsToSaveCount})`
     }
     return (

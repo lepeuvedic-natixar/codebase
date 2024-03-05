@@ -1,6 +1,7 @@
 // material-ui
-import { memo, useState } from "react"
+import { memo, useCallback, useEffect, useState } from "react"
 import {
+  Button,
   Checkbox,
   FormControl,
   InputLabel,
@@ -13,21 +14,22 @@ import {
   Typography,
 } from "@mui/material"
 import { CategoryLabel } from "components/categories/CategoriesLegend"
-import { RootState } from "data/store"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import _ from "lodash"
 import {
+  clearFilter,
   setSelectedCategories as selectedCategoriesAction,
   setSelectedCompanies as selectedCompaniesAction,
   setSelectedCountries as selectedCountriesAction,
 } from "data/store/features/coordinates/CoordinateSlice"
+import { selectGlobalFilter } from "data/store/features/coordinates/Selectors"
+import { useAppDispatch } from "data/store"
 
 // import { DateRangePicker, SingleInputDateRangeField } from '@mui/x-date-pickers-pro';
 
 // ==============================|| HEADER CONTENT - SEARCH ||============================== //
 
-const selectGlobalFilter = (state: RootState) => state.globalFilter
-const multiSelectJoiner = (selected: string[]) => selected.join(", ")
+const multiSelectJoiner = (selected: string[]) => selected.sort().join(", ")
 const parseSelectedValues = (receivedValues: string | string[]): string[] =>
   receivedValues === "string"
     ? receivedValues.split(",").sort()
@@ -35,17 +37,76 @@ const parseSelectedValues = (receivedValues: string | string[]): string[] =>
 
 const GlobalFilterMenu = (props: SxProps) => {
   const { ...sxProps } = props
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const globalFilter = useSelector(selectGlobalFilter)
+  const [selectedCompanies, setSelectedCompanies] = useState<string[]>([])
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([])
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  useEffect(() => {
+    if (globalFilter.selectedValues.companies.length === 0) {
+      setSelectedCompanies([])
+    }
+    if (globalFilter.selectedValues.countries.length === 0) {
+      setSelectedCountries([])
+    }
+    if (globalFilter.selectedValues.categories.length === 0) {
+      setSelectedCategories([])
+    }
+  }, [globalFilter])
+  const onClearClick = useCallback(() => {
+    dispatch(clearFilter())
+  }, [dispatch, clearFilter])
+
+  const handleCompaniesChange = useCallback(
+    (event: SelectChangeEvent<typeof selectedCompanies>) => {
+      const {
+        target: { value },
+      } = event
+      const parsedValues = parseSelectedValues(value)
+      dispatch(selectedCompaniesAction(parsedValues))
+      setSelectedCompanies(parsedValues)
+    },
+    [
+      parseSelectedValues,
+      dispatch,
+      selectedCompaniesAction,
+      setSelectedCompanies,
+    ],
+  )
+
+  const handleCountriesChange = useCallback(
+    (event: SelectChangeEvent<typeof selectedCountries>) => {
+      const {
+        target: { value },
+      } = event
+      const parsedValues = parseSelectedValues(value)
+      dispatch(selectedCountriesAction(parsedValues))
+      setSelectedCountries(parsedValues)
+    },
+    [
+      parseSelectedValues,
+      dispatch,
+      selectedCountriesAction,
+      setSelectedCountries,
+    ],
+  )
+
+  const handleCategoriesChange = (
+    event: SelectChangeEvent<typeof selectedCategories>,
+  ) => {
+    const {
+      target: { value },
+    } = event
+    const parsedValues = parseSelectedValues(value)
+    dispatch(selectedCategoriesAction(parsedValues))
+    setSelectedCategories(parsedValues)
+  }
+
   const {
     companies: availableCompanies,
     categories: availableCategories,
     countries: availableCountries,
   } = globalFilter.availableValues
-
-  const [selectedCompanies, setSelectedCompanies] = useState<string[]>([])
-  const [selectedCountries, setSelectedCountries] = useState<string[]>([])
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
   const weHaveAnyData =
     availableCompanies.length &&
@@ -74,44 +135,11 @@ const GlobalFilterMenu = (props: SxProps) => {
       </MenuItem>
     ))
 
-  const handleCompaniesChange = (
-    event: SelectChangeEvent<typeof selectedCompanies>,
-  ) => {
-    const {
-      target: { value },
-    } = event
-    const parsedValues = parseSelectedValues(value)
-    dispatch(selectedCompaniesAction(parsedValues))
-    setSelectedCompanies(parsedValues)
-  }
-
-  const handleCountriesChange = (
-    event: SelectChangeEvent<typeof selectedCountries>,
-  ) => {
-    const {
-      target: { value },
-    } = event
-    const parsedValues = parseSelectedValues(value)
-    dispatch(selectedCountriesAction(parsedValues))
-    setSelectedCountries(parsedValues)
-  }
-
-  const handleCategoriesChange = (
-    event: SelectChangeEvent<typeof selectedCategories>,
-  ) => {
-    const {
-      target: { value },
-    } = event
-    const parsedValues = parseSelectedValues(value)
-    dispatch(selectedCategoriesAction(parsedValues))
-    setSelectedCategories(parsedValues)
-  }
-
   return (
     <Stack
       direction="row"
-      gap={2.5}
       alignItems="center"
+      gap={2.5}
       sx={{
         width: "100%",
         ml: { xs: 0, md: 1, lg: -1 },
@@ -158,6 +186,9 @@ const GlobalFilterMenu = (props: SxProps) => {
           {categoryNodes}
         </Select>
       </FormControl>
+      <Button onClick={onClearClick} variant="outlined">
+        Clear
+      </Button>
     </Stack>
   )
 }

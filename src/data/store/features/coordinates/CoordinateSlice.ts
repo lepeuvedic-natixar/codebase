@@ -1,9 +1,14 @@
 import { CaseReducer, PayloadAction, createSlice } from "@reduxjs/toolkit"
 
 import _ from "lodash"
-import { DataLayout, DataPoint, EmissionStorage, PerceivedData } from "./Types"
+import {
+  DataPoint,
+  EmissionStorage,
+  GlobalEmissionFilter,
+  GlobalFilterState,
+  PerceivedData,
+} from "./Types"
 import { coordinateApi } from "./CoordinateClient"
-import { GlobalEmissionFilter, GlobalFilterState } from "../globalFilter/Types"
 
 const MOST_WINDOWS_OF_INTEREST = 12
 
@@ -24,7 +29,7 @@ const initialFilterState: GlobalFilterState = {
 
 const initialState: EmissionStorage = {
   wholeDataSet: {
-    data: {},
+    partitionsByTime: {},
   },
   visibleFrame: {
     allPoints: [],
@@ -115,7 +120,8 @@ const filterVisibleData = (
 }
 
 const extractVisibleDataPoints = (state: EmissionStorage) => {
-  const allDates = Object.keys(state.wholeDataSet.data)
+  const allPartitions = state.wholeDataSet.partitionsByTime
+  const allDates = Object.keys(allPartitions)
   const { from, to } = state.globalFilter.selectedValues.timeRange
 
   const datesOfInterest = allDates.filter((dateStr) => {
@@ -124,7 +130,7 @@ const extractVisibleDataPoints = (state: EmissionStorage) => {
   })
 
   const filteredDataPoints = datesOfInterest.flatMap(
-    (timeWindowMark) => state.wholeDataSet.data[timeWindowMark],
+    (timeWindowMark) => allPartitions[timeWindowMark],
   )
 
   state.visibleFrame = filterVisibleData(
@@ -133,14 +139,10 @@ const extractVisibleDataPoints = (state: EmissionStorage) => {
   )
 }
 
-const extractFilterAvailableValues = (
-  state: EmissionStorage,
-  dataPartitions: DataLayout,
-) => {
+const extractFilterAvailableValues = (state: EmissionStorage) => {
+  const dataPartitions = state.wholeDataSet.partitionsByTime
   if (Object.keys(dataPartitions).length <= 0) {
-    state.globalFilter.availableValues.categories = []
-    state.globalFilter.availableValues.companies = []
-    state.globalFilter.availableValues.countries = []
+    state.globalFilter = { ...initialFilterState }
     return
   }
 
@@ -160,11 +162,9 @@ const extractFilterAvailableValues = (
 
   state.globalFilter.availableValues.categories = Array.from(categories)
     .map((category) => category.toLowerCase())
-    .toSorted()
-  state.globalFilter.availableValues.companies =
-    Array.from(companies).toSorted()
-  state.globalFilter.availableValues.countries =
-    Array.from(countries).toSorted()
+    .sort()
+  state.globalFilter.availableValues.companies = Array.from(companies).sort()
+  state.globalFilter.availableValues.countries = Array.from(countries).sort()
 }
 
 const setSelectedCountriesReducer: CaseReducer<
@@ -172,6 +172,7 @@ const setSelectedCountriesReducer: CaseReducer<
   PayloadAction<string[]>
 > = (state, action) => {
   state.globalFilter.selectedValues.countries = [...action.payload]
+  extractVisibleDataPoints(state)
 }
 
 const setSelectedCompaniesReducer: CaseReducer<
@@ -213,21 +214,21 @@ export const coordinateSlice = createSlice({
     builder.addMatcher(
       coordinateApi.endpoints.getRandomCoordinates.matchFulfilled,
       (state, action) => {
-        // Joining date partitions
+        // Joining time partitions
         const newDataPartitionsByTime = {
-          ...state.wholeDataSet.data,
-          ...action.payload.data,
+          ...state.wholeDataSet.partitionsByTime,
+          ...action.payload.partitionsByTime,
         }
         const timestampsOfInterest = Object.keys(newDataPartitionsByTime)
-          .sort()
+          .toSorted()
           .slice(-MOST_WINDOWS_OF_INTEREST)
-        state.wholeDataSet.data = Object.fromEntries(
+        state.wholeDataSet.partitionsByTime = Object.fromEntries(
           timestampsOfInterest.map((timeMoment) => [
             timeMoment,
             newDataPartitionsByTime[timeMoment],
           ]),
         )
-        extractFilterAvailableValues(state, action.payload.data)
+        extractFilterAvailableValues(state)
         extractVisibleDataPoints(state)
       },
     )

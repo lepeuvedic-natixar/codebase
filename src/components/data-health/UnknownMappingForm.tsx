@@ -10,13 +10,13 @@ import {
   FormMessage,
 } from "components/ui/form"
 import { clearMapping } from "data/store/features/codemappings/MappingEditSlice"
-import { useDispatch } from "react-redux"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import RawKeywordInput from "components/inputs/RawKeyboardInput"
 import { CodeMapping } from "data/store/features/codemappings/Types"
+import { useAppDispatch } from "data/store"
 
 const formSchema = z.object({
   goodsCode: z.coerce
@@ -51,7 +51,7 @@ interface MappingFormSubmitProps {
 
 function MappingForm(props: MappingFormData & MappingFormSubmitProps) {
   const { goodsCode, keywords, onSubmit: onFormSubmitListener } = props
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const onCancel = () => {
     dispatch(clearMapping({}))
   }
