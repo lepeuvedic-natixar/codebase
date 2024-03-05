@@ -67,7 +67,8 @@ const UnknownMappingsHeader = memo(
         </Link>
         <Fade in={itemsToSaveCount !== undefined && itemsToSaveCount > 0}>
           <Button
-            sx={{ marginLeft: "auto" }}
+            sx={{ marginLeft: "auto", color: "white" }}
+            variant="contained"
             startIcon={<DoneAllIcon />}
             onClick={onSaveClick}
           >
