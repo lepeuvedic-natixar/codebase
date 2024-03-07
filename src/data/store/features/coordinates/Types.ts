@@ -34,7 +34,7 @@ interface PerceivedData {
   byCountry: Array<ByCountryDataPoint>
 }
 
-interface DataLayout {
+interface DataPartitions {
   [key: string]: Array<DataPoint>
 }
 
@@ -43,7 +43,13 @@ interface SelectedCluster {
 }
 
 interface DataSet {
-  data: DataLayout
+  partitionsByTime: DataPartitions
+}
+
+interface EmissionStorage {
+  wholeDataSet: DataSet
+  visibleFrame: PerceivedData
+  globalFilter: GlobalFilterState
 }
 
 /* 
@@ -60,19 +66,27 @@ interface DateTimeRangeFilter {
   to: number
 }
 
-interface EmissionStorage {
-  wholeDataSet: DataSet
-  visibleFrame: PerceivedData
+interface GlobalEmissionFilter {
+  companies: string[]
+  countries: string[]
+  categories: string[]
+  timeRange: DateTimeRangeFilter
 }
 
+interface GlobalFilterState {
+  availableValues: GlobalEmissionFilter
+  selectedValues: GlobalEmissionFilter
+}
+
+export type { Location }
 export type { DataPoint }
 export type { ByCompanyDataPoint }
 export type { ByCountryDataPoint }
 
-export type { Location }
 export type { PerceivedData }
 export type { SelectedCluster }
 export type { DataSet }
+export type { DataPartitions }
 export type { EmissionStorage }
 
-export type { DateTimeRangeFilter }
+export type { DateTimeRangeFilter, GlobalEmissionFilter, GlobalFilterState }

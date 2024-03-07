@@ -20,7 +20,7 @@ export const selectedClusterSlice = createSlice({
   initialState,
   reducers: {
     selectClusterPoints: selectClusterPointsReducer,
-    clearSelectedCluster: (state) => {
+    clearSelectedCluster: (state: SelectedCluster) => {
       state.dataPoints = []
     },
   },

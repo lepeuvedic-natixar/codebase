@@ -1,20 +1,20 @@
 import { memo, useCallback, useState } from "react"
 import { Box, Card, Fade, SxProps } from "@mui/material"
 import ClusteredMap from "components/leaflet-maps/cluster-map"
+import CategoriesLegend from "components/categories/CategoriesLegend"
 import EmissionsByCluster from "components/emissions/clusters/EmissionsByCluster"
 
-import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "data/store"
+import { useSelector } from "react-redux"
 import { clearSelectedCluster } from "data/store/features/coordinates/ClusterSlice"
-import CategoriesLegend from "components/categories/CategoriesLegend"
-
-const selectSelectedCluster = (state: RootState) => state.selectedCluster
-const selectVisibleCategories = (state: RootState) =>
-  state.globalFilter.availableValues.categories
+import {
+  selectAllVisibleCategories,
+  selectSelectedCluster,
+} from "data/store/features/coordinates/Selectors"
+import { useAppDispatch } from "data/store"
 
 const ClusteredMapSection = (props: SxProps) => {
   const { ...sxProps } = props
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const [tableCloseVeto, setTableCloseVeto] = useState(false)
   const onAnimationEndListener = useCallback(() => {
     dispatch(clearSelectedCluster())
@@ -26,7 +26,7 @@ const ClusteredMapSection = (props: SxProps) => {
     [setTableCloseVeto],
   )
   const selectedCluster = useSelector(selectSelectedCluster)
-  let categories = useSelector(selectVisibleCategories)
+  let categories = useSelector(selectAllVisibleCategories)
 
   if (categories.length > 0) {
     // We deconstruct here, because redux has immutable values

@@ -51,6 +51,7 @@ const KeywordInput = (props: GridRenderEditCellParams) => {
         value={inputValue}
         placeholder="Keywords"
         ref={inputRef}
+        autoFocus
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={handleKeyDown}
       />

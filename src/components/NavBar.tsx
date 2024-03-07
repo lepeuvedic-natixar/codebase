@@ -1,22 +1,17 @@
-import { FunctionComponent, useCallback, useMemo, useState } from "react"
-import { Box, Button, Checkbox, FormControlLabel, Slider } from "@mui/material"
-import { useSelector } from "react-redux"
+import { useCallback, useState } from "react"
+import { Box, Slider } from "@mui/material"
 
-import { RootState, useAppDispatch } from "data/store"
-import { changeVisibileDates } from "data/store/features/coordinates/CoordinateSlice"
+import { useAppDispatch } from "data/store"
 
 import { debounce } from "lodash"
 
 import "./navbar.css"
 
-const coordinatesDataSet = (state: RootState) => state.coordinates.wholeDataSet
+const NavigationBar = () => {
+  const min_time = 0
+  const max_time = Number.MAX_SAFE_INTEGER
+  const totalSteps = 12
 
-const NavigationBar: FunctionComponent = () => {
-  const {
-    min_time: minSliderValue,
-    max_time: maxSliderValue,
-    totalSteps: rangesToUse,
-  } = useSelector(coordinatesDataSet)
   const [range, setRange] = useState([0, rangesToUse - 1])
   const dispatch = useAppDispatch()
   const delta = (maxSliderValue - minSliderValue) / rangesToUse
