@@ -1,38 +1,49 @@
 import { styled } from "@mui/material/styles"
 import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker"
-import { Box, Slider } from "@mui/material"
+import { Box, Button, Slider } from "@mui/material"
 
-export const StyledDatePicker = styled(StaticDatePicker)(() => ({
-  width: "fit-content",
-  minWidth: "fit-content",
-  overflowX: "hidden",
-  "& .MuiPickersLayout-contentWrapper": {
+export const StyledDatePicker = styled(StaticDatePicker)(
+  ({ involved }: { involved: boolean }) => ({
     width: "fit-content",
-    height: "fit-content",
-  },
-  "& .MuiDateCalendar-root": {
-    width: "fit-content",
-    height: "fit-content",
-  },
-  "& .MuiPickersCalendarHeader-root": {
-    padding: 0,
-    margin: 0,
-    width: "100%",
-    borderBottom: "1px solid transparent",
-    justifyContent: "center",
-    "& .MuiPickersArrowSwitcher-root": {
-      display: "none",
+    minWidth: "fit-content",
+    overflowX: "hidden",
+    "& .Mui-selected": {
+      backgroundColor: involved ? "#1890FF" : "transparent !important",
+      color: involved ? "#FFF" : "#000 !important",
+      fontWeight: involved ? 500 : "400 !important",
     },
-    "& .MuiPickersCalendarHeader-labelContainer": {
+    "& .MuiPickersLayout-contentWrapper": {
+      width: "fit-content",
+      height: "fit-content",
+    },
+    "& .MuiDateCalendar-root": {
+      width: "fit-content",
+      height: "fit-content",
+    },
+    "& .MuiPickersCalendarHeader-root": {
+      padding: 0,
       margin: 0,
+      width: "100%",
+      borderBottom: "1px solid transparent",
+      justifyContent: "center",
+      "& .MuiPickersArrowSwitcher-root": {
+        display: "none",
+      },
+      "& .MuiPickersCalendarHeader-labelContainer": {
+        margin: 0,
+      },
+      "& .MuiPickersCalendarHeader-switchViewButton": {
+        display: "none",
+      },
     },
-    "& .MuiPickersCalendarHeader-switchViewButton": {
-      display: "none",
+    "& .MuiPickersSlideTransition-root": {
+      minHeight: 200,
     },
-  },
-  "& .MuiPickersSlideTransition-root": {
-    minHeight: 200,
-  },
+  }),
+)
+
+export const AcceptButton = styled(Button)(() => ({
+  color: "#FFF",
 }))
 
 export const Border = styled(Box)(() => ({

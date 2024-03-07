@@ -1,11 +1,13 @@
-import { useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 
 import MainCard from "components/MainCard"
-import { Box, Button, Typography } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker"
+import { StaticDateRangePicker } from "@mui/lab"
 import {
+  AcceptButton,
   Border,
   DateInputsWrapper,
   DateSlider,
@@ -17,7 +19,34 @@ import {
   Years,
 } from "./styled"
 
-const getDefaultMonth = (datePickerNumber: 1 | 2 | 3 | 4, period: number) => {
+const getDateForPeriod = (
+  startDate: Date | null,
+  endDate: Date | null,
+  periodDate: Date,
+) => {
+  if (
+    startDate &&
+    startDate.getFullYear() === periodDate.getFullYear() &&
+    startDate.getMonth() === periodDate.getMonth()
+  ) {
+    return { value: startDate, involved: true }
+  }
+  if (
+    endDate &&
+    endDate.getFullYear() === periodDate.getFullYear() &&
+    endDate.getMonth() === periodDate.getMonth()
+  ) {
+    return { value: endDate, involved: true }
+  }
+  return { value: periodDate, involved: false }
+}
+
+const getDefaultMonth = (
+  datePickerNumber: 1 | 2 | 3 | 4,
+  period: number,
+  startDate: Date | null,
+  endDate: Date | null,
+) => {
   const currentYear = new Date().getFullYear()
   const previousYear = currentYear - 1
   const previousYear2 = previousYear - 1
@@ -26,19 +55,33 @@ const getDefaultMonth = (datePickerNumber: 1 | 2 | 3 | 4, period: number) => {
   const yearsLeftFromPreviousYear2 = Math.floor(
     (period + datePickerNumber - 1) / 12,
   )
+  let date
   if (currentMonth === 12) {
-    return `${previousYear2 + yearsLeftFromPreviousYear2}-${currentMonth}-01`
+    date = new Date(
+      `${previousYear2 + yearsLeftFromPreviousYear2}-${currentMonth}-01`,
+    )
+  } else if (currentMonth > 12) {
+    date = new Date(
+      `${previousYear2 + yearsLeftFromPreviousYear2}-${Math.abs(currentMonth % 12)}-01`,
+    )
+  } else {
+    date = new Date(
+      `${previousYear2 + yearsLeftFromPreviousYear2}-${Math.abs(currentMonth % 12)}-01`,
+    )
   }
-  if (currentMonth > 12) {
-    return `${previousYear2 + yearsLeftFromPreviousYear2}-${Math.abs(currentMonth % 12)}-01`
-  }
-  return `${previousYear2 + yearsLeftFromPreviousYear2}-${Math.abs(currentMonth % 12)}-01`
+  return getDateForPeriod(startDate, endDate, date)
 }
 
 export default function DateFilter() {
-  const [value, setValue] = useState<Date | null>(new Date())
-  const [dates, setDates] = useState<Date | null>(new Date())
+  const [startDate, setStartDate] = useState<Date | null>(null)
+  const [endDate, setEndDate] = useState<Date | null>(null)
   const [period, setPeriod] = useState<number>(23)
+  const [pickersState, setPickersState] = useState({
+    picker1: getDefaultMonth(1, period, startDate, endDate),
+    picker2: getDefaultMonth(2, period, startDate, endDate),
+    picker3: getDefaultMonth(3, period, startDate, endDate),
+    picker4: getDefaultMonth(4, period, startDate, endDate),
+  })
   const currentYear = new Date().getFullYear()
   const previousYear = currentYear - 1
   const previousYear2 = previousYear - 1
@@ -47,29 +90,39 @@ export default function DateFilter() {
     setPeriod(newPeriod as number)
   }
 
-  const handleChange = (newValue: Date | null) => {
-    setValue(newValue)
+  useEffect(() => {
+    setPickersState({
+      picker1: getDefaultMonth(1, period, startDate, endDate),
+      picker2: getDefaultMonth(2, period, startDate, endDate),
+      picker3: getDefaultMonth(3, period, startDate, endDate),
+      picker4: getDefaultMonth(4, period, startDate, endDate),
+    })
+  }, [period, startDate, endDate])
+
+  const handleDatePick = (date: unknown) => {
+    if (startDate && endDate) {
+      setStartDate(new Date(date as Date | string))
+      setEndDate(null)
+    }
+    if (startDate && !endDate) {
+      if (startDate.valueOf() < new Date(date as Date | string).valueOf()) {
+        setEndDate(new Date(date as Date | string))
+      } else {
+        setStartDate(new Date(date as Date | string))
+      }
+    }
+    if (!startDate && !endDate) {
+      setStartDate(new Date(date as Date | string))
+    }
   }
 
-  const defaultDate1 = useMemo(() => {
-    const defDateMonth = getDefaultMonth(1, period)
-    return new Date(defDateMonth)
-  }, [period])
+  const handleFirstDatePick = (date: Date | null) => {
+    setStartDate(date)
+  }
 
-  const defaultDate2 = useMemo(() => {
-    const defDateMonth = getDefaultMonth(2, period)
-    return new Date(defDateMonth)
-  }, [period])
-
-  const defaultDate3 = useMemo(() => {
-    const defDateMonth = getDefaultMonth(3, period)
-    return new Date(defDateMonth)
-  }, [period])
-
-  const defaultDate4 = useMemo(() => {
-    const defDateMonth = getDefaultMonth(4, period)
-    return new Date(defDateMonth)
-  }, [period])
+  const handleSecondDatePick = (date: Date | null) => {
+    setEndDate(date)
+  }
 
   return (
     <MainCard codeHighlight>
@@ -91,33 +144,40 @@ export default function DateFilter() {
           <PickersWrapper>
             <Border />
             <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <StyledDatePicker
-                displayStaticWrapperAs="desktop"
-                openTo="day"
-                views={["day"]}
-                defaultValue={defaultDate1}
-                value={defaultDate1}
+              <StaticDateRangePicker
+                defaultValue={[new Date("2022-04-17"), new Date("2022-04-21")]}
               />
               <StyledDatePicker
                 displayStaticWrapperAs="desktop"
                 openTo="day"
                 views={["day"]}
-                defaultValue={defaultDate2}
-                value={defaultDate2}
+                value={pickersState.picker1.value}
+                involved={pickersState.picker1.involved}
+                onChange={(value) => handleDatePick(value as Date)}
               />
               <StyledDatePicker
                 displayStaticWrapperAs="desktop"
                 openTo="day"
                 views={["day"]}
-                defaultValue={defaultDate3}
-                value={defaultDate3}
+                value={pickersState.picker2.value}
+                involved={pickersState.picker2.involved}
+                onChange={(value) => handleDatePick(value)}
               />
               <StyledDatePicker
                 displayStaticWrapperAs="desktop"
                 openTo="day"
                 views={["day"]}
-                defaultValue={defaultDate4}
-                value={defaultDate4}
+                value={pickersState.picker3.value}
+                involved={pickersState.picker3.involved}
+                onChange={(value) => handleDatePick(value)}
+              />
+              <StyledDatePicker
+                displayStaticWrapperAs="desktop"
+                openTo="day"
+                views={["day"]}
+                value={pickersState.picker4.value}
+                involved={pickersState.picker4.involved}
+                onChange={(value) => handleDatePick(value)}
               />
             </LocalizationProvider>
           </PickersWrapper>
@@ -127,16 +187,16 @@ export default function DateFilter() {
             <DateInputsWrapper>
               <DesktopDatePicker
                 format="MM/dd/yyyy"
-                value={value}
-                onChange={handleChange}
+                value={startDate}
+                onChange={handleFirstDatePick}
               />
               <Typography>To</Typography>
               <DesktopDatePicker
                 format="MM/dd/yyyy"
-                value={value}
-                onChange={handleChange}
+                value={endDate}
+                onChange={handleSecondDatePick}
               />
-              <Button variant="contained">Accept</Button>
+              <AcceptButton variant="contained">Accept</AcceptButton>
             </DateInputsWrapper>
           </LocalizationProvider>
         </Box>
