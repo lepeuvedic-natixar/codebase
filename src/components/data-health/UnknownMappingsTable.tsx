@@ -95,7 +95,13 @@ const columns: GridColDef[] = [
         </Link>
       ) : null,
     renderEditCell: (params) => (
-      <TextField label="Digital code" value={params.value} variant="outlined" />
+      <TextField
+        sx={{
+          mr: ".5rem",
+        }}
+        value={params.value}
+        variant="outlined"
+      />
     ),
   },
   {
