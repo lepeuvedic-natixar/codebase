@@ -78,10 +78,8 @@ const columns: GridColDef[] = [
       if (!params.hasChanged || !newValue) {
         return { ...params.props }
       }
-      const hasError =
-        newValue.toString().length > GOODS_CODE_LIMITATION ||
-        Number.isNaN(parseInt(newValue, 10))
-      return { ...params.props, error: hasError || undefined }
+      const hasError = Number.isNaN(parseInt(newValue, 10))
+      return { ...params.props, error: hasError }
     },
     renderCell: (params) =>
       params.value ? (
