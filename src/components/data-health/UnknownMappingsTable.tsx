@@ -30,7 +30,7 @@ and 8 for NC8
 */
 const GOODS_CODE_LIMITATION = 6
 const CODE_DETAIL_URL_PREFIX = import.meta.env.VITE_GOODS_DETAIL_PAGE
-const PAGINATION_OPTIONS = [5, 10, 25]
+const PAGINATION_OPTIONS = [20, 50, 100]
 
 const HEADER_CSS_CLASS = "common-super-class-name"
 const AWESOME_COLUMN: GridColTypeDef = {

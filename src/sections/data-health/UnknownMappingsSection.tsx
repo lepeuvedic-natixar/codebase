@@ -211,7 +211,14 @@ const UnknownMappingsSection = (props: SxProps) => {
         position: "relative",
       }}
     >
-      <Box sx={{ width: "100%", minHeight: "440px", position: "relative" }}>
+      <Box
+        sx={{
+          width: "100%",
+          minHeight: "1200px",
+          height: "fit-content",
+          position: "relative",
+        }}
+      >
         <Stack
           sx={{
             ...OVERLAY_FRAME_PROPS,
