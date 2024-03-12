@@ -1,5 +1,5 @@
 import { memo, useCallback, useState } from "react"
-import { Link, SxProps } from "@mui/material"
+import { Link, SxProps, TextField } from "@mui/material"
 import {
   DataGrid,
   GridActionsCellItem,
@@ -94,6 +94,9 @@ const columns: GridColDef[] = [
           {params.formattedValue}
         </Link>
       ) : null,
+    renderEditCell: (params) => (
+      <TextField label="Digital code" value={params.value} variant="outlined" />
+    ),
   },
   {
     field: "precision",
