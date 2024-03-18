@@ -6,4 +6,4 @@ Master branch:
 # Known bugs
 
 * Multilingual, but works with symbolic links for application pages (SPA as opposed to "content pages")
-* Pas de nom de domaine dédié (sous-domaine) car il faudrait une entrée DNS pour app.natixar.com .
+
