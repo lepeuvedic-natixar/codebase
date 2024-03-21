@@ -42,7 +42,7 @@ const Header = () => {
 
   // common header
   const mainHeader: ReactNode = (
-    <Toolbar>
+    <Toolbar style={{ backgroundColor: "#053759" }}>
       {!isHorizontal ? (
         <IconButton
           aria-label="open drawer"
@@ -86,11 +86,11 @@ const Header = () => {
       width: isHorizontal
         ? "100%"
         : {
-            xs: "100%",
-            lg: drawerOpen
-              ? `calc(100% - ${DRAWER_WIDTH}px)`
-              : `calc(100% - ${MINI_DRAWER_WIDTH}px)`,
-          },
+          xs: "100%",
+          lg: drawerOpen
+            ? `calc(100% - ${DRAWER_WIDTH}px)`
+            : `calc(100% - ${MINI_DRAWER_WIDTH}px)`,
+        },
     },
   }
 
