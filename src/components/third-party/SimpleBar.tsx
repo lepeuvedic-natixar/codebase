@@ -36,6 +36,9 @@ const SimpleBarStyle = styled(SimpleBar)(({ theme }) => ({
   "& .simplebar-mask": {
     zIndex: "inherit",
   },
+  "& hr": {
+    display: 'none'
+  }
 }))
 
 // ==============================|| SIMPLE SCROLL BAR ||============================== //
