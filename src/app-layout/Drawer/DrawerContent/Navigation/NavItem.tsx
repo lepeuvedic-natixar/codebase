@@ -66,7 +66,7 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
   )
 
   const textColor =
-    theme.palette.mode === ThemeMode.DARK ? "grey.400" : "text.primary"
+    theme.palette.mode === ThemeMode.DARK ? "grey.400" : "#fff"
   const iconSelectedColor =
     theme.palette.mode === ThemeMode.DARK && drawerOpen
       ? "text.primary"
@@ -150,17 +150,17 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
                   }),
                   ...(!drawerOpen &&
                     isSelected && {
+                    bgcolor:
+                      theme.palette.mode === ThemeMode.DARK
+                        ? "primary.900"
+                        : "primary.lighter",
+                    "&:hover": {
                       bgcolor:
                         theme.palette.mode === ThemeMode.DARK
-                          ? "primary.900"
+                          ? "primary.darker"
                           : "primary.lighter",
-                      "&:hover": {
-                        bgcolor:
-                          theme.palette.mode === ThemeMode.DARK
-                            ? "primary.darker"
-                            : "primary.lighter",
-                      },
-                    }),
+                    },
+                  }),
                 }}
               >
                 {itemIcon}
@@ -274,11 +274,11 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
                 }),
                 ...(!drawerOpen &&
                   isSelected && {
+                  bgcolor: "transparent",
+                  "&:hover": {
                     bgcolor: "transparent",
-                    "&:hover": {
-                      bgcolor: "transparent",
-                    },
-                  }),
+                  },
+                }),
               }}
             >
               {itemIcon}
@@ -299,11 +299,11 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
                 }),
                 ...(!drawerOpen &&
                   isSelected && {
+                  bgcolor: "transparent",
+                  "&:hover": {
                     bgcolor: "transparent",
-                    "&:hover": {
-                      bgcolor: "transparent",
-                    },
-                  }),
+                  },
+                }),
               }}
             >
               <Dot size={4} color={isSelected ? "primary" : "secondary"} />
