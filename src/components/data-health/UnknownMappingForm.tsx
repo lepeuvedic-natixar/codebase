@@ -19,18 +19,9 @@ import { CodeMapping } from "data/store/features/codemappings/Types"
 import { useAppDispatch } from "data/store"
 
 const formSchema = z.object({
-  goodsCode: z.coerce
-    .number()
-    .positive()
-    .int()
-    .finite()
-    .gte(1, {
-      message: "Code can't be empty",
-    })
-    .lte(99999999, {
-      message: "Code can't exceed 9 digits",
-    })
-    .default(1),
+  goodsCode: z
+    .string()
+    .regex(/^\d{6}$/, { message: "Code must be exactly 6 digits" }),
   keywords: z
     .string()
     .array()
@@ -39,7 +30,7 @@ const formSchema = z.object({
 })
 
 interface MappingFormData {
-  goodsCode: number
+  goodsCode: string
   keywords: string[]
 }
 
@@ -53,7 +44,7 @@ function MappingForm(props: MappingFormData & MappingFormSubmitProps) {
   const { goodsCode, keywords, onSubmit: onFormSubmitListener } = props
   const dispatch = useAppDispatch()
   const onCancel = () => {
-    dispatch(clearMapping({}))
+    dispatch(clearMapping())
   }
 
   // 1. Define your form.
@@ -136,20 +127,24 @@ const UnknownMappingForm = (props: UnknownMappingFormProps & SxProps) => {
     return null
   }
 
-  let parsedCode = parseInt(mappingToEdit.goodsCode!!, 10)
-  if (!Number.isFinite(parsedCode)) {
-    parsedCode = 1
-  }
+  //let parsedCode = parseInt(mappingToEdit.goodsCode!!, 10)
+  //if (!Number.isFinite(parsedCode)) {
+  //  parsedCode = 1
+  //}  goodsCode is a string made of digits, but leading zeros are important!
 
   return (
     mappingToEdit && (
       <Paper sx={{ width: "100%", height: "100%", ...sxProps }}>
         <MappingForm
-          goodsCode={parsedCode}
-          keywords={mappingToEdit.precision!!}
-          //   onSubmit={(newFormData) => {
-          // valueObserver({ ...mappingToEdit, ...newFormData })
-          //   }}
+          goodsCode={mappingToEdit.goodsCode!}
+          keywords={mappingToEdit.precision!}
+          onSubmit={(newFormData) => {
+            valueObserver({
+              ...mappingToEdit,
+              goodsCode: newFormData.goodsCode,
+              precision: newFormData.keywords
+            })
+          }}
         />
       </Paper>
     )
