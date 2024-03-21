@@ -11,7 +11,7 @@ import "./navbar.css"
 const NavigationBar = () => {
   const minSliderValue = 0
   const maxSliderValue = Number.MAX_SAFE_INTEGER
-  const rangeToUse = 12
+  const rangesToUse = 12
 
   const [range, setRange] = useState([0, rangesToUse - 1])
   const dispatch = useAppDispatch()
