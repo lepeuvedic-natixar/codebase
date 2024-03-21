@@ -4,13 +4,14 @@ import { Box, Slider } from "@mui/material"
 import { useAppDispatch } from "data/store"
 
 import { debounce } from "lodash"
+// import { changeVisibileDates } from "data/store/features/coordinates/CoordinateSlice"
 
 import "./navbar.css"
 
 const NavigationBar = () => {
-  const min_time = 0
-  const max_time = Number.MAX_SAFE_INTEGER
-  const totalSteps = 12
+  const minSliderValue = 0
+  const maxSliderValue = Number.MAX_SAFE_INTEGER
+  const rangesToUse = 12
 
   const [range, setRange] = useState([0, rangesToUse - 1])
   const dispatch = useAppDispatch()
@@ -23,7 +24,7 @@ const NavigationBar = () => {
     [minSliderValue, delta],
   )
 
-  const updateTimeFilter = useCallback(
+/*  const updateTimeFilter = useCallback(
     debounce((newTimeRange: number[]) => {
       dispatch(
         changeVisibileDates({
@@ -33,12 +34,12 @@ const NavigationBar = () => {
       )
     }, 700),
     [dispatch, minSliderValue, delta],
-  )
+  ) */
 
   const handleTimeRangeChange = (event: Event, newValue: number[]) => {
     event.preventDefault()
     setRange(newValue)
-    updateTimeFilter(newValue)
+    // updateTimeFilter(newValue)
   }
 
   return (
