@@ -57,7 +57,6 @@ const MainDrawer = ({ window }: Props) => {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: DRAWER_WIDTH,
-              borderRight: `1px solid ${theme.palette.divider}`,
               backgroundImage: "none",
               boxShadow: "inherit",
             },
