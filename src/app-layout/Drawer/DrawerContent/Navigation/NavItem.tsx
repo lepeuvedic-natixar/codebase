@@ -72,7 +72,7 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
 
   const textColor =
     theme.palette.mode === ThemeMode.DARK ? "grey.400" : "#fff"
-  const selectedBgColor = theme.palette.mode === ThemeMode.DARK ? "black" : "#13537E";
+  const bgcolor = theme.palette.mode === ThemeMode.DARK ? "divider" : "#13537E";
 
   const handleItemClick = () => {
     setIsShowExtraHeader(false)
@@ -102,23 +102,12 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
                 my: "4px",
                 borderRadius: '12px',
                 "&:hover": {
-                  bgcolor:
-                    theme.palette.mode === ThemeMode.DARK
-                      ? "divider"
-                      : selectedBgColor,
+                  bgcolor,
                 },
                 "&.Mui-selected": {
-                  bgcolor:
-                    theme.palette.mode === ThemeMode.DARK
-                      ? "divider"
-                      : selectedBgColor,
-                  color: iconSelectedColor,
+                  bgcolor,
                   "&:hover": {
-                    color: iconSelectedColor,
-                    bgcolor:
-                      theme.palette.mode === ThemeMode.DARK
-                        ? "divider"
-                        : selectedBgColor,
+                    bgcolor,
                   },
                 },
               }),
@@ -149,23 +138,14 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
                     alignItems: "center",
                     justifyContent: "center",
                     "&:hover": {
-                      bgcolor:
-                        theme.palette.mode === ThemeMode.DARK
-                          ? "secondary.light"
-                          : "secondary.lighter",
+                      bgcolor,
                     },
                   }),
                   ...(!drawerOpen &&
                     isSelected && {
-                    bgcolor:
-                      theme.palette.mode === ThemeMode.DARK
-                        ? "primary.900"
-                        : "primary.lighter",
+                    bgcolor,
                     "&:hover": {
-                      bgcolor:
-                        theme.palette.mode === ThemeMode.DARK
-                          ? "primary.darker"
-                          : "primary.lighter",
+                      bgcolor,
                     },
                   }),
                 }}
