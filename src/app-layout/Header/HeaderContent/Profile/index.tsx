@@ -113,7 +113,7 @@ const Profile = () => {
     theme.palette.mode === ThemeMode.DARK ? "background.default" : "primary.light"
 
   return (
-    <Box sx={{ flexShrink: 0, ml: 0.75 }}>
+    <Box sx={{ flexShrink: 0, mx: 0.75 }}>
       <ButtonBase
         sx={{
           p: 0.25,
@@ -143,8 +143,8 @@ const Profile = () => {
           sx={{ p: 0.5 }}
         >
           <Avatar alt="profile user" src={avatar1} size="sm" />
-          <Typography variant="subtitle1" sx={{ textTransform: "capitalize" }}>
-            {user?.name}
+          <Typography variant="subtitle1" sx={{ textTransform: "capitalize", color: 'common.white' }}>
+            {user?.name || 'John Doe'}
           </Typography>
         </Stack>
       </ButtonBase>
