@@ -33,6 +33,9 @@ import "@fontsource/public-sans/500.css"
 import "@fontsource/public-sans/600.css"
 import "@fontsource/public-sans/700.css"
 
+import "@fontsource/questrial/400.css"
+import "@fontsource/urbanist/400.css"
+
 // project import
 import { ConfigProvider } from "contexts/ConfigContext"
 import App from "./App"

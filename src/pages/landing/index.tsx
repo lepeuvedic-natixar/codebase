@@ -1,11 +1,14 @@
-import React from 'react';
-import { Typography, Box, Stack, Link } from '@mui/material';
+import { styled, Theme, CSSObject } from "@mui/material/styles"
+import { Typography, Box, Stack, Card, CardContent } from '@mui/material';
 
 import { getImageUrl, ImagePath } from "utils/getImageUrl"
-import Header from './Header';
+import Header from '../../components/landing-page/Header';
 
 const LandingPage: React.FC = () => {
   const bgImgUrl = getImageUrl(`trees-and-sky.jpg`, ImagePath.LANDING);
+  const pictoEnvironment = getImageUrl(`picto-environment.png`, ImagePath.LANDING);
+  const pictoSocial = getImageUrl(`picto-social.png`, ImagePath.LANDING);
+  const pictoGovernance = getImageUrl(`picto-governance.png`, ImagePath.LANDING);
 
   const backgroundImageStyle = () => ({
     backgroundImage: `url("${bgImgUrl}")`,
@@ -35,24 +38,181 @@ const LandingPage: React.FC = () => {
     zIndex: 1
   })
 
+  const h2Style = (theme: Theme): CSSObject => ({
+    color: "#1DB447",
+    fontWeight: 'bold',
+    fontSize: 44,
+  })
+  const textStyle = (theme: Theme): CSSObject => ({
+    display: 'flex',
+    flexDirection: 'column',
+    width: 'fit-content',
+    margin: 'auto',
+    color: 'primary.light',
+    fontWeight: 'normal',
+    position: 'relative',
+    cursor: 'pointer',
+    fontSize: 20,
+    "&::after": {
+      content: '""',
+      position: 'absolute',
+      bottom: '-4px',
+      width: '100%',
+      height: '0px',
+      border: '2px solid #1DB648',
+      borderRadius: '4px',
+      transform: 'scaleX(0)',
+      transition: 'all .3s',
+    },
+    '&:hover::after': {
+      transform: 'scaleX(1)'
+    }
+  })
+
+  const StyledCard = styled(Card)(({ theme }) => ({
+    bgcolor: 'common.white',
+    borderRadius: '64px',
+    width: '380px',
+    textAlign: 'center',
+    paddingTop: '20px',
+    paddingBottom: '30px',
+  }))
+
+  const stackTextStyle = {
+    alignItems: "center",
+    direction: "column",
+    spacing: 5,
+    mt: 6
+  }
+
   return (
-    <Box sx={backgroundImageStyle}>
+    <Box className="landing-page" sx={backgroundImageStyle}>
       <Box sx={filterStyle} />
       <Header />
       <Box sx={mainContentStyle}>
-        <Stack spacing={2} alignItems="center">
-          <Typography variant="h1" component="h1">
-            Your Landing Page Title
+        <Stack spacing={18} alignItems="center">
+          <Typography variant="h1" component="h1" color={"#fff"} fontWeight='normal' textAlign="center">
+            Cutting-edge carbon management<br />software solutions
           </Typography>
-          <Typography variant="h5" component="h2">
-            A short description of your product or service.
-          </Typography>
-          <Link href="/about" underline="none" sx={{ color: 'primary.main' }}>
-            Learn More
-          </Link>
+          <Stack direction="row" spacing={12} justifyContent="space-evenly">
+            {/* Card Environment */}
+            <StyledCard>
+              <CardContent>
+                <img src={pictoEnvironment} alt="Environment pictogram" />
+                <Typography variant="h2" component="h2" sx={h2Style}>
+                  Environment
+                </Typography>
+                <Stack alignItems={stackTextStyle.alignItems} mt={stackTextStyle.mt} direction={stackTextStyle.direction} spacing={stackTextStyle.spacing}>
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Climate change
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Product Footprint
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Life-cycle Analysis
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Green Finance
+                  </Typography>
+                </Stack>
+              </CardContent>
+            </StyledCard>
+            {/* Card Social */}
+            <StyledCard>
+              <CardContent>
+                <img src={pictoSocial} alt="Social pictogram" />
+                <Typography variant="h2" component="h2" sx={h2Style}>
+                  Social
+                </Typography>
+                <Stack alignItems={stackTextStyle.alignItems} mt={stackTextStyle.mt} direction={stackTextStyle.direction} spacing={stackTextStyle.spacing}>
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Community impact
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Labour Standards
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Health & Safety
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Customer Reposibility
+                  </Typography>
+                </Stack>
+              </CardContent>
+            </StyledCard>
+            {/* Card Governance */}
+            <StyledCard>
+              <CardContent>
+                <img src={pictoGovernance} alt="Governance pictogram" />
+                <Typography variant="h2" component="h2" sx={h2Style}>
+                  Governance
+                </Typography>
+                <Stack alignItems={stackTextStyle.alignItems} mt={stackTextStyle.mt} direction={stackTextStyle.direction} spacing={stackTextStyle.spacing}>
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Tax Transparency
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Anti-corruption
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Shareholders Rights
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Risk Management
+                  </Typography>
+                </Stack>
+              </CardContent>
+            </StyledCard>
+          </Stack>
         </Stack>
       </Box>
-    </Box>
+    </Box >
   );
 };
 
