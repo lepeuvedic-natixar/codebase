@@ -37,6 +37,7 @@ function getColorStyle({ variant, color, theme }: ButtonStyleProps) {
   switch (variant) {
     case "contained":
       return {
+        backgroundColor: theme.palette.success.main,
         "&:hover": {
           backgroundColor: dark,
         },
@@ -118,8 +119,13 @@ export default function Button(theme: Theme) {
       },
       styleOverrides: {
         root: {
-          color: "#000",
-          fontWeight: 400,
+          color: "#053759",
+          fontWeight: 800,
+          fontFamily: 'Urbanist',
+          borderRadius: '20px',
+          "&:hover": {
+            backgroundColor: theme.palette.success.dark
+          },
           "&::after": {
             content: '""',
             display: "block",
@@ -128,7 +134,7 @@ export default function Button(theme: Theme) {
             top: 0,
             width: "100%",
             height: "100%",
-            borderRadius: 4,
+            borderRadius: '20px',
             opacity: 0,
             transition: "all 0.5s",
           },
@@ -139,7 +145,7 @@ export default function Button(theme: Theme) {
 
           "&:active::after": {
             position: "absolute",
-            borderRadius: 4,
+            borderRadius: '20px',
             left: 0,
             top: 0,
             opacity: 1,
