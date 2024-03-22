@@ -35,6 +35,11 @@ import "@fontsource/public-sans/700.css"
 
 import "@fontsource/questrial/400.css"
 import "@fontsource/urbanist/400.css"
+import "@fontsource/urbanist/500.css"
+import "@fontsource/urbanist/600.css"
+import "@fontsource/urbanist/700.css"
+import "@fontsource/urbanist/800.css"
+import "@fontsource/urbanist/900.css"
 
 // project import
 import { ConfigProvider } from "contexts/ConfigContext"
