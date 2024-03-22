@@ -83,6 +83,8 @@ const Notification = () => {
         color="secondary"
         variant="light"
         sx={{
+          width: 44,
+          height: 44,
           color: "common.white",
           bgcolor: open ? iconBackColorOpen : "transparent",
           "&:hover": {
@@ -96,7 +98,7 @@ const Notification = () => {
         onClick={handleToggle}
       >
         <Badge badgeContent={read} color="success">
-          <BellOutlined />
+          <BellOutlined style={{ fontSize: 20 }} />
         </Badge>
       </IconButton>
       <Popper
