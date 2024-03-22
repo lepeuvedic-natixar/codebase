@@ -15,17 +15,27 @@ const AuthFooter = () => {
     theme.breakpoints.down("sm"),
   )
 
+  const textStyle = (theme) => ({
+    color: 'common.white'
+  })
+
   return (
-    <Container maxWidth="xl">
-      <Stack
+    <Container maxWidth="xl" sx={{ zIndex: 1, position: 'relative' }}>
+      < Stack
         direction={matchDownSM ? "column" : "row"}
         justifyContent={matchDownSM ? "center" : "space-between"}
         spacing={2}
         textAlign={matchDownSM ? "center" : "inherit"}
       >
-        <Typography variant="subtitle2" color="secondary" component="span">
+        <Typography
+          sx={textStyle}
+          variant="subtitle2"
+          color="secondary"
+          component="span"
+        >
           This site is protected by{" "}
           <Typography
+            sx={textStyle}
             component={Link}
             variant="subtitle2"
             href="#mantis-privacy"
@@ -42,6 +52,7 @@ const AuthFooter = () => {
           textAlign={matchDownSM ? "center" : "inherit"}
         >
           <Typography
+            sx={textStyle}
             variant="subtitle2"
             color="secondary"
             component={Link}
@@ -52,6 +63,7 @@ const AuthFooter = () => {
             Terms and Conditions
           </Typography>
           <Typography
+            sx={textStyle}
             variant="subtitle2"
             color="secondary"
             component={Link}
@@ -62,6 +74,7 @@ const AuthFooter = () => {
             Privacy Policy
           </Typography>
           <Typography
+            sx={textStyle}
             variant="subtitle2"
             color="secondary"
             component={Link}
@@ -72,8 +85,8 @@ const AuthFooter = () => {
             CA Privacy Notice
           </Typography>
         </Stack>
-      </Stack>
-    </Container>
+      </Stack >
+    </Container >
   )
 }
 
