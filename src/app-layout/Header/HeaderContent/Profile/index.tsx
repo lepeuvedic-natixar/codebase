@@ -110,7 +110,7 @@ const Profile = () => {
   }
 
   const iconBackColorOpen =
-    theme.palette.mode === ThemeMode.DARK ? "background.default" : "grey.100"
+    theme.palette.mode === ThemeMode.DARK ? "background.default" : "primary.light"
 
   return (
     <Box sx={{ flexShrink: 0, ml: 0.75 }}>
@@ -122,8 +122,8 @@ const Profile = () => {
           "&:hover": {
             bgcolor:
               theme.palette.mode === ThemeMode.DARK
-                ? "secondary.light"
-                : "secondary.lighter",
+                ? "primary.lighter"
+                : "primary.light",
           },
           "&:focus-visible": {
             outline: `2px solid ${theme.palette.secondary.dark}`,
