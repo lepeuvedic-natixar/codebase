@@ -10,6 +10,7 @@ import {
   RadioGroup,
   Slide,
   Stack,
+  Button
 } from "@mui/material"
 
 // project import
@@ -96,10 +97,10 @@ const Landing = () => {
             background:
               theme.direction === ThemeDirection.RTL
                 ? {
-                    xs: "linear-gradient(-360.36deg, rgb(0, 0, 0) 14.79%, rgba(67, 67, 67, 0.28) 64.86%)",
-                    md: "linear-gradient(-329.36deg, rgb(0, 0, 0) 1.79%, rgba(67, 67, 67, 0.28) 64.86%)",
-                    xl: "linear-gradient(-329.36deg, rgb(0, 0, 0) 1.79%, rgba(67, 67, 67, 0.28) 64.86%)",
-                  }
+                  xs: "linear-gradient(-360.36deg, rgb(0, 0, 0) 14.79%, rgba(67, 67, 67, 0.28) 64.86%)",
+                  md: "linear-gradient(-329.36deg, rgb(0, 0, 0) 1.79%, rgba(67, 67, 67, 0.28) 64.86%)",
+                  xl: "linear-gradient(-329.36deg, rgb(0, 0, 0) 1.79%, rgba(67, 67, 67, 0.28) 64.86%)",
+                }
                 : "linear-gradient(329.36deg, rgb(0, 0, 0) 14.79%, rgba(67, 67, 67, 0.28) 64.86%)",
           },
         }}

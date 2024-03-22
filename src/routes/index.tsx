@@ -32,6 +32,11 @@ const router = createBrowserRouter([
     ],
   },
   LoginRoutes,
+  // LandingPage 
+  {
+    path: '/landing',
+    element: <PagesLanding />
+  }
 ])
 
 export default router
