@@ -67,10 +67,11 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
 
   const textColor =
     theme.palette.mode === ThemeMode.DARK ? "grey.400" : "#fff"
+  const selectedBgColor = theme.palette.mode === ThemeMode.DARK ? "black" : "#13537E";
   const iconSelectedColor =
     theme.palette.mode === ThemeMode.DARK && drawerOpen
       ? "text.primary"
-      : "primary.main"
+      : "#fff"
 
   const handleItemClick = () => {
     setIsShowExtraHeader(false)
@@ -92,25 +93,31 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
               pl: drawerOpen ? `${level * 28}px` : 1.5,
               py: !drawerOpen && level === 1 ? 1.25 : 1,
               ...(drawerOpen && {
+                ml: '16px',
+                pl: `${level * 8}px`,
+                pr: '16px',
+                py: !drawerOpen && level === 1 ? 1.2 : 1,
+                width: 224,
+                my: "4px",
+                borderRadius: '12px',
                 "&:hover": {
                   bgcolor:
                     theme.palette.mode === ThemeMode.DARK
                       ? "divider"
-                      : "primary.lighter",
+                      : selectedBgColor,
                 },
                 "&.Mui-selected": {
                   bgcolor:
                     theme.palette.mode === ThemeMode.DARK
                       ? "divider"
-                      : "primary.lighter",
-                  borderRight: `2px solid ${theme.palette.primary.main}`,
+                      : selectedBgColor,
                   color: iconSelectedColor,
                   "&:hover": {
                     color: iconSelectedColor,
                     bgcolor:
                       theme.palette.mode === ThemeMode.DARK
                         ? "divider"
-                        : "primary.lighter",
+                        : selectedBgColor,
                   },
                 },
               }),
