@@ -71,8 +71,9 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
   )
 
   const textColor =
-    theme.palette.mode === ThemeMode.DARK ? "grey.400" : "#fff"
-  const bgcolor = theme.palette.mode === ThemeMode.DARK ? "divider" : "#13537E";
+    theme.palette.mode === ThemeMode.DARK ? "grey.400" : "common.white"
+  // bgColor for selected and hover on item
+  const bgcolor = theme.palette.mode === ThemeMode.DARK ? "divider" : "primary.light";
 
   const handleItemClick = () => {
     setIsShowExtraHeader(false)

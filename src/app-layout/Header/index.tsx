@@ -42,17 +42,16 @@ const Header = () => {
 
   // common header
   const mainHeader: ReactNode = (
-    <Toolbar style={{ backgroundColor: "#053759" }}>
+    <Toolbar sx={{ bgcolor: "primary.main" }}>
       {!isHorizontal ? (
         <IconButton
           aria-label="open drawer"
           onClick={() => handlerDrawerOpen(!drawerOpen)}
           edge="start"
-          color="secondary"
           variant="light"
           sx={{
-            color: "text.primary",
-            bgcolor: drawerOpen ? "transparent" : iconBackColor,
+            color: "common.white",
+            bgcolor: "transparent",
             ml: { xs: 0, lg: -2 },
           }}
         >
