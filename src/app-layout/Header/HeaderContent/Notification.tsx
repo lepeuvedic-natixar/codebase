@@ -75,7 +75,7 @@ const Notification = () => {
   }
 
   const iconBackColorOpen =
-    theme.palette.mode === ThemeMode.DARK ? "background.default" : "grey.100"
+    theme.palette.mode === ThemeMode.DARK ? "background.default" : "primary.light"
 
   return (
     <Box sx={{ flexShrink: 0, ml: 0.75 }}>
@@ -83,8 +83,11 @@ const Notification = () => {
         color="secondary"
         variant="light"
         sx={{
-          color: "text.primary",
+          color: "common.white",
           bgcolor: open ? iconBackColorOpen : "transparent",
+          "&:hover": {
+            bgcolor: iconBackColorOpen
+          }
         }}
         aria-label="open profile"
         ref={anchorRef}
@@ -92,7 +95,7 @@ const Notification = () => {
         aria-haspopup="true"
         onClick={handleToggle}
       >
-        <Badge badgeContent={read} color="primary">
+        <Badge badgeContent={read} color="success">
           <BellOutlined />
         </Badge>
       </IconButton>

@@ -85,7 +85,7 @@ const Default = (colors: PalettesProps): PaletteThemeProps => {
     success: {
       lighter: green[0],
       light: green[3],
-      main: green[5],
+      main: '#1DB447',
       dark: green[7],
       darker: green[9],
       contrastText,
