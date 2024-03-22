@@ -1,13 +1,13 @@
 import { ReactNode } from "react"
 
 // material-ui
-import { Box, Grid } from "@mui/material"
+import { Typography, Stack, Box, Grid, Card } from "@mui/material"
 
 // project import
 import AuthFooter from "components/cards/AuthFooter"
 import Logo from "components/logo"
-import AuthBackground from "assets/images/auth/AuthBackground"
 import AuthCard from "./AuthCard"
+import { getImageUrl, ImagePath } from "utils/getImageUrl"
 
 // assets
 
@@ -17,21 +17,96 @@ interface Props {
 
 // ==============================|| AUTHENTICATION - WRAPPER ||============================== //
 
-const AuthWrapper = ({ children }: Props) => (
-  <Box sx={{ minHeight: "100vh" }}>
-    <AuthBackground />
+const AuthWrapper = ({ children }: Props) => {
+  const bgImgUrl = getImageUrl(`bg-trees.jpg`, ImagePath.AUTH);
+
+  const bgStyle = () => ({
+    backgroundImage: `url("${bgImgUrl}")`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    position: 'relative',
+    width: '100%',
+    height: '100vh',
+    overflowY: 'hidden',
+    zIndex: 1
+  })
+
+  const filterStyle = () => ({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 0,
+    backgroundImage: ` linear-gradient(230.09deg, rgba(19, 83, 126, 0.1) 22.04%, rgba(0, 57, 125, 0.58) 87.33%)`
+  })
+
+  const z1 = () => ({ zIndex: 1, position: 'relative' })
+
+  return (<Box position='relative' sx={bgStyle}>
+    <Box sx={filterStyle} />
     <Grid
       container
       direction="column"
       justifyContent="flex-end"
-      sx={{
-        minHeight: "100vh",
-      }}
+      sx={{ minHeight: "100vh", ...z1 }}
     >
       <Grid item xs={12} sx={{ ml: 3, mt: 3 }}>
         <Logo />
       </Grid>
-      <Grid item xs={12}>
+      <Stack direction="row">
+        <Grid
+          item
+          xs={12}
+          container
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            minHeight: {
+              xs: "calc(100vh - 210px)",
+              sm: "calc(100vh - 134px)",
+              md: "calc(100vh - 112px)",
+            },
+          }}
+        >
+          <Grid item>
+            <Typography variant="h1" component="h1"
+              color={"#fff"}
+              fontWeight='medium'
+              textAlign="left"
+              zIndex={1}
+              fontFamily='Urbanist'
+              position='relative'
+              fontSize={90}
+            >
+              Powering<br />
+              the <Box component='span' color="success.main" fontWeight={'bold'}>future</Box><br />
+              <Box
+                component='span'
+                sx={{
+                  width: 'fit-content',
+                  position: 'relative',
+                  zIndex: 2,
+                  "&::before": {
+                    content: '"today."',
+                    position: 'relative',
+                    zIndex: 2,
+                  },
+                  "&::after": {
+                    content: '""',
+                    zIndex: 1,
+                    position: 'absolute',
+                    bottom: '8px',
+                    left: 0,
+                    width: '100%',
+                    height: '0px',
+                    border: '2px solid #1DB648',
+                    borderRadius: '4px',
+                  }
+                }}></Box>
+            </Typography>
+          </Grid>
+        </Grid>
         <Grid
           item
           xs={12}
@@ -50,12 +125,13 @@ const AuthWrapper = ({ children }: Props) => (
             <AuthCard>{children}</AuthCard>
           </Grid>
         </Grid>
-      </Grid>
+      </Stack>
       <Grid item xs={12} sx={{ m: 3, mt: 1 }}>
         <AuthFooter />
       </Grid>
-    </Grid>
-  </Box>
-)
+    </Grid >
+  </Box >
+  )
+}
 
 export default AuthWrapper

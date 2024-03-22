@@ -137,6 +137,16 @@ const AuthLogin = ({ isDemo = false }: { isDemo?: boolean }) => {
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                         color="secondary"
+                        sx={{
+                          borderRadius: 90,
+                          "&::after, &:active::after": {
+                            width: 24,
+                            height: 24,
+                            top: 6,
+                            left: 6,
+                            borderRadius: 90
+                          },
+                        }}
                       >
                         {showPassword ? (
                           <EyeOutlined />
@@ -159,6 +169,22 @@ const AuthLogin = ({ isDemo = false }: { isDemo?: boolean }) => {
               )}
             </Grid>
 
+            <Grid item xs={12}>
+              <AnimateButton>
+                <Button
+                  disableElevation
+                  disabled={isSubmitting}
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained"
+                  color='success'
+                >
+                  Login
+                </Button>
+              </AnimateButton>
+            </Grid>
+
             <Grid item xs={12} sx={{ mt: -1 }}>
               <Stack
                 direction="row"
@@ -176,7 +202,7 @@ const AuthLogin = ({ isDemo = false }: { isDemo?: boolean }) => {
                       size="small"
                     />
                   }
-                  label={<Typography variant="h6">Keep me sign in</Typography>}
+                  label={<Typography variant="h6">Keep me signed in</Typography>}
                 />
                 <Link
                   variant="h6"
@@ -193,21 +219,6 @@ const AuthLogin = ({ isDemo = false }: { isDemo?: boolean }) => {
                 <FormHelperText error>{errors.submit}</FormHelperText>
               </Grid>
             )}
-            <Grid item xs={12}>
-              <AnimateButton>
-                <Button
-                  disableElevation
-                  disabled={isSubmitting}
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                >
-                  Login
-                </Button>
-              </AnimateButton>
-            </Grid>
           </Grid>
         </form>
       )}

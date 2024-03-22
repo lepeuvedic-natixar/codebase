@@ -137,7 +137,7 @@ const AuthForgotPassword = () => {
                   size="large"
                   type="submit"
                   variant="contained"
-                  color="primary"
+                  color="success"
                 >
                   Send Password Reset Email
                 </Button>
