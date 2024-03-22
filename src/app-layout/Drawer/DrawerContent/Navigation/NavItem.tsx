@@ -96,7 +96,7 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
               ...(drawerOpen && {
                 ml: '16px',
                 pl: `${level * 8}px`,
-                pr: '16px',
+                pr: '8px',
                 py: !drawerOpen && level === 1 ? 1.2 : 1,
                 width: 224,
                 my: "4px",
