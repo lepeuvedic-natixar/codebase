@@ -23,7 +23,11 @@ const Login = () => {
             alignItems="baseline"
             sx={{ mb: { xs: -0.5, sm: 0.5 } }}
           >
-            <Typography variant="h3">Login</Typography>
+            <Typography variant="h3" sx={{
+              fontWeight: '800',
+              fontFamily: 'Urbanist',
+              color: '#30698E'
+            }}>Sign in</Typography>
             <Typography
               component={Link}
               to={isLoggedIn ? "/auth/register" : "/register"}
