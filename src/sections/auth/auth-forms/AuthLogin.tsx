@@ -14,7 +14,9 @@ import {
   OutlinedInput,
   Stack,
   Typography,
+  useMediaQuery,
 } from "@mui/material"
+import { useTheme } from "@mui/material/styles"
 
 // third party
 import * as Yup from "yup"
@@ -36,6 +38,9 @@ import { preload } from "swr"
 // ============================|| JWT - LOGIN ||============================ //
 
 const AuthLogin = ({ isDemo = false }: { isDemo?: boolean }) => {
+  const theme = useTheme()
+  const downSM = useMediaQuery(theme.breakpoints.down("sm"))
+
   const [checked, setChecked] = React.useState(false)
 
   const { login } = useAuth()
@@ -187,7 +192,7 @@ const AuthLogin = ({ isDemo = false }: { isDemo?: boolean }) => {
 
             <Grid item xs={12} sx={{ mt: -1 }}>
               <Stack
-                direction="row"
+                direction={downSM ? 'column' : "row"}
                 justifyContent="space-between"
                 alignItems="center"
                 spacing={2}

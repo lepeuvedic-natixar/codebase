@@ -1,7 +1,8 @@
 import { ReactNode } from "react"
 
 // material-ui
-import { Typography, Stack, Box, Grid, Card } from "@mui/material"
+import { Typography, Stack, Box, Grid, useMediaQuery } from "@mui/material"
+import { useTheme } from "@mui/material/styles"
 
 // project import
 import AuthFooter from "components/cards/AuthFooter"
@@ -18,6 +19,9 @@ interface Props {
 // ==============================|| AUTHENTICATION - WRAPPER ||============================== //
 
 const AuthWrapper = ({ children }: Props) => {
+  const theme = useTheme()
+  const aboveSM = useMediaQuery(theme.breakpoints.up("sm"))
+
   const bgImgUrl = getImageUrl(`bg-trees.jpg`, ImagePath.AUTH);
 
   const bgStyle = () => ({
@@ -26,8 +30,7 @@ const AuthWrapper = ({ children }: Props) => {
     backgroundRepeat: 'no-repeat',
     position: 'relative',
     width: '100%',
-    height: '100vh',
-    overflowY: 'hidden',
+    height: aboveSM ? '100vh' : '100%',
     zIndex: 1
   })
 
@@ -38,7 +41,7 @@ const AuthWrapper = ({ children }: Props) => {
     right: 0,
     bottom: 0,
     zIndex: 0,
-    backgroundImage: ` linear-gradient(230.09deg, rgba(19, 83, 126, 0.1) 22.04%, rgba(0, 57, 125, 0.58) 87.33%)`
+    backgroundImage: `linear-gradient(230.09deg, rgba(19, 83, 126, 0.1) 22.04%, rgba(0, 57, 125, 0.58) 87.33%)`
   })
 
   const z1 = () => ({ zIndex: 1, position: 'relative' })
@@ -54,7 +57,7 @@ const AuthWrapper = ({ children }: Props) => {
       <Grid item xs={12} sx={{ ml: 3, mt: 3 }}>
         <Logo />
       </Grid>
-      <Stack direction="row">
+      <Stack direction={aboveSM ? "row" : "column"}>
         <Grid
           item
           xs={12}
@@ -77,7 +80,7 @@ const AuthWrapper = ({ children }: Props) => {
               zIndex={1}
               fontFamily='Urbanist'
               position='relative'
-              fontSize={90}
+              fontSize={aboveSM ? 90 : 50}
             >
               Powering<br />
               the <Box component='span' color="success.main" fontWeight={'bold'}>future</Box><br />
@@ -87,12 +90,12 @@ const AuthWrapper = ({ children }: Props) => {
                   width: 'fit-content',
                   position: 'relative',
                   zIndex: 2,
-                  "&::before": {
+                  "&::before": { // today text
                     content: '"today."',
                     position: 'relative',
                     zIndex: 2,
                   },
-                  "&::after": {
+                  "&::after": { // green underline
                     content: '""',
                     zIndex: 1,
                     position: 'absolute',
