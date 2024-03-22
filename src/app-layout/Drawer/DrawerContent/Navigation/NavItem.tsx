@@ -46,10 +46,15 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
     itemTarget = "_blank"
   }
 
+  const iconSelectedColor =
+    theme.palette.mode === ThemeMode.DARK && drawerOpen
+      ? "#fff"
+      : "#fff"
   const Icon = item.icon!
   const itemIcon = item.icon ? (
     <Icon
       style={{
+        color: iconSelectedColor,
         fontSize: drawerOpen ? "1rem" : "1.25rem",
         ...(menuOrientation === MenuOrientation.HORIZONTAL &&
           isParents && { fontSize: 20, stroke: "1.5" }),
@@ -68,10 +73,6 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
   const textColor =
     theme.palette.mode === ThemeMode.DARK ? "grey.400" : "#fff"
   const selectedBgColor = theme.palette.mode === ThemeMode.DARK ? "black" : "#13537E";
-  const iconSelectedColor =
-    theme.palette.mode === ThemeMode.DARK && drawerOpen
-      ? "text.primary"
-      : "#fff"
 
   const handleItemClick = () => {
     setIsShowExtraHeader(false)
@@ -141,7 +142,6 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
               <ListItemIcon
                 sx={{
                   minWidth: 28,
-                  color: isSelected ? iconSelectedColor : textColor,
                   ...(!drawerOpen && {
                     borderRadius: 1.5,
                     width: 36,
@@ -242,6 +242,7 @@ const NavItem = ({ item, level, isParents = false }: Props) => {
             })}
         </Box>
       ) : (
+        // Case Horizontal menu and not downLG
         <ListItemButton
           component={Link}
           to={item.url!}
