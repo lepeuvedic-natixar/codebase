@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Typography, ButtonBase, IconButton, Container, Stack, Badge } from '@mui/material';
+import { AppBar, Toolbar, Button, Stack, } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import LogoMain from 'components/logo/LogoMain';
 
@@ -45,8 +45,8 @@ const Header = () => {
           <LogoMain />
         </Stack>
         <Stack direction="row" spacing={2}>
-          <ButtonBase href='/login' sx={loginBtnStyle}>Login</ButtonBase>
-          <ButtonBase href='/login' sx={signupBtnStyle}>Signup</ButtonBase>
+          <Button variant="contained" color="success" sx={loginBtnStyle}>Login</Button>
+          <Button variant="contained" color="secondary" sx={signupBtnStyle}>Signup</Button>
         </Stack>
       </StyledToolbar>
     </AppBar>
