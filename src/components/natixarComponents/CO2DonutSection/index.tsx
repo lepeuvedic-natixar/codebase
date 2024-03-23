@@ -11,19 +11,19 @@ import {
 const data = [
   {
     value: 44,
-    color: "#52C41A",
+    color: "#053759",
     title: "Scope 1",
     navLink: "1",
   },
   {
     value: 55,
-    color: "#EF8100",
+    color: "#8ECBF5",
     title: "Scope 2",
     navLink: "2",
   },
   {
     value: 13,
-    color: "#0084FF",
+    color: "#1DB447",
     title: "Scope 3",
     navLink: "3",
   },

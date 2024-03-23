@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 // material-ui
-import { Grid, Typography } from "@mui/material"
+import { Grid, useTheme, Typography, Box } from "@mui/material"
 
 // project import
 import MainCard from "components/MainCard"
@@ -13,6 +13,7 @@ import CO2DonutSection from "../../components/natixarComponents/CO2DonutSection"
 import { ChartCard } from "../../components/natixarComponents/ChartCard/ChartCard"
 import AcquisitionChart from "../../sections/dashboard/analytics/AcquisitionChart"
 import DateFilter from "../../components/DateFilter"
+import CloudIcon from "../../assets/images/icons/cloud.svg"
 
 // ==============================|| WIDGET - CHARTS ||============================== //
 
@@ -20,6 +21,7 @@ const NatixarChart = () => {
   const [areaSlot, setAreaSlot] = useState("month")
   const [acquisitionSlot, setAcquisitionSlot] = useState("month")
   const [compare, setCompare] = useState(false)
+  const theme = useTheme()
 
   return (
     <Grid container rowSpacing={4.5} columnSpacing={3}>
@@ -30,8 +32,35 @@ const NatixarChart = () => {
       </Grid>
       <Grid item xs={12} md={12} xl={12}>
         <MainCard>
-          <Typography variant="h5" sx={{ marginBottom: "15px" }}>
-            Scope Emissions
+          <Typography variant="h5" sx={{
+            marginBottom: "15px",
+            color: 'primary.main',
+            fontWeight: 'bold',
+            fontSize: 24,
+            position: 'relative',
+          }}>
+            <img src={CloudIcon} alt="Cloud icon" style={{
+              "marginRight": 8,
+              position: 'relative',
+              bottom: -4
+            }} />
+            <Box
+              sx={{
+                width: 'fit-content',
+                position: 'relative',
+                "&::after": {
+                  content: '""',
+                  backgroundColor: theme.palette.success.main,
+                  position: 'absolute',
+                  bottom: -4,
+                  left: 0,
+                  width: "100%",
+                  height: '2px',
+                  borderRadius: 4,
+                }
+              }}
+              component="span"
+            >Scope Emissions</Box>
           </Typography>
           <CO2DonutSection />
         </MainCard>
