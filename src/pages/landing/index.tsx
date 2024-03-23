@@ -1,10 +1,13 @@
 import { styled, Theme, CSSObject } from "@mui/material/styles"
 import { Typography, Box, Stack, Card, CardContent } from '@mui/material';
 
+import { useWindowSize } from 'react-window-size-hooks';
 import { getImageUrl, ImagePath } from "utils/getImageUrl"
 import Header from '../../components/landing-page/Header';
 
 const LandingPage: React.FC = () => {
+  const { height } = useWindowSize();
+  const heightTreshold = 930
   const bgImgUrl = getImageUrl(`trees-and-sky.jpg`, ImagePath.LANDING);
   const pictoEnvironment = getImageUrl(`picto-environment.png`, ImagePath.LANDING);
   const pictoSocial = getImageUrl(`picto-social.png`, ImagePath.LANDING);
@@ -16,6 +19,8 @@ const LandingPage: React.FC = () => {
     backgroundRepeat: 'no-repeat',
     position: 'relative',
     width: '100%',
+    maxHeight: height >= heightTreshold ? '100vh' : '100%',
+    overflowY: height >= heightTreshold ? 'hidden' : 'initial',
   });
 
   const filterStyle = () => ({
