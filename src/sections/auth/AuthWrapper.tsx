@@ -51,7 +51,7 @@ const AuthWrapper = ({ children }: Props) => {
     <Grid
       container
       direction="column"
-      justifyContent="flex-end"
+      justifyContent="space-between"
       sx={{ minHeight: "100vh", ...z1 }}
     >
       <Grid item xs={12} sx={{ ml: 3, mt: 3 }}>
@@ -64,13 +64,6 @@ const AuthWrapper = ({ children }: Props) => {
           container
           justifyContent="center"
           alignItems="center"
-          sx={{
-            minHeight: {
-              xs: "calc(100vh - 210px)",
-              sm: "calc(100vh - 134px)",
-              md: "calc(100vh - 112px)",
-            },
-          }}
         >
           <Grid item>
             <Typography variant="h1" component="h1"
@@ -116,13 +109,6 @@ const AuthWrapper = ({ children }: Props) => {
           container
           justifyContent="center"
           alignItems="center"
-          sx={{
-            minHeight: {
-              xs: "calc(100vh - 210px)",
-              sm: "calc(100vh - 134px)",
-              md: "calc(100vh - 112px)",
-            },
-          }}
         >
           <Grid item>
             <AuthCard>{children}</AuthCard>
