@@ -23,42 +23,44 @@ const NatixarChart = () => {
   const [compare, setCompare] = useState(false)
   const theme = useTheme()
 
+  const styleh5 = () => ({
+    marginBottom: "15px",
+    color: 'primary.main',
+    fontWeight: 'bold',
+    fontSize: 24,
+    position: 'relative',
+  })
+
+  const styleGreenUnderline = () => ({
+    width: 'fit-content',
+    position: 'relative',
+    "&::after": {
+      content: '""',
+      backgroundColor: theme.palette.success.main,
+      position: 'absolute',
+      bottom: -4,
+      left: 0,
+      width: "100%",
+      height: '2px',
+      borderRadius: 4,
+    }
+  })
+
   return (
     <Grid container rowSpacing={4.5} columnSpacing={3}>
       <Grid item xs={12} md={12} xl={12}>
-        <MainCard>
-          <DateFilter />
-        </MainCard>
+        <DateFilter />
       </Grid>
       <Grid item xs={12} md={12} xl={12}>
         <MainCard>
-          <Typography variant="h5" sx={{
-            marginBottom: "15px",
-            color: 'primary.main',
-            fontWeight: 'bold',
-            fontSize: 24,
-            position: 'relative',
-          }}>
+          <Typography variant="h5" sx={styleh5}>
             <img src={CloudIcon} alt="Cloud icon" style={{
               "marginRight": 8,
               position: 'relative',
               bottom: -4
             }} />
             <Box
-              sx={{
-                width: 'fit-content',
-                position: 'relative',
-                "&::after": {
-                  content: '""',
-                  backgroundColor: theme.palette.success.main,
-                  position: 'absolute',
-                  bottom: -4,
-                  left: 0,
-                  width: "100%",
-                  height: '2px',
-                  borderRadius: 4,
-                }
-              }}
+              sx={styleGreenUnderline}
               component="span"
             >Scope Emissions</Box>
           </Typography>
