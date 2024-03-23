@@ -46,13 +46,13 @@ export const defaultOptions: ChartProps = {
           value: {
             show: true,
             fontSize: "14px",
-            fontFamily: "Helvetica, Arial, sans-serif",
+            fontFamily: "Questrial, sans-serif",
             fontWeight: "bold",
             offsetY: -22,
           },
           total: {
             fontSize: "14px",
-            fontFamily: "Helvetica, Arial, sans-serif",
+            fontFamily: "Questrial, sans-serif",
             fontWeight: "bold",
             show: true,
             showAlways: true,
@@ -71,11 +71,22 @@ export const defaultOptions: ChartProps = {
     },
     style: {
       fontSize: "14px",
-      fontFamily: "Helvetica, Arial, sans-serif",
+      fontFamily: "Questrial, sans-serif",
       fontWeight: "bold",
     },
   },
   legend: {
     show: false,
+  },
+  tooltip: {
+    custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+      return '<div class="arrow_box">' +
+        "<span>" +
+        w.globals.labels[seriesIndex] +
+        ": " +
+        series[seriesIndex] +
+        "</span>" +
+        "</div>"
+    },
   },
 }
