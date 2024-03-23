@@ -35,6 +35,8 @@ const LandingPage: React.FC = () => {
     alignItems: 'center',
     minHeight: '100vh',
     position: 'relative',
+    paddingTop: '120px',
+    paddingBottom: '120px',
     zIndex: 1
   })
 
@@ -43,6 +45,7 @@ const LandingPage: React.FC = () => {
     fontWeight: 'bold',
     fontSize: 44,
   })
+
   const textStyle = (theme: Theme): CSSObject => ({
     display: 'flex',
     flexDirection: 'column',
@@ -53,7 +56,7 @@ const LandingPage: React.FC = () => {
     position: 'relative',
     cursor: 'pointer',
     fontSize: 20,
-    "&::after": {
+    "&::after": { // for animation on hover
       content: '""',
       position: 'absolute',
       bottom: '-4px',
@@ -66,7 +69,7 @@ const LandingPage: React.FC = () => {
     },
     '&:hover::after': {
       transform: 'scaleX(1)'
-    }
+    },
   })
 
   const StyledCard = styled(Card)(({ theme }) => ({
@@ -94,7 +97,7 @@ const LandingPage: React.FC = () => {
           <Typography variant="h1" component="h1" color={"#fff"} fontWeight='normal' textAlign="center">
             Cutting-edge carbon management<br />software solutions
           </Typography>
-          <Stack direction="row" spacing={12} justifyContent="space-evenly">
+          <Stack direction="row" flexWrap='wrap' rowGap={12} columnGap={12} justifyContent="center">
             {/* Card Environment */}
             <StyledCard>
               <CardContent>
