@@ -46,7 +46,7 @@ const Header = () => {
         </Stack>
         <Stack direction="row" spacing={2}>
           <Button href='/login' variant="contained" color="success" sx={loginBtnStyle}>Login</Button>
-          <Button href='/register' variant="contained" color="secondary" sx={signupBtnStyle}>Signup</Button>
+          <Button href='/login' variant="contained" color="secondary" sx={signupBtnStyle}>Signup</Button>
         </Stack>
       </StyledToolbar>
     </AppBar>

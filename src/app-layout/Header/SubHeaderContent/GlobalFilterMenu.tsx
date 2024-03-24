@@ -2,9 +2,9 @@
 import { memo, useCallback, useEffect, useState } from "react"
 import {
   Button,
+  CSSObject,
   Checkbox,
   FormControl,
-  InputLabel,
   ListItemText,
   MenuItem,
   Select,
@@ -13,6 +13,7 @@ import {
   SxProps,
   Typography,
 } from "@mui/material"
+import BarChartIcon from '@mui/icons-material/BarChart';
 import { CategoryLabel } from "components/categories/CategoriesLegend"
 import { useSelector } from "react-redux"
 import _ from "lodash"
@@ -24,7 +25,9 @@ import {
 } from "data/store/features/coordinates/CoordinateSlice"
 import { selectGlobalFilter } from "data/store/features/coordinates/Selectors"
 import { useAppDispatch } from "data/store"
-
+import { FactoryIcon } from "assets/images/icons/IconComponents/FactoryIcon"
+import { PinIcon } from "assets/images/icons/IconComponents/PinIcon"
+import { useTheme } from "@emotion/react"
 // import { DateRangePicker, SingleInputDateRangeField } from '@mui/x-date-pickers-pro';
 
 // ==============================|| HEADER CONTENT - SEARCH ||============================== //
@@ -36,6 +39,19 @@ const parseSelectedValues = (receivedValues: string | string[]): string[] =>
     : (receivedValues as string[])
 
 const GlobalFilterMenu = (props: SxProps) => {
+  // style
+  const StyleInput = (): CSSObject => ({
+    background: '#FFFFFF',
+    border: '1px solid #053759',
+    borderRadius: '24px',
+    font: '400 Urbanist',
+    'label + &': {
+      position: 'relative',
+      top: '-3px',
+      left: '2px'
+    },
+  })
+
   const { ...sxProps } = props
   const dispatch = useAppDispatch()
   const globalFilter = useSelector(selectGlobalFilter)
@@ -102,7 +118,7 @@ const GlobalFilterMenu = (props: SxProps) => {
     setSelectedCategories(parsedValues)
   }
 
-  const {
+  let {
     companies: availableCompanies,
     categories: availableCategories,
     countries: availableCountries,
@@ -113,7 +129,10 @@ const GlobalFilterMenu = (props: SxProps) => {
     availableCountries.length &&
     availableCategories.length
   if (!weHaveAnyData) {
-    return null
+    // mock data
+    availableCompanies = ["ENGIE", "Schneider Electric", "Veolia", "Greenpeace", "WWF"]
+    availableCategories = ["Direct emissions", "Emission sources", "Greenhouse gas types",]
+    availableCountries = ['France', 'Belgique', 'Luxembourg', 'Suisse', 'Allemagne', 'Royaume-Unis']
   }
 
   const companyNodes = availableCompanies.map((company) => (
@@ -135,10 +154,21 @@ const GlobalFilterMenu = (props: SxProps) => {
       </MenuItem>
     ))
 
+  const StyleLabel = () => ({
+    color: '#053759',
+    fontFamily: 'Urbanist',
+    fontWeight: 600,
+    marginLeft: 2,
+    fontSize: '20px',
+    lineHeight: '24px',
+  })
+
+  const theme = useTheme()
+
   return (
     <Stack
       direction="row"
-      alignItems="center"
+      alignItems="flex-end"
       gap={2.5}
       sx={{
         width: "100%",
@@ -147,41 +177,60 @@ const GlobalFilterMenu = (props: SxProps) => {
         ...sxProps,
       }}
     >
-      <Typography>Filter</Typography>
-      <FormControl sx={{ width: 220 }}>
-        <InputLabel>Business Entity / Facility</InputLabel>
+      {/* <Typography sx={StyleLabel}>Filter</Typography> */}
+      <FormControl sx={{ width: 240 }}>
+        <Typography sx={StyleLabel}>
+          <FactoryIcon
+            sx={{ position: 'relative', top: 3, marginRight: 1 }}
+            customColor={theme.palette.primary.main} />
+          Entities
+        </Typography>
         <Select
           value={selectedCompanies}
           renderValue={multiSelectJoiner}
           onChange={handleCompaniesChange}
           multiple
+          sx={StyleInput}
         >
           {companyNodes}
         </Select>
       </FormControl>
-      <FormControl sx={{ width: 160 }}>
-        <InputLabel>Geographic Area</InputLabel>
+      <FormControl sx={{ width: 190 }}>
+        <Typography sx={StyleLabel}>
+          <PinIcon
+            sx={{ position: 'relative', top: 3, marginRight: 1 }}
+            customColor={theme.palette.primary.main} />
+          Localisation
+        </Typography>
         <Select
           value={selectedCountries}
           renderValue={multiSelectJoiner}
           onChange={handleCountriesChange}
           multiple
           sx={{
+            backgroundColor: '#fff',
             "& .MuiList-root": {
               padding: "12px",
             },
+            ...StyleInput(),
           }}
         >
           {countryNodes}
         </Select>
       </FormControl>
-      <FormControl sx={{ width: 100 }}>
-        <InputLabel>Scope</InputLabel>
+      <FormControl sx={{ width: 150 }}>
+        <Typography sx={StyleLabel}>
+          <BarChartIcon
+            sx={{ position: 'relative', top: 3, marginRight: 1 }}
+            color={theme.palette.primary.main} />
+          Scopes
+        </Typography>
         <Select
           value={selectedCategories}
           renderValue={multiSelectJoiner}
           onChange={handleCategoriesChange}
           multiple
+          sx={StyleInput}
         >
           {categoryNodes}
         </Select>

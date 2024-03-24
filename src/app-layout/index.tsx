@@ -56,6 +56,7 @@ const AppLayout = () => {
             sx={{
               ...(container && { px: { xs: 0, sm: 3 } }),
               position: "relative",
+              top: 60,
               minHeight: "calc(100vh - 110px)",
               display: "flex",
               flexDirection: "column",

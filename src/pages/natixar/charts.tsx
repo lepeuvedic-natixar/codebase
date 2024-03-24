@@ -42,69 +42,19 @@ const NatixarChart = () => {
     }
   }
 
-  const StyleOutlinedInput = (): CSSObject => ({
-    background: '#FFFFFF',
-    border: '1px solid #053759',
-    borderRadius: '24px',
-  })
-
-  const theme = useTheme()
-
-  const styleLabel = (): CSSObject => ({
-    fontFamily: 'Urbanist',
-    fontStyle: 'normal',
-    fontHeight: '600',
-    fontSize: '20px',
-    lineHeight: '24px',
-    color: '#053759',
-    marginLeft: 2
-  })
-
   return (
     <Grid container rowSpacing={4.5} columnSpacing={3}>
       {view == View.EMISSIONS && <Grid item xs={12} md={12} xl={12}>
         <DateFilter />
       </Grid>}
       {view == View.SCOPES && (
-        <>
-          <Box mr={2}>
-            <Typography sx={styleLabel}>
-              <FactoryIcon customColor={theme.palette.primary.main} sx={{ marginRight: 1, position: 'relative', top: 3 }} />
-              Entities</Typography>
-            <OutlinedInput
-              id="entities"
-              type="text"
-              value=''
-              name="entities"
-              onChange={(e) => e.preventDefault()}
-              placeholder="Entities"
-              sx={StyleOutlinedInput}
-            />
-          </Box>
-          <Box>
-            <Typography sx={styleLabel}>
-              <PinIcon customColor={theme.palette.primary.main} sx={{ marginRight: 1, position: 'relative', top: 3 }} />
-              Localisation
-            </Typography>
-            <OutlinedInput
-              id="localisation"
-              type="text"
-              value=''
-              name="localisation"
-              onChange={(e) => e.preventDefault()}
-              placeholder="Localisation"
-              sx={StyleOutlinedInput}
-            />
-          </Box>
-          <Grid item xs={12} md={12} xl={12}>
-            <MainCard sx={{ border: 'none' }}>
-              <NatixarSectionTitle>Scope Emissions</NatixarSectionTitle>
-              <CO2DonutSection />
-            </MainCard>
-          </Grid>
-        </>
-      )
-      }
+        <Grid item xs={12} md={12} xl={12}>
+          <MainCard sx={{ border: 'none' }}>
+            <NatixarSectionTitle>Scope Emissions</NatixarSectionTitle>
+            <CO2DonutSection />
+          </MainCard>
+        </Grid>
+      )}
       {view == View.EMISSIONS && (<Grid item xs={12} md={12} lg={12}>
         <NatixarChartCard
           slot={acquisitionSlot}
