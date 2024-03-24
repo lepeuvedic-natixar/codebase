@@ -52,7 +52,7 @@ const NatixarChart = () => {
         <DateFilter />
       </Grid>
       <Grid item xs={12} md={12} xl={12}>
-        <MainCard>
+        <MainCard sx={{ border: 'none' }}>
           <Typography variant="h5" sx={styleh5}>
             <img src={CloudIcon} alt="Cloud icon" style={{
               "marginRight": 8,
