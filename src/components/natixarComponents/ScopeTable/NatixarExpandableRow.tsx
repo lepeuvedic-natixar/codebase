@@ -90,9 +90,9 @@ export const NatixarExpandableRow = ({ data,
   return (
     <React.Fragment>
       <Stack {...stackProps} direction={'row'} onClick={handleClick}>
-        <Box component='span' width="120px">Scope {index + 1}</Box>
+        <Box component='span' mr={1}>Scope {index + 1}</Box>
         <Collapse sx={{ flexGrow: 1, marginRight: 2 }} in={active}>
-          <Stack sx={{ display: 'flex', flexDirection: 'row', flexGrow: 1, justifyContent: 'space-between', alignItems: 'center', }}>
+          <Stack direction='row' gap={1} alignItems={'center'}>
             <Box>{title}</Box>
             <Box>Total : {value}</Box>
           </Stack>

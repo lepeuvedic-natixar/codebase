@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Box, Stack } from "@mui/material"
+import { Box, Stack, useMediaQuery, useTheme } from "@mui/material"
 
 import ApexDonatChart from "../../../sections/charts/apexchart/ApexDonutChart"
 import { ChartContainerStyles, ContainerStyles, } from "./styled"
@@ -83,9 +83,12 @@ const CO2DonutSection = () => {
     updatedArray[index].active = !updatedArray[index].active;
     setData(updatedArray);
   }
+  const theme = useTheme()
+
+  const downMD = useMediaQuery(theme.breakpoints.down("md"))
 
   return (
-    <Box sx={ContainerStyles}>
+    <Stack direction={downMD ? 'column' : 'row'}>
       <Box sx={ChartContainerStyles}>
         <ApexDonatChart data={data} totalLabel="tCO2e" />
       </Box>
@@ -105,7 +108,7 @@ const CO2DonutSection = () => {
           />
         ))}
       </Stack>
-    </Box >
+    </Stack>
   )
 }
 
