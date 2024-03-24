@@ -144,7 +144,7 @@ const Profile = () => {
         >
           <Avatar alt="profile user" src={avatar1} size="sm" />
           <Typography variant="subtitle1" sx={{ textTransform: "capitalize", color: 'common.white' }}>
-            {user?.name || 'John Doe'}
+            {user?.name || 'Richard Hendricks'}
           </Typography>
         </Stack>
       </ButtonBase>
