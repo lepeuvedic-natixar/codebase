@@ -6,12 +6,14 @@ import getColors from "utils/getColors"
 import getShadow from "utils/getShadow"
 
 // types
-import { ButtonVariantProps, ExtendedStyleProps } from "types/extended"
+import { ButtonVariantProps, ColorProps, ExtendedStyleProps } from "types/extended"
 
 // ==============================|| BUTTON - COLORS ||============================== //
 
 interface ButtonStyleProps extends ExtendedStyleProps {
   variant: ButtonVariantProps
+  color: ColorProps
+  theme: Theme
 }
 
 function getColorStyle({ variant, color, theme }: ButtonStyleProps) {
@@ -37,7 +39,8 @@ function getColorStyle({ variant, color, theme }: ButtonStyleProps) {
   switch (variant) {
     case "contained":
       return {
-        backgroundColor: theme.palette.success.main,
+        backgroundColor: main,
+        color: '#fff',
         "&:hover": {
           backgroundColor: dark,
         },

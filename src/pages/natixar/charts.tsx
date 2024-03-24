@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 // material-ui
-import { Grid, useTheme, Typography, Box } from "@mui/material"
+import { Grid, Typography, Box, Stack } from "@mui/material"
 
 // project import
 import MainCard from "components/MainCard"
@@ -14,6 +14,7 @@ import { ChartCardCopy } from "../../components/natixarComponents/ChartCard/Char
 import AcquisitionChart from "../../sections/dashboard/analytics/AcquisitionChart"
 import DateFilter from "../../components/DateFilter"
 import { NatixarTitleCard } from "components/natixarComponents/ChartCard/NatixarTitleCard"
+import { CaretDownOutlined } from "@ant-design/icons"
 
 // ==============================|| WIDGET - CHARTS ||============================== //
 
@@ -21,6 +22,9 @@ const NatixarChart = () => {
   const [acquisitionSlot, setAcquisitionSlot] = useState("month")
   const [compare, setCompare] = useState(false)
 
+  const title = 'Trend stacked bars CO2'
+  const value = "12,900 CO2 (t)"
+  const date = "01 Dec - 08 Jan 2022"
   return (
     <Grid container rowSpacing={4.5} columnSpacing={3}>
       <Grid item xs={12} md={12} xl={12}>
@@ -34,15 +38,65 @@ const NatixarChart = () => {
       </Grid>
       <Grid item xs={12} md={12} lg={12}>
         <ChartCardCopy
-          title="Trend stacked bars CO2"
-          value="12,900 CO2 (t)"
-          date="01 Dec - 08 Jan 2022"
           slot={acquisitionSlot}
           setSlot={setAcquisitionSlot}
           compareButton
           compare={compare}
           setCompare={setCompare}
         >
+          <Stack
+            direction='row'
+            justifyContent={'space-between'}
+            alignItems={'center'}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                fontFamily: 'Urbanist',
+                color: 'primary.main'
+              }}
+            >
+              {!compare ? (
+                <Box>
+                  <Typography variant="h5">{value}</Typography>
+                  <Typography variant="subtitle2" >
+                    {date}
+                  </Typography>
+                </Box>
+              ) : (
+                <Box>
+                  <Box
+                    sx={{
+                      color: "red",
+                      display: "flex",
+                      columnGap: "5px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <CaretDownOutlined />
+                    <Typography variant="h5">{value}</Typography>
+                    <Typography>(45,67%)</Typography>
+                  </Box>
+                  <Typography variant="subtitle2" >
+                    Compare: {date} to {date}
+                  </Typography>
+                </Box>
+              )}
+            </Box>
+            <Typography variant="h3"
+              sx={{
+                fontFamily: 'Urbanist',
+                fontStyle: 'normal',
+                fontHeight: 700,
+                fontSize: '24px',
+                lineHeight: '29px',
+                color: '#053759',
+                fontWeight: 'bold',
+              }}
+            >{title}</Typography>
+          </Stack>
           <AcquisitionChart slot={acquisitionSlot} compare={compare} />
         </ChartCardCopy>
       </Grid>
