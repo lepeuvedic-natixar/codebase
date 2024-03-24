@@ -44,60 +44,54 @@ const NatixarChart = () => {
           compare={compare}
           setCompare={setCompare}
         >
-          <Stack
-            direction='row'
-            justifyContent={'space-between'}
-            alignItems={'center'}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                fontFamily: 'Urbanist',
-                color: 'primary.main'
-              }}
-            >
-              {!compare ? (
-                <Box>
-                  <Typography variant="h5">{value}</Typography>
-                  <Typography variant="subtitle2" >
-                    {date}
-                  </Typography>
-                </Box>
-              ) : (
-                <Box>
-                  <Box
-                    sx={{
-                      color: "red",
-                      display: "flex",
-                      columnGap: "5px",
-                      alignItems: "center",
-                    }}
-                  >
-                    <CaretDownOutlined />
+          <MainCard sx={{ boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.25)' }}>
+            <Stack direction='row' justifyContent={'space-between'} alignItems={'center'}>
+              <Box
+                sx={{
+                  display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: 'Urbanist', color: 'primary.main'
+                }}
+              >
+                {!compare ? (
+                  <Box>
                     <Typography variant="h5">{value}</Typography>
-                    <Typography>(45,67%)</Typography>
+                    <Typography variant="subtitle2" >
+                      {date}
+                    </Typography>
                   </Box>
-                  <Typography variant="subtitle2" >
-                    Compare: {date} to {date}
-                  </Typography>
-                </Box>
-              )}
-            </Box>
-            <Typography variant="h3"
-              sx={{
-                fontFamily: 'Urbanist',
-                fontStyle: 'normal',
-                fontHeight: 700,
-                fontSize: '24px',
-                lineHeight: '29px',
-                color: '#053759',
-                fontWeight: 'bold',
-              }}
-            >{title}</Typography>
-          </Stack>
-          <AcquisitionChart slot={acquisitionSlot} compare={compare} />
+                ) : (
+                  <Box>
+                    <Box
+                      sx={{
+                        color: "red",
+                        display: "flex",
+                        columnGap: "5px",
+                        alignItems: "center",
+                      }}
+                    >
+                      <CaretDownOutlined />
+                      <Typography variant="h5">{value}</Typography>
+                      <Typography>(45,67%)</Typography>
+                    </Box>
+                    <Typography variant="subtitle2" >
+                      Compare: {date} to {date}
+                    </Typography>
+                  </Box>
+                )}
+              </Box>
+              <Typography variant="h3"
+                sx={{
+                  fontFamily: 'Urbanist',
+                  fontStyle: 'normal',
+                  fontHeight: 700,
+                  fontSize: '24px',
+                  lineHeight: '29px',
+                  color: '#053759',
+                  fontWeight: 'bold',
+                }}
+              >{title}</Typography>
+            </Stack>
+            <AcquisitionChart slot={acquisitionSlot} compare={compare} />
+          </MainCard>
         </ChartCardCopy>
       </Grid>
     </Grid>
