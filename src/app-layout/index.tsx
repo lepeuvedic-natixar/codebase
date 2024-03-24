@@ -48,7 +48,7 @@ const AppLayout = () => {
 
         <Box
           component="main"
-          sx={{ width: "calc(100% - 260px)", flexGrow: 1, p: { xs: 2, sm: 3 } }}
+          sx={{ bgcolor: 'common.white', width: "calc(100% - 260px)", flexGrow: 1, p: { xs: 2, sm: 3 } }}
         >
           <Toolbar sx={{ mt: isHorizontal ? 8 : "inherit" }} />
           <Container
