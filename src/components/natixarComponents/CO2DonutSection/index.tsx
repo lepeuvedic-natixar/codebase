@@ -100,6 +100,8 @@ const CO2DonutSection = () => {
             active={item.active}
             textColor={item.textColor}
             bgcolor={item.bgcolor}
+            title={item.title}
+            value={item.value}
           />
         ))}
       </Stack>

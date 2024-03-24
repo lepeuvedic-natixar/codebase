@@ -18,9 +18,19 @@ export interface NewScopeTableProps extends StackProps {
   data: ScopeTableItemProps[]
   bgcolor: string
   textColor: string
+  title: string
+  value: number
 }
 
-export const NatixarExpandableRow = ({ data, bgcolor = scopeColor[0], textColor = scopeTextColor[0], active = false, onRowClicked, index, ...props }: NewScopeTableProps) => {
+export const NatixarExpandableRow = ({ data,
+  bgcolor = scopeColor[0],
+  textColor = scopeTextColor[0],
+  active = false,
+  onRowClicked,
+  index,
+  title,
+  value,
+  ...props }: NewScopeTableProps) => {
 
   const rows = data
 
@@ -80,18 +90,18 @@ export const NatixarExpandableRow = ({ data, bgcolor = scopeColor[0], textColor 
   return (
     <React.Fragment>
       <Stack {...stackProps} direction={'row'} onClick={handleClick}>
-        <Box component='span' width="120px">Scope 1</Box>
+        <Box component='span' width="120px">Scope {index + 1}</Box>
         <Collapse sx={{ flexGrow: 1, marginRight: 2 }} in={active}>
           <Stack sx={{ display: 'flex', flexDirection: 'row', flexGrow: 1, justifyContent: 'space-between', alignItems: 'center', }}>
-            <Box>Direct emissions</Box>
-            <Box>Total : 44</Box>
+            <Box>{title}</Box>
+            <Box>Total : {value}</Box>
           </Stack>
         </Collapse>
         {active && <UpArrowIcon customColor={textColor} />}
         {!active && <DownArrowIcon customColor={textColor} />}
       </Stack>
 
-      <Collapse in={active}>
+      <Collapse key={'collapse-' + index} in={active}>
         {
           rows.map((row, index) => (
             <React.Fragment>
@@ -108,7 +118,7 @@ export const NatixarExpandableRow = ({ data, bgcolor = scopeColor[0], textColor 
                   <RightArrowIcon customColor={theme.palette.primary.main} sx={{ fontSize: 15 }} />
                 </Stack>
               </Stack>
-              <Divider sx={{ marginBottom: index == rows.length - 1 && 2 }} orientation='horizontal' />
+              <Divider key={index} sx={{ marginBottom: index == rows.length - 1 && 2 }} orientation='horizontal' />
             </React.Fragment>
           ))
         }

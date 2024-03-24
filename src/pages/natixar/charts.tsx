@@ -18,7 +18,6 @@ import CloudIcon from "../../assets/images/icons/cloud.svg"
 // ==============================|| WIDGET - CHARTS ||============================== //
 
 const NatixarChart = () => {
-  const [areaSlot, setAreaSlot] = useState("month")
   const [acquisitionSlot, setAcquisitionSlot] = useState("month")
   const [compare, setCompare] = useState(false)
   const theme = useTheme()
@@ -66,17 +65,6 @@ const NatixarChart = () => {
           </Typography>
           <CO2DonutSection />
         </MainCard>
-      </Grid>
-      <Grid item xs={12} md={12} lg={12}>
-        <ChartCard
-          title="Total Emissions"
-          value="12,900 CO2 (t)"
-          date="01 Dec - 31 Feb 2021"
-          slot={areaSlot}
-          setSlot={setAreaSlot}
-        >
-          <IncomeAreaChart slot={areaSlot} />
-        </ChartCard>
       </Grid>
       <Grid item xs={12} md={12} lg={12}>
         <ChartCard
