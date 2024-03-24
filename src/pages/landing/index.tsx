@@ -6,8 +6,9 @@ import { getImageUrl, ImagePath } from "utils/getImageUrl"
 import Header from '../../components/landing-page/Header';
 
 const LandingPage: React.FC = () => {
-  const { height } = useWindowSize();
+  const { height, width } = useWindowSize();
   const heightTreshold = 930
+  const widthTreshold = 1400
   const bgImgUrl = getImageUrl(`trees-and-sky.jpg`, ImagePath.LANDING);
   const pictoEnvironment = getImageUrl(`picto-environment.png`, ImagePath.LANDING);
   const pictoSocial = getImageUrl(`picto-social.png`, ImagePath.LANDING);
@@ -16,11 +17,12 @@ const LandingPage: React.FC = () => {
   const backgroundImageStyle = () => ({
     backgroundImage: `url("${bgImgUrl}")`,
     backgroundSize: 'cover',
+    backgroundPosition: 'center center',
     backgroundRepeat: 'no-repeat',
     position: 'relative',
     width: '100%',
-    maxHeight: height >= heightTreshold ? '100vh' : '100%',
-    overflowY: height >= heightTreshold ? 'hidden' : 'initial',
+    maxHeight: height >= heightTreshold && width >= widthTreshold ? '100vh' : '100%',
+    overflowY: height >= heightTreshold && width >= widthTreshold ? 'hidden' : 'initial',
   });
 
   const filterStyle = () => ({
@@ -40,8 +42,8 @@ const LandingPage: React.FC = () => {
     alignItems: 'center',
     minHeight: '100vh',
     position: 'relative',
-    paddingTop: '120px',
-    paddingBottom: '120px',
+    paddingTop: 18,
+    paddingBottom: 4,
     zIndex: 1
   })
 
@@ -78,7 +80,7 @@ const LandingPage: React.FC = () => {
   })
 
   const StyledCard = styled(Card)(({ theme }) => ({
-    bgcolor: 'common.white',
+    backgroundColor: '#EEF7FF',
     borderRadius: '64px',
     width: '380px',
     textAlign: 'center',
@@ -98,11 +100,11 @@ const LandingPage: React.FC = () => {
       <Box sx={filterStyle} />
       <Header />
       <Box sx={mainContentStyle}>
-        <Stack spacing={18} alignItems="center">
+        <Stack gap={18} alignItems="center">
           <Typography variant="h1" component="h1" color={"#fff"} fontWeight='normal' textAlign="center">
             Cutting-edge carbon management<br />software solutions
           </Typography>
-          <Stack direction="row" flexWrap='wrap' rowGap={12} columnGap={12} justifyContent="center">
+          <Stack direction="row" flexWrap='wrap' gap={12} justifyContent="center">
             {/* Card Environment */}
             <StyledCard>
               <CardContent>
