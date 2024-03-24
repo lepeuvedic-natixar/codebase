@@ -22,11 +22,11 @@ const data = [
     color: scopeColor[0],
     textColor: scopeTextColor[0],
     bgcolor: scopeColor[0],
-    title: "Scope 1",
+    title: "Direct Emission",
     navLink: "1",
     active: true,
     rows: [
-      { title: 'Scope title 1 ', value: 77, emissionID: '1', },
+      { title: 'Subtitle', value: 77, emissionID: '1', },
       { title: 'Scope title 2 ', value: 77, emissionID: '2', },
       { title: 'Scope title 3 ', value: 77, emissionID: '3', },
       { title: 'Scope title 4 ', value: 77, emissionID: '4', },
@@ -37,7 +37,7 @@ const data = [
     color: scopeColor[1],
     textColor: scopeTextColor[1],
     bgcolor: scopeColor[1],
-    title: "Scope 2",
+    title: "Indirect Emission",
     navLink: "2",
     active: false,
     rows: [
@@ -52,7 +52,7 @@ const data = [
     color: scopeColor[2],
     textColor: scopeTextColor[2],
     bgcolor: scopeColor[2],
-    title: "Scope 3",
+    title: "Other indirect emissions",
     navLink: "3",
     active: false,
     rows: [

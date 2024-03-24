@@ -42,18 +42,6 @@ const NatixarChart = () => {
     }
   }
 
-  const theme = useTheme()
-
-  const styleLabel = (): CSSObject => ({
-    fontFamily: 'Urbanist',
-    fontStyle: 'normal',
-    fontHeight: '600',
-    fontSize: '20px',
-    lineHeight: '24px',
-    color: '#053759',
-    marginLeft: 2
-  })
-
   return (
     <Grid container rowSpacing={4.5} columnSpacing={3}>
       {view == View.EMISSIONS && <Grid item xs={12} md={12} xl={12}>

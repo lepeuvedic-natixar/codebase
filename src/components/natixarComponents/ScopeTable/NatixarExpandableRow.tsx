@@ -102,7 +102,7 @@ export const NatixarExpandableRow = ({ data,
       <Stack {...stackProps} direction='row' onClick={handleClick}>
         <Box component='span' mr={1}>Scope {index + 1}</Box>
         <Collapse sx={{ flexGrow: 1, marginRight: 2 }} in={active}>
-          <Stack direction='row' gap={1} alignItems={'center'}>
+          <Stack direction='row' mx={3} gap={1} alignItems={'center'} justifyContent={'space-between'}>
             <Box>{title}</Box>
             <Box>Total : {value}</Box>
           </Stack>

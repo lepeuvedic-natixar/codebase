@@ -9,7 +9,7 @@ interface NatixarSectionTitleProps {
 
 export const NatixarSectionTitle = ({ children }: NatixarSectionTitleProps) => {
   const styleh5 = () => ({
-    marginBottom: "15px",
+    marginBottom: 8,
     color: 'primary.main',
     fontWeight: 'bold',
     fontSize: 24,
