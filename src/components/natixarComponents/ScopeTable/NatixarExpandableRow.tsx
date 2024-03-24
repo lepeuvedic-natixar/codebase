@@ -1,15 +1,17 @@
 
 import { CSSObject } from "@mui/material/styles"
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
-import { useTheme, Divider, styled, Stack, Box, Collapse, } from "@mui/material"
+import { useTheme, Divider, styled, Stack, Box, Collapse, Link, } from "@mui/material"
 import { StackProps, SxProps } from "@mui/system";
 import React from "react";
+import { useNavigate } from "react-router-dom"
 
 import { ScopeTableItemProps } from ".";
 import { scopeColor, scopeTextColor } from '../CO2DonutSection'
 import { RightArrowIcon } from "assets/images/icons/IconComponents/RightArrowIcon"
 import { UpArrowIcon } from "assets/images/icons/IconComponents/UpArrowIcon"
 import { DownArrowIcon } from "assets/images/icons/IconComponents/DownArrowIcon"
+import { LinkOutlined } from "@ant-design/icons";
 
 export interface NewScopeTableProps extends StackProps {
   active?: boolean
@@ -87,9 +89,15 @@ export const NatixarExpandableRow = ({ data,
 
   const stackProps: StackProps = { ...props } as StackProps
 
+  const navigate = useNavigate()
+
+  const handleOnCategoryClick = (scopeID: number, emissionID: string) => {
+    navigate(`/contributor/category-analysis/${emissionID}?scopeID=${scopeID}`)
+  }
+
   return (
     <React.Fragment>
-      <Stack {...stackProps} direction={'row'} onClick={handleClick}>
+      <Stack {...stackProps} direction='row' onClick={handleClick}>
         <Box component='span' mr={1}>Scope {index + 1}</Box>
         <Collapse sx={{ flexGrow: 1, marginRight: 2 }} in={active}>
           <Stack direction='row' gap={1} alignItems={'center'}>
@@ -106,7 +114,21 @@ export const NatixarExpandableRow = ({ data,
           rows.map((row, index) => (
             <React.Fragment>
               <Stack direction='row' key={row.emissionID} my={1} sx={styleRow}>
-                <Box width={"40%"}>{row.title}</Box>
+                <Box width={"40%"}>
+                  <Link
+                    onClick={() => handleOnCategoryClick(row.emissionID, index + 1)}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      columnGap: "5px",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {row.title}
+                    <LinkOutlined />
+                  </Link>
+                </Box>
                 <Stack direction={'row'} justifyContent={'flex-end'} alignItems={'center'}>
                   <BorderLinearProgress
                     variant="determinate"
