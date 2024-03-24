@@ -156,8 +156,11 @@ const GlobalFilterMenu = (props: SxProps) => {
 
   const StyleLabel = () => ({
     color: '#053759',
-    font: '600 Urbanist',
-    marginLeft: 2
+    fontFamily: 'Urbanist',
+    fontWeight: 600,
+    marginLeft: 2,
+    fontSize: '20px',
+    lineHeight: '24px',
   })
 
   const theme = useTheme()
