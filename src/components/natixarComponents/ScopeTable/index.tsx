@@ -18,13 +18,13 @@ import { useLocation, useNavigate } from "react-router-dom"
 import useConfig from "hooks/useConfig"
 
 // ===========================|| DATA WIDGET - PROJECT TABLE CARD ||=========================== //
-type ScopeTableItemProps = {
+export type ScopeTableItemProps = {
   title: string
   value: number
   emissionID: string
 }
 
-type ScopeTableProps = {
+export type ScopeTableProps = {
   data: ScopeTableItemProps[]
 }
 
