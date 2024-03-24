@@ -269,7 +269,7 @@ const AcquisitionChart = ({ slot, compare }: Props) => {
   useEffect(() => {
     const updatedChartData = [...chartData]
     setSeries(updatedChartData)
-  }, [slot])
+  }, [slot, compare])
 
   useEffect(() => {
     setOptions((prevState) => ({
