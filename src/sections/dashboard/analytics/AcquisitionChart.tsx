@@ -31,24 +31,25 @@ const AcquisitionChart = ({ slot, compare }: Props) => {
 
   const colorChartData = compare
     ? [
-      "#EF8100",
-      "rgba(0,132,255,0.5)",
-      "#00BA34",
+      theme.palette.primary.lighter, //11
+      theme.palette.primary.lighter + '88',  // 21
 
-      "rgba(239,129,0,0.5)",
-      "#0084FF",
-      "rgba(0,186,52,0.5)",
+      theme.palette.primary.main, //12
+      theme.palette.primary.main + '88', //21
 
-      "#00BA34",
-      "rgba(0,132,255,0.5)",
-      "#EF8100",
+      theme.palette.success.main, // 31
+      theme.palette.success.main + '88', // 
 
-      "rgba(0,186,52,0.5)",
-      "#0084FF",
+      // theme.palette.primary.light,
+      // theme.palette.primary.light + '88',
 
-      "rgba(239,129,0,0.5)",
+      // theme.palette.secondary.main,
+      // theme.palette.secondary.main + '88',
+
+      // theme.palette.secondary.light,
+      // theme.palette.secondary.light + '88',
     ]
-    : ["#EF8100", "#0084FF", "#00BA34"]
+    : [theme.palette.primary.lighter, theme.palette.primary.main, theme.palette.success.main]
 
   let slotData
 
