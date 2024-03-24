@@ -13,7 +13,7 @@ import { ChartCardCopy } from "../../components/natixarComponents/ChartCard/Char
 // import { ChartCard } from "../../components/natixarComponents/ChartCard/ChartCard"
 import AcquisitionChart from "../../sections/dashboard/analytics/AcquisitionChart"
 import DateFilter from "../../components/DateFilter"
-import { NatixarTitleCard } from "components/natixarComponents/ChartCard/NatixarTitleCard"
+import { NatixarSectionTitle } from "components/natixarComponents/ChartCard/NatixarSectionTitle"
 import { CaretDownOutlined } from "@ant-design/icons"
 
 // ==============================|| WIDGET - CHARTS ||============================== //
@@ -32,7 +32,7 @@ const NatixarChart = () => {
       </Grid>
       <Grid item xs={12} md={12} xl={12}>
         <MainCard sx={{ border: 'none' }}>
-          <NatixarTitleCard>Scope Emissions</NatixarTitleCard>
+          <NatixarSectionTitle>Scope Emissions</NatixarSectionTitle>
           <CO2DonutSection />
         </MainCard>
       </Grid>
