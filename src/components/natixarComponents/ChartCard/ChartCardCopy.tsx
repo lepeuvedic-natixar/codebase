@@ -5,7 +5,7 @@ import {
 } from "@mui/material"
 import { Dispatch, ReactNode, SetStateAction, } from "react"
 import { DownloadOutlined } from "@ant-design/icons"
-import { NatixarTitleCard } from "components/natixarComponents/ChartCard/NatixarTitleCard"
+import { NatixarSectionTitle } from "components/natixarComponents/ChartCard/NatixarSectionTitle"
 import { CompareIcon } from "assets/images/icons/IconComponents/CompareIcon"
 
 type ChartCardProps = {
@@ -34,11 +34,11 @@ export const ChartCardCopy = ({
 
   return (
     <Stack direction={'column'}>
-      <Stack direction='row' spacing={2} mb={4}>
+      <Stack direction='row' flexWrap='wrap' gap={2} mb={4}>
         <Button
           variant={isMonth ? "contained" : 'outlined'}
           color={isMonth ? "success" : 'primary'}
-          sx={{ marginRight: 2, fontSize: '18px', minWidth: 110, color: isMonth && '#fff' }}
+          sx={{ marginRight: 2, fontSize: '18px', minWidth: 110, color: isMonth ? '#fff' : '' }}
           onClick={() => setSlot('month')}
         >
           Month
@@ -46,7 +46,7 @@ export const ChartCardCopy = ({
         <Button
           variant={isQuarter ? "contained" : 'outlined'}
           color={isQuarter ? "success" : 'primary'}
-          sx={{ marginRight: 2, fontSize: '18px', minWidth: 110, color: isQuarter && '#fff' }}
+          sx={{ marginRight: 2, fontSize: '18px', minWidth: 110, color: isQuarter ? '#fff' : '' }}
           onClick={() => setSlot('quarter')}
         >
           Quarter
@@ -54,7 +54,7 @@ export const ChartCardCopy = ({
         <Button
           variant={isYear ? "contained" : 'outlined'}
           color={isYear ? "success" : 'primary'}
-          sx={{ marginRight: 2, fontSize: '18px', minWidth: 110, color: isYear && '#fff' }}
+          sx={{ marginRight: 2, fontSize: '18px', minWidth: 110, color: isYear ? '#fff' : '' }}
           onClick={() => setSlot('year')}
         >
           Year
@@ -87,7 +87,7 @@ export const ChartCardCopy = ({
           alignItems: "center",
         }}
       >
-        <NatixarTitleCard>Total Emissions</NatixarTitleCard>
+        <NatixarSectionTitle>Total Emissions</NatixarSectionTitle>
       </Box>
       {children}
     </Stack >
