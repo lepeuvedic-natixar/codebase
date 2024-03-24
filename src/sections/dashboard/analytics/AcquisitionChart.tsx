@@ -31,23 +31,23 @@ const AcquisitionChart = ({ slot, compare }: Props) => {
 
   const colorChartData = compare
     ? [
-        "#EF8100",
-        "rgba(0,132,255,0.5)",
-        "#00BA34",
+      "#EF8100",
+      "rgba(0,132,255,0.5)",
+      "#00BA34",
 
-        "rgba(239,129,0,0.5)",
-        "#0084FF",
-        "rgba(0,186,52,0.5)",
+      "rgba(239,129,0,0.5)",
+      "#0084FF",
+      "rgba(0,186,52,0.5)",
 
-        "#00BA34",
-        "rgba(0,132,255,0.5)",
-        "#EF8100",
+      "#00BA34",
+      "rgba(0,132,255,0.5)",
+      "#EF8100",
 
-        "rgba(0,186,52,0.5)",
-        "#0084FF",
+      "rgba(0,186,52,0.5)",
+      "#0084FF",
 
-        "rgba(239,129,0,0.5)",
-      ]
+      "rgba(239,129,0,0.5)",
+    ]
     : ["#EF8100", "#0084FF", "#00BA34"]
 
   let slotData
@@ -77,54 +77,54 @@ const AcquisitionChart = ({ slot, compare }: Props) => {
 
   const chartData = compare
     ? [
-        {
-          name: "Scope 1 A",
-          group: "A",
-          data: slotData,
-        },
-        {
-          name: "Scope 1 B",
-          group: "B",
-          data: slotData,
-        },
-        {
-          name: "Scope 2 A",
-          group: "A",
-          data: slotData,
-        },
-        {
-          name: "Scope 2 B",
-          group: "B",
-          data: slotData,
-        },
-        {
-          name: "Scope 3 A",
-          group: "A",
-          data: slotData,
-        },
-        {
-          name: "Scope 3 B",
-          group: "B",
-          data: slotData,
-        },
-      ]
+      {
+        name: "Scope 1 A",
+        group: "A",
+        data: slotData,
+      },
+      {
+        name: "Scope 1 B",
+        group: "B",
+        data: slotData,
+      },
+      {
+        name: "Scope 2 A",
+        group: "A",
+        data: slotData,
+      },
+      {
+        name: "Scope 2 B",
+        group: "B",
+        data: slotData,
+      },
+      {
+        name: "Scope 3 A",
+        group: "A",
+        data: slotData,
+      },
+      {
+        name: "Scope 3 B",
+        group: "B",
+        data: slotData,
+      },
+    ]
     : [
-        {
-          name: "Scope 1",
-          group: "A",
-          data: slotData,
-        },
-        {
-          name: "Scope 2",
-          group: "A",
-          data: slotData,
-        },
-        {
-          name: "Scope 3",
-          group: "A",
-          data: slotData,
-        },
-      ]
+      {
+        name: "Scope 1",
+        group: "A",
+        data: slotData,
+      },
+      {
+        name: "Scope 2",
+        group: "A",
+        data: slotData,
+      },
+      {
+        name: "Scope 3",
+        group: "A",
+        data: slotData,
+      },
+    ]
 
   // chart options
   const barChartOptions = {
@@ -146,19 +146,19 @@ const AcquisitionChart = ({ slot, compare }: Props) => {
       categories:
         slot === "month"
           ? [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "May",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dec",
-            ]
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+          ]
           : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
       axisBorder: {
         show: true,
@@ -267,8 +267,9 @@ const AcquisitionChart = ({ slot, compare }: Props) => {
   ])
 
   useEffect(() => {
-    setSeries(chartData)
-  }, [slot, chartData])
+    const updatedChartData = [...chartData]
+    setSeries(updatedChartData)
+  }, [slot])
 
   useEffect(() => {
     setOptions((prevState) => ({

@@ -122,7 +122,7 @@ export default function Button(theme: Theme) {
           color: "#053759",
           fontWeight: 800,
           fontFamily: 'Urbanist',
-          borderRadius: '20px',
+          borderRadius: '32px',
           "&:hover": {
             backgroundColor: theme.palette.success.dark
           },
@@ -157,6 +157,8 @@ export default function Button(theme: Theme) {
         },
         outlined: {
           ...disabledStyle,
+          fontFamily: 'Urbanist',
+          fontWeight: '400',
         },
         text: {
           boxShadow: "none",

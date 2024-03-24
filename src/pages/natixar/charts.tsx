@@ -10,6 +10,7 @@ import CO2DonutSection from "../../components/natixarComponents/CO2DonutSection"
 
 // assets
 import { ChartCardCopy } from "../../components/natixarComponents/ChartCard/ChartCardCopy"
+// import { ChartCard } from "../../components/natixarComponents/ChartCard/ChartCard"
 import AcquisitionChart from "../../sections/dashboard/analytics/AcquisitionChart"
 import DateFilter from "../../components/DateFilter"
 import { NatixarTitleCard } from "components/natixarComponents/ChartCard/NatixarTitleCard"
