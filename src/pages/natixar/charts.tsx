@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 // material-ui
-import { Grid, Typography, Box, Stack } from "@mui/material"
+import { Grid, Typography, Box, Stack, OutlinedInput, useTheme, CSSObject } from "@mui/material"
 
 // project import
 import MainCard from "components/MainCard"
@@ -14,28 +14,98 @@ import AcquisitionChart from "../../sections/dashboard/analytics/AcquisitionChar
 import DateFilter from "../../components/DateFilter"
 import { NatixarSectionTitle } from "components/natixarComponents/ChartCard/NatixarSectionTitle"
 import { CaretDownOutlined } from "@ant-design/icons"
+import { FactoryIcon } from "assets/images/icons/IconComponents/FactoryIcon"
+import { PinIcon } from "assets/images/icons/IconComponents/PinIcon"
 
 // ==============================|| WIDGET - CHARTS ||============================== //
+
+enum View {
+  SCOPES = 'scopes-emissions',
+  EMISSIONS = 'total-emissions'
+}
 
 const NatixarChart = () => {
   const [acquisitionSlot, setAcquisitionSlot] = useState("month")
   const [compare, setCompare] = useState(false)
 
+  const [view, setView] = useState('scopes-emissions')
+
   const title = 'Trend stacked bars CO2'
   const value = "12,900 CO2 (t)"
   const date = "01 Dec - 08 Jan 2022"
+
+  const handleClickView = () => {
+    if (view == View.SCOPES) {
+      setView(View.EMISSIONS)
+    } else {
+      setView(View.SCOPES)
+    }
+  }
+
+  const StyleOutlinedInput = (): CSSObject => ({
+    background: '#FFFFFF',
+    border: '1px solid #053759',
+    borderRadius: '24px',
+  })
+
+  const theme = useTheme()
+
+  const styleLabel = (): CSSObject => ({
+    fontFamily: 'Urbanist',
+    fontStyle: 'normal',
+    fontHeight: '600',
+    fontSize: '20px',
+    lineHeight: '24px',
+    color: '#053759',
+    marginLeft: 2
+  })
+
   return (
     <Grid container rowSpacing={4.5} columnSpacing={3}>
-      <Grid item xs={12} md={12} xl={12}>
+      {view == View.EMISSIONS && <Grid item xs={12} md={12} xl={12}>
         <DateFilter />
-      </Grid>
-      <Grid item xs={12} md={12} xl={12}>
-        <MainCard sx={{ border: 'none' }}>
-          <NatixarSectionTitle>Scope Emissions</NatixarSectionTitle>
-          <CO2DonutSection />
-        </MainCard>
-      </Grid>
-      <Grid item xs={12} md={12} lg={12}>
+      </Grid>}
+      {view == View.SCOPES && (
+        <>
+          <Box mr={2}>
+            <Typography sx={styleLabel}>
+              <FactoryIcon customColor={theme.palette.primary.main} sx={{ marginRight: 1, position: 'relative', top: 3 }} />
+              Entities</Typography>
+            <OutlinedInput
+              id="entities"
+              type="text"
+              value=''
+              name="entities"
+              onChange={(e) => e.preventDefault()}
+              placeholder="Entities"
+              sx={StyleOutlinedInput}
+            />
+          </Box>
+          <Box>
+            <Typography sx={styleLabel}>
+              <PinIcon customColor={theme.palette.primary.main} sx={{ marginRight: 1, position: 'relative', top: 3 }} />
+              Localisation
+            </Typography>
+            <OutlinedInput
+              id="localisation"
+              type="text"
+              value=''
+              name="localisation"
+              onChange={(e) => e.preventDefault()}
+              placeholder="Localisation"
+              sx={StyleOutlinedInput}
+            />
+          </Box>
+          <Grid item xs={12} md={12} xl={12}>
+            <MainCard sx={{ border: 'none' }}>
+              <NatixarSectionTitle>Scope Emissions</NatixarSectionTitle>
+              <CO2DonutSection />
+            </MainCard>
+          </Grid>
+        </>
+      )
+      }
+      {view == View.EMISSIONS && (<Grid item xs={12} md={12} lg={12}>
         <NatixarChartCard
           slot={acquisitionSlot}
           setSlot={setAcquisitionSlot}
@@ -92,7 +162,11 @@ const NatixarChart = () => {
             <AcquisitionChart slot={acquisitionSlot} compare={compare} />
           </MainCard>
         </NatixarChartCard>
-      </Grid>
+      </Grid>)}
+      <Typography sx={{ marginTop: 6, textDecoration: 'underline', cursor: 'pointer' }}
+        onClick={handleClickView}>{
+          view == View.SCOPES ? 'See Total Emissions' : "See Scopes"
+        }</Typography>
     </Grid>
   )
 }
