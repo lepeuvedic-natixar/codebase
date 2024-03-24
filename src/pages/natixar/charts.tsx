@@ -9,8 +9,7 @@ import MainCard from "components/MainCard"
 import CO2DonutSection from "../../components/natixarComponents/CO2DonutSection"
 
 // assets
-import { ChartCardCopy } from "../../components/natixarComponents/ChartCard/ChartCardCopy"
-// import { ChartCard } from "../../components/natixarComponents/ChartCard/ChartCard"
+import { NatixarChartCard } from "../../components/natixarComponents/ChartCard/NatixarChartCard"
 import AcquisitionChart from "../../sections/dashboard/analytics/AcquisitionChart"
 import DateFilter from "../../components/DateFilter"
 import { NatixarSectionTitle } from "components/natixarComponents/ChartCard/NatixarSectionTitle"
@@ -37,7 +36,7 @@ const NatixarChart = () => {
         </MainCard>
       </Grid>
       <Grid item xs={12} md={12} lg={12}>
-        <ChartCardCopy
+        <NatixarChartCard
           slot={acquisitionSlot}
           setSlot={setAcquisitionSlot}
           compareButton
@@ -92,7 +91,7 @@ const NatixarChart = () => {
             </Stack>
             <AcquisitionChart slot={acquisitionSlot} compare={compare} />
           </MainCard>
-        </ChartCardCopy>
+        </NatixarChartCard>
       </Grid>
     </Grid>
   )

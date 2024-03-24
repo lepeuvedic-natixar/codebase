@@ -20,7 +20,7 @@ type ChartCardProps = {
   setCompare?: Dispatch<SetStateAction<boolean>>
 }
 
-export const ChartCardCopy = ({
+export const NatixarChartCard = ({
   children,
   compareButton,
   slot,
