@@ -57,9 +57,9 @@ const data = [
     active: false,
     rows: [
       { title: 'Scope title 1 ', value: 77, emissionID: '1', },
-      { title: 'Scope title 2 ', value: 77, emissionID: '2', },
+      { title: 'Scope title 2 ', value: 72, emissionID: '2', },
       { title: 'Scope title 3 ', value: 77, emissionID: '3', },
-      { title: 'Scope title 4 ', value: 77, emissionID: '4', },
+      { title: 'Scope title 4 ', value: 70, emissionID: '4', },
     ]
   },
 ]

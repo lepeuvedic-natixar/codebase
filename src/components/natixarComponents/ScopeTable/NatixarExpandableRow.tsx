@@ -40,12 +40,13 @@ export const NatixarExpandableRow = ({ data,
 
   const theme = useTheme()
 
-  const styleRow = (): CSSObject => ({
+  const styleSubRow = (): CSSObject => ({
     font: 'normal 400 20px/21px Questrial',
     color: "#053759",
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '12px 24px'
+    padding: '12px 24px',
+    cursor: 'pointer'
   })
 
   const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -91,7 +92,8 @@ export const NatixarExpandableRow = ({ data,
 
   const navigate = useNavigate()
 
-  const handleOnCategoryClick = (scopeID: number, emissionID: string) => {
+  const handleOnCategoryClick = (event, scopeID: number, emissionID: string) => {
+    event.stopPropagation()
     navigate(`/contributor/category-analysis/${emissionID}?scopeID=${scopeID}`)
   }
 
@@ -113,10 +115,12 @@ export const NatixarExpandableRow = ({ data,
         {
           rows.map((row, index) => (
             <React.Fragment>
-              <Stack direction='row' key={row.emissionID} my={1} sx={styleRow}>
+              <Stack direction='row' key={row.emissionID} my={1} sx={styleSubRow} onClick={() => navigate(
+                `/contributor/scope-details/${row.emissionID}?scopeID=${index + 1}`,
+              )}>
                 <Box width={"40%"}>
                   <Link
-                    onClick={() => handleOnCategoryClick(row.emissionID, index + 1)}
+                    onClick={(e) => handleOnCategoryClick(e, row.emissionID, index + 1)}
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -129,11 +133,11 @@ export const NatixarExpandableRow = ({ data,
                     <LinkOutlined />
                   </Link>
                 </Box>
+                <BorderLinearProgress
+                  variant="determinate"
+                  value={row.value / total * 100}
+                />
                 <Stack direction={'row'} justifyContent={'flex-end'} alignItems={'center'}>
-                  <BorderLinearProgress
-                    variant="determinate"
-                    value={row.value * total / 100}
-                  />
                   <Box mr={2}>
                     {row.value} K
                   </Box>
