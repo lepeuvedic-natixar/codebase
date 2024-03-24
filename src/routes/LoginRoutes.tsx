@@ -6,7 +6,6 @@ import Loadable from "components/Loadable"
 
 // render - login
 const AuthLogin = Loadable(lazy(() => import("pages/auth/login")))
-const AuthRegister = Loadable(lazy(() => import("pages/auth/register")))
 const AuthForgotPassword = Loadable(
   lazy(() => import("pages/auth/forgot-password")),
 )
@@ -30,10 +29,6 @@ const LoginRoutes = {
         {
           path: "login",
           element: <AuthLogin />,
-        },
-        {
-          path: "register",
-          element: <AuthRegister />,
         },
         {
           path: "forgot-password",

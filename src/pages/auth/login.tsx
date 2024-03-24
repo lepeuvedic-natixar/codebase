@@ -28,15 +28,6 @@ const Login = () => {
               fontFamily: 'Urbanist',
               color: '#30698E'
             }}>Sign in</Typography>
-            <Typography
-              component={Link}
-              to={isLoggedIn ? "/auth/register" : "/register"}
-              variant="body1"
-              sx={{ textDecoration: "none" }}
-              color="primary"
-            >
-              Don&apos;t have an account?
-            </Typography>
           </Stack>
         </Grid>
         <Grid item xs={12}>
