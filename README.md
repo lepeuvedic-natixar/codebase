@@ -1,3 +1,9 @@
-# mantis-react-ts
+# natixar-frontend
+Master branch:
+- The static front end of the Natixar SaaS platform using Hugo as a generator.
+- A Hello-World test of Anima.js: a Javascript toolkit used by Anima to generate React web sites from Figma files.
 
-Web theme with name as 'Natixar'. Its name of insect but we derived it from two popular UI framework, Material-UI and Ant Design (M-Ant-is). It provides best features from each. Follows design principle of AntDesign and uses the Component of Material-UI.
+# Known bugs
+
+* Multilingual, but works with symbolic links for application pages (SPA as opposed to "content pages")
+

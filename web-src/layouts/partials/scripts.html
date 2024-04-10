@@ -1,0 +1,6 @@
+{{ $jQuery := resources.Get "js/jquery.min.js" }}
+{{ $scrollex := resources.Get "js/jquery.scrollex.min.js" }}
+{{ $scrolly := resources.Get "js/jquery.scrolly.min.js" }}
+{{ $breakpoints := resources.Get "js/breakpoints.min.js" }}
+{{ $js := slice $jQuery $scrollex $scrolly $breakpoints | resources.Concat "js/bundle.js" | minify }}
+<script src='{{ $js.RelPermalink }}'></script>
