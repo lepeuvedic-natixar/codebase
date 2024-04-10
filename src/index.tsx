@@ -1,63 +1,299 @@
 import { createRoot } from "react-dom/client"
+import { RouterProvider } from "react-router-dom"
+import { createBrowserRouter } from "react-router-dom"
 
-// scroll bar
-import "simplebar-react/dist/simplebar.min.css"
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
 
-// apex-chart
-import "assets/third-party/apex-chart.css"
-import "assets/third-party/react-table.css"
+import { styled, Theme, CSSObject } from "@mui/material/styles"
+import { Typography, Box, Stack, Card, CardContent } from '@mui/material';
 
-// map
-import "mapbox-gl/dist/mapbox-gl.css"
-
-// google-fonts
-import "@fontsource/roboto/400.css"
-import "@fontsource/roboto/500.css"
-import "@fontsource/roboto/300.css"
-import "@fontsource/roboto/700.css"
-
-import "@fontsource/inter/400.css"
-import "@fontsource/inter/500.css"
-import "@fontsource/inter/600.css"
-import "@fontsource/inter/700.css"
-
-import "@fontsource/poppins/400.css"
-import "@fontsource/poppins/500.css"
-import "@fontsource/poppins/600.css"
-import "@fontsource/poppins/700.css"
-
-import "@fontsource/public-sans/400.css"
-import "@fontsource/public-sans/500.css"
-import "@fontsource/public-sans/600.css"
-import "@fontsource/public-sans/700.css"
+import { useWindowSize } from 'react-window-size-hooks';
+import { Link, useNavigate } from 'react-router-dom';
+import { useFusionAuth } from "@fusionauth/react-sdk";
+import { getImageUrl, ImagePath } from "utils/getImageUrl"
+import Header from 'components/landing-page/Header';
 
 import "@fontsource/questrial/400.css"
-import "@fontsource/urbanist/400.css"
-import "@fontsource/urbanist/500.css"
-import "@fontsource/urbanist/600.css"
-import "@fontsource/urbanist/700.css"
-import "@fontsource/urbanist/800.css"
-import "@fontsource/urbanist/900.css"
 
 // project import
-import { ConfigProvider } from "contexts/ConfigContext"
-import App from "./App"
-import reportWebVitals from "./reportWebVitals"
+import { ConfigProvider } from "contexts/ConfigContext";
+//import App from "./App";
+import ThemeCustomization from "themes"
+import Locales from "components/Locales"
+import RTLLayout from "components/RTLLayout"
+import ScrollTop from "components/ScrollTop"
+import { store } from "data/store"
+import { Provider } from "react-redux"
+
+// auth-provider
+import { FusionAuthProvider } from "@fusionauth/react-sdk";
+import { fusionauth_config } from "./config";
+
+// Web vitals
+import reportWebVitals from "./reportWebVitals";
+
+
+const LandingPage: React.FC = () => {
+  const { height, width } = useWindowSize();
+  const heightTreshold = 930
+  const widthTreshold = 1400
+  const bgImgUrl = getImageUrl(`trees-and-sky.jpg`, ImagePath.LANDING);
+  const pictoEnvironment = getImageUrl(`picto-environment.png`, ImagePath.LANDING);
+  const pictoSocial = getImageUrl(`picto-social.png`, ImagePath.LANDING);
+  const pictoGovernance = getImageUrl(`picto-governance.png`, ImagePath.LANDING);
+
+  const backgroundImageStyle = () => ({
+    backgroundImage: `url("${bgImgUrl}")`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center center',
+    backgroundRepeat: 'no-repeat',
+    position: 'relative',
+    width: '100%',
+    maxHeight: height >= heightTreshold && width >= widthTreshold ? '100vh' : '100%',
+    overflowY: height >= heightTreshold && width >= widthTreshold ? 'hidden' : 'initial',
+  });
+
+  const filterStyle = () => ({
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 0,
+    backgroundImage: `linear-gradient(320.09deg, rgba(7, 40, 91, 0.28) 25.39%, rgba(3, 34, 71, 0.75) 57.78%, rgba(3, 34, 71, 0.4) 71.71%)`
+  })
+
+  const mainContentStyle = () => ({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    position: 'relative',
+    paddingTop: 18,
+    paddingBottom: 4,
+    zIndex: 1
+  })
+
+  const h2Style = (theme: Theme): CSSObject => ({
+    color: "#1DB447",
+    fontWeight: 'bold',
+    fontSize: 44,
+  })
+
+  const textStyle = (theme: Theme): CSSObject => ({
+    display: 'flex',
+    flexDirection: 'column',
+    width: 'fit-content',
+    margin: 'auto',
+    color: 'primary.light',
+    fontWeight: 'normal',
+    position: 'relative',
+    cursor: 'pointer',
+    fontSize: 20,
+    "&::after": { // for animation on hover
+      content: '""',
+      position: 'absolute',
+      bottom: '-4px',
+      width: '100%',
+      height: '0px',
+      border: '2px solid #1DB648',
+      borderRadius: '4px',
+      transform: 'scaleX(0)',
+      transition: 'all .3s',
+    },
+    '&:hover::after': {
+      transform: 'scaleX(1)'
+    },
+  })
+
+  const StyledCard = styled(Card)(({ theme }) => ({
+    backgroundColor: '#EEF7FF',
+    borderRadius: '64px',
+    width: '380px',
+    textAlign: 'center',
+    paddingTop: '20px',
+    paddingBottom: '30px',
+  }))
+
+  const stackTextStyle = {
+    alignItems: "center",
+    direction: "column",
+    spacing: 5,
+    mt: 6
+  }
+
+  const navigate = useNavigate();
+
+  const {isAuthenticated, isLoading, login, register} = useFusionAuth();
+
+  return (
+    <Box className="landing-page" sx={backgroundImageStyle}>
+      <Box sx={filterStyle} />
+      <Header />
+      <Box sx={mainContentStyle}>
+        <Stack gap={18} alignItems="center">
+          <Typography variant="h1" component="h1" color={"#fff"} fontWeight='normal' textAlign="center">
+            Cutting-edge environmental and social impact<br />management software solutions
+          </Typography>
+          <Stack direction="row" flexWrap='wrap' gap={12} justifyContent="center">
+            {/* Card Environment */}
+            <StyledCard>
+              <CardContent>
+                <img src={pictoEnvironment} alt="Environment pictogram" />
+                <Typography variant="h2" component="h2" sx={h2Style}>
+                  Environment
+                </Typography>
+                <Stack alignItems={stackTextStyle.alignItems} mt={stackTextStyle.mt} direction={stackTextStyle.direction} spacing={stackTextStyle.spacing}>
+                  <Link onClick={() => login()} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Typography
+                      component="h3"
+                      sx={textStyle}
+                      variant="h3"
+                    >Climate change
+                    </Typography>
+                  </Link>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Product Footprint
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Life-cycle Analysis
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Green Finance
+                  </Typography>
+                </Stack>
+              </CardContent>
+            </StyledCard>
+            {/* Card Social */}
+            <StyledCard>
+              <CardContent>
+                <img src={pictoSocial} alt="Social pictogram" />
+                <Typography variant="h2" component="h2" sx={h2Style}>
+                  Social
+                </Typography>
+                <Stack alignItems={stackTextStyle.alignItems} mt={stackTextStyle.mt} direction={stackTextStyle.direction} spacing={stackTextStyle.spacing}>
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Community impact
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Labor Standards
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Health & Safety
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Customer Responsibility
+                  </Typography>
+                </Stack>
+              </CardContent>
+            </StyledCard>
+            {/* Card Governance */}
+            <StyledCard>
+              <CardContent>
+                <img src={pictoGovernance} alt="Governance pictogram" />
+                <Typography variant="h2" component="h2" sx={h2Style}>
+                  Governance
+                </Typography>
+                <Stack alignItems={stackTextStyle.alignItems} mt={stackTextStyle.mt} direction={stackTextStyle.direction} spacing={stackTextStyle.spacing}>
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Tax Transparency
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Anti-corruption
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Shareholders Rights
+                  </Typography>
+
+                  <Typography
+                    component="h3"
+                    sx={textStyle}
+                    variant="h3"
+                  >Risk Management
+                  </Typography>
+                </Stack>
+              </CardContent>
+            </StyledCard>
+          </Stack>
+        </Stack>
+      </Box>
+    </Box >
+  );
+};
+
+const router = createBrowserRouter([
+  {
+    path: "/", // Define the path
+    element: <LandingPage />,
+  }
+]);
+
+const App = () => (
+  <ThemeCustomization>
+    <Provider store={store}>
+      <RTLLayout>
+        <Locales>
+          <ScrollTop>
+            <FusionAuthProvider {...fusionauth_config}>
+                <RouterProvider router={router} />
+            </FusionAuthProvider>
+          </ScrollTop>
+        </Locales>
+      </RTLLayout>
+    </Provider>
+  </ThemeCustomization>
+)
+
 
 const container = document.getElementById("root")
 const root = createRoot(container!)
 
-// ==============================|| MAIN - REACT DOM RENDER ||============================== //
-
 root.render(
   <ConfigProvider>
-    <App />
+      <App />
   </ConfigProvider>,
 )
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals()
+reportWebVitals(console.log)
+

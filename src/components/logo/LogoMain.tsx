@@ -1,6 +1,6 @@
 // material-ui
 // import logoIconDark from "../../assets/images/natixar-logo.png"
-import logoIconWhite from "../../assets/images/white-natixar-logo.png"
+import logoIconWhite from "../../assets/images/white-natixxar-logo.png"
 
 /**
  * if you want to use image instead of <svg> uncomment following.
