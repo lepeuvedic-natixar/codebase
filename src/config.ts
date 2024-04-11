@@ -4,6 +4,7 @@ import {
   MenuOrientation,
   ThemeDirection,
   ThemeMode,
+  FusionAuthProps,
 } from "types/config"
 
 // ==============================|| THEME CONSTANT ||============================== //
@@ -32,3 +33,11 @@ const configNatixar: DefaultConfigProps = {
 }
 
 export default configNatixar
+
+// =============================|| AUTH CONFIG ||================================ //
+export const fusionauth_config = {
+  clientID: '5e9cba0b-4978-4a24-88c0-0a45b0ed067f',
+  serverUrl: 'https://auth.natixar.pro',
+  redirectUri: 'https://co2track.natixar.pro',
+}
+
