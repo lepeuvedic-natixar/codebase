@@ -1,5 +1,6 @@
 import { AppBar, Toolbar, Button, Stack, } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useFusionAuth } from "@fusionauth/react-sdk";
 import LogoMain from 'components/logo/LogoMain';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
@@ -37,9 +38,12 @@ const signupBtnStyle = (theme) => ({
   },
 })
 
+
 //          <Button href='/login' variant="contained" color="secondary" sx={signupBtnStyle}>Signup</Button>
 
 const Header = () => {
+  const {isAuthenticated, isLoading, login, register} = useFusionAuth();
+
   return (
     <AppBar position="absolute" elevation={0} sx={{ bgcolor: 'transparent' }}>
       <StyledToolbar>
