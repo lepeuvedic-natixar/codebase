@@ -1,13 +1,12 @@
 import { createRoot } from "react-dom/client"
 import { RouterProvider } from "react-router-dom"
 import { createBrowserRouter } from "react-router-dom"
-
+import { Link /*, useNavigate*/ } from 'react-router-dom';
 
 import { styled, Theme, CSSObject } from "@mui/material/styles"
 import { Typography, Box, Stack, Card, CardContent } from '@mui/material';
 
 import { useWindowSize } from 'react-window-size-hooks';
-import { Link, useNavigate } from 'react-router-dom';
 import { useFusionAuth } from "@fusionauth/react-sdk";
 import { getImageUrl, ImagePath } from "utils/getImageUrl"
 import Header from 'components/landing-page/Header';
@@ -122,7 +121,7 @@ const LandingPage: React.FC = () => {
     mt: 6
   }
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const {isAuthenticated, isLoading, login, register} = useFusionAuth();
 
