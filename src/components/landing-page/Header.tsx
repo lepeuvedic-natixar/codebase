@@ -37,6 +37,8 @@ const signupBtnStyle = (theme) => ({
   },
 })
 
+//          <Button href='/login' variant="contained" color="secondary" sx={signupBtnStyle}>Signup</Button>
+
 const Header = () => {
   return (
     <AppBar position="absolute" elevation={0} sx={{ bgcolor: 'transparent' }}>
@@ -45,8 +47,7 @@ const Header = () => {
           <LogoMain />
         </Stack>
         <Stack direction="row" spacing={2}>
-          <Button href='/login' variant="contained" color="success" sx={loginBtnStyle}>Login</Button>
-          <Button href='/login' variant="contained" color="secondary" sx={signupBtnStyle}>Signup</Button>
+          <Button onClick={() => login()} variant="contained" color="success" sx={loginBtnStyle}>Login</Button>
         </Stack>
       </StyledToolbar>
     </AppBar>
