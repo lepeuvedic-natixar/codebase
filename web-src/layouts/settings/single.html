@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{partial "i18n" .Params.seoTitle}}</title>
+    {{ partial "favicon" }}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta name="description" content='{{partial "i18n" .Params.seoDescription}}' />
+    <meta name="author" content="Natixar" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ .Params.seoURL }}" />
+    <meta property="og:title" content='{{partial "i18n" .Params.seoTitle}}' />
+    <meta property="og:description" content='{{partial "i18n" .Params.seoDescription}}' />
+    <meta property="og:image" content="https://natixar.onrender.com/social-natixar.png" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <img src="/images/logo-natixar.png" class="img-fluid" style="max-width: 120px;">
+            </div>
+        </div>
+    </div>
+    <div class="container mt-0">
+         <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h4 class="mb-4 settings">{{partial "i18n" .Params.title}}</h4>
+                <form>
+                    {{/* Generate user account fields */}}
+                    {{ range .Params.fields }}
+                    {{partial "separator"}}
+                    <div class="form-group">
+                        <label for="{{ urlize .field }}" class="settings">{{ partial "i18n" .field }}</label>
+                    </div>
+                    <div class="">
+                        <!-- Displayed text -->
+                        <span id="displayText_{{ .field }}" class="">
+                            <span id="{{ .field }}Text">{{ .demo }}</span>
+                            <button type="button" class="form-control settings" onclick="toggleVisibility('{{ .field }}')">{{ partial "i18n" "Edit" }}</button>
+                        </span>
+                        <!-- Editable input -->
+                        <span id="editText_{{ .field }}" class="hidden">
+                            <input type="text" id="{{ .field }}Input" value="{{ .demo | default .placeholder }}"
+                            class="settings"
+                            onblur="toggleVisibility('{{ .field }}', save=true)"
+                            onkeydown="handleKeyDown(event, '{{ .field }}')">
+                        </span>
+                    </div>
+                    {{ end }}
+                    <script type="text/javascript">
+let inhibitToggle = false;
+
+function toggleVisibility(fieldName, save = false) {
+    const displayText = document.getElementById(`displayText_${fieldName}`);  // whole span
+    const editText = document.getElementById(`editText_${fieldName}`);  // whole span
+    const inputField = document.getElementById(`${fieldName}Input`);   // just the input field
+
+    // If the input field had focus (likely) it will lose focus when hidden,
+    // and it would toggle twice without this one time inhibit.
+    if (inhibitToggle) {
+        inhibitToggle = false;
+        return;
+    }
+
+    if (save) {
+        const textItem = document.getElementById(`${fieldName}Text`);
+        textItem.innerHTML = inputField.value;
+    }
+
+    // Inhibit the next toggle if the input field has the focus.
+    if (document.activeElement === inputField) {
+        inhibitToggle = true;
+    }
+
+    displayText.classList.toggle('hidden');
+    editText.classList.toggle('hidden');
+    if (displayText.classList.contains("hidden")) {
+        editText.focus();
+    } else {
+        displayText.focus();
+    }
+}
+function handleKeyDown(event, fieldName) {
+    if (event.key === 'Enter') {
+        toggleVisibility(fieldName, true);
+    } else if (event.key === 'Escape') {
+        const inputItem = document.getElementById(`${fieldName}Input`);
+        let oldValue = document.getElementById(`${fieldName}Text`).innerHTML;
+        inputItem.value = oldValue;
+        toggleVisibility(fieldName, false);
+    }
+}
+                    </script>
+                    {{ partial "separator" }}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="language" class="settings">{{partial "i18n" "Language"}}</label>
+                                <select class="form-control" id="language">
+                                    {{ range .Site.Languages }}
+                                    <option value="{{ .Lang }}">{{ .LanguageName }}</option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="profile" class="settings">{{partial "i18n" "Profile"}}</label>
+                                <select class="form-control" id="profile">
+                                    {{ range .Params.profiles }}
+                                    <option value="{{ urlize . }}">{{ partial "i18n" . }}</option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    {{ partial "separator" }}
+                    <div class="row">
+                        <div class="col-12 col-md-3">
+                            <div class="form-group">
+                                <label for="security" class="settings">{{ partial "i18n" "Security" }}</label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4 mb-1">
+                            <div class="form-group">
+                                <button type="button" id="security1" class="btn-spacing form-control settings" onclick="">{{ partial "i18n" "Activate 2FA" }}</button>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-5">
+                            <div class="form-group">
+                                <button type="button" id="security2" class="btn-spacing form-control settings" onclick="">{{ partial "i18n" "Change Password" }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="mb-4">{{ partial "i18nlist" }}</div>
+        </div>
+    </div>
+
+    <!-- Include JQuery -->
+    {{ partial "scripts" }}
+    <!-- Include Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

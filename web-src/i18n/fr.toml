@@ -1,0 +1,48 @@
+## Translations files are used only when the module is integrated in a a multilingual project.
+[settings]
+other = 'Paramètres du compte'
+
+[name]
+other = 'Nom'
+
+[email]
+other = 'E-mail'
+
+[language]
+other = 'Langue'
+
+[translations]
+other = 'Traductions'
+
+[edit]
+other = 'Modifier'
+
+[environment]
+other = 'Environnement'
+
+[social]
+other = 'Social'
+
+[governance]
+other = 'Gouvernance'
+
+[audit]
+other = 'Audit'
+
+[supply-chain]
+other = 'Achats et fournisseurs'
+
+[marketing-sales]
+other = 'Marketing et ventes'
+
+[administrator]
+other = 'Adminstrateur'
+
+[activate-2fa]
+other = 'Activer 2FA'
+
+[change-password]
+other = 'Changer le mot de passe'
+
+[security]
+other = 'Sécurité'

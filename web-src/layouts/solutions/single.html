@@ -1,0 +1,25 @@
+<html>
+<head>
+    <title>Presentation of a solution</title>
+    {{ partial "favicon" }}
+</head>
+<body>
+Presentation of a solution - per solution page - placeholder - English.
+{{/* Extract solution name e.g. : fr:1/solutions:2/>ecklo:3< */}}
+{{ $urlParts := split .RelPermalink "/" }}
+{{ $solutionName := index $urlParts 3 }}
+
+{{/* Default page is under solutions/X/X/index.html,
+     Images are under solutions/X/images */}}
+{{/* Update links in .Content one-by-one */}}
+{{ $newContent := .Content }}
+
+{{ range findRESubmatch `src="images/([a-zA-Z0-9\-_./]+)"` .Content }}
+  {{ $capturedValue := index . 1 }}
+  {{ $imagePath := printf "/solutions/%s/images/%s" $solutionName $capturedValue }}
+  {{ $newContent = $newContent | replaceRE (printf "src=\"images/%s\"" $capturedValue) (printf "src=\"%s\"" $imagePath) }}
+{{ end }}
+{{ $newContent | safeHTML }}
+<p>{{ partial "i18nlist" }}</p>
+</body>
+
