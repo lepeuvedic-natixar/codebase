@@ -6,7 +6,14 @@ import {
 } from "react-router-dom"
 
 import { styled, Theme, CSSObject } from "@mui/material/styles"
-import { Typography, Box, Stack, Card, CardContent } from "@mui/material"
+import {
+  Typography,
+  Box,
+  Stack,
+  Card,
+  CardContent,
+  StackProps,
+} from "@mui/material"
 
 import { useWindowSize } from "react-window-size-hooks"
 import { getImageUrl, ImagePath } from "utils/getImageUrl"
@@ -53,7 +60,9 @@ const LandingPage: React.FC = () => {
     maxHeight:
       height >= heightThreshold && width >= widthThreshold ? "100vh" : "100%",
     overflowY:
-      height >= heightThreshold && width >= widthThreshold ? "hidden" : "initial",
+      height >= heightThreshold && width >= widthThreshold
+        ? "hidden"
+        : "initial",
   })
 
   const filterStyle = () => ({
@@ -120,12 +129,12 @@ const LandingPage: React.FC = () => {
     paddingBottom: "30px",
   }))
 
-  const stackTextStyle = {
+  const stackTextStyle: Partial<StackProps> = {
     alignItems: "center",
     direction: "column",
     spacing: 5,
     mt: 6,
-  }
+  } as const
 
   const { login } = useFusionAuth()
 
@@ -165,14 +174,16 @@ const LandingPage: React.FC = () => {
                   direction={stackTextStyle.direction}
                   spacing={stackTextStyle.spacing}
                 >
-                  <Link
-                    onClick={() => login()}
+                  <a
+                    href="https://co2track.natixar.pro"
+                    target="_blank" // Opens the link in a new tab
+                    rel="noopener noreferrer" // Recommended for security reasons when using target="_blank"
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
                     <Typography component="h3" sx={textStyle} variant="h3">
                       Climate Change
                     </Typography>
-                  </Link>
+                  </a>
 
                   <Typography component="h3" sx={textStyle} variant="h3">
                     Life-cycle Analysis
